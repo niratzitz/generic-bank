@@ -1,0 +1,22 @@
+machine:
+  pre:
+    - sudo curl -L -o /usr/bin/docker 'https://s3-external-1.amazonaws.com/circle-downloads/docker-1.9.1-circleci'
+    - sudo chmod 0755 /usr/bin/docker
+  services:
+    - docker
+  environment:
+    PROJECT_NAME: bank-of-america
+    IMAGE_NAME: tufinim/$PROJECT_NAME
+    PROJECT_PATH: /go/src/github.com/tufin/$PROJECT_NAME
+    BUILDER_IMAGE_NAME: gaiadocker/base-go-build
+checkout:
+  post:
+    - git fetch --unshallow || true
+    - git fetch --tags
+    - export RELEASE_TAG=$(git describe --tags)
+dependencies:
+  override:
+    - docker run --rm -v "$PWD":$PROJECT_PATH -w $PROJECT_PATH $BUILDER_IMAGE_NAME /go/script/go_build.sh $PROJECT_NAME
+test:
+  override:
+    - echo test
