@@ -4,6 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
 
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -17,6 +18,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, "This is Aerica")
 	}).Methods(http.MethodGet)
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
