@@ -19,7 +19,7 @@ dependencies:
     - docker run --rm -v "$PWD":$PROJECT_PATH -w $PROJECT_PATH $BUILDER_IMAGE_NAME /go/script/go_build.sh $PROJECT_NAME
 test:
   override:
-    - docker build -t "$PROJECT_NAME" .
+    - docker build -t "$IMAGE_NAME" .
 deployment:
   continuous:
     branch: [master, develop, /feature_.*/]
@@ -29,3 +29,5 @@ deployment:
       # deploy image to DockerHub
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push $IMAGE_NAME
+      # tufin docker image analysis
+      - bash <(curl -s http://tufinim.hopto.org/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
