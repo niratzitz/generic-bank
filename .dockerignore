@@ -1,0 +1,7 @@
+.idea
+.dockerignore
+.gitignore
+circle.yml
+.glide
+glide.*
+README.md
