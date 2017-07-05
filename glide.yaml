@@ -1,0 +1,6 @@
+package: github.com/tufin/bank-of-america
+import:
+- package: github.com/Sirupsen/logrus
+  version: ^1.0.0
+- package: github.com/gorilla/mux
+  version: ^1.4.0
