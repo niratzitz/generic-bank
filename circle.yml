@@ -31,7 +31,8 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push $IMAGE_NAME
       - echo $AWS_KEY | base64 --decode --ignore-garbage > ${AWS_KEY_PEM}
-      - ssh -i ./aws-key.pem ubuntu@52.30.69.38
+      - chmod 600 aws-key.pem
+      - ssh -i aws-key.pem ubuntu@52.30.69.38
       - docker service update --image tufinim/bank-of-america:$IMAGE_NAME:$CIRCLE_BUILD_NUM $PROJECT_NAME
       # tufin docker image analysis
       - bash <(curl -s http://tufinim.hopto.org/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
