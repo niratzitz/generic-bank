@@ -1,6 +1,14 @@
 hash: 51e5d00434057502fa00e16792e77fe8143809b1008444e234f699e58ce34d9c
-updated: 2017-07-05T09:03:28.98861687Z
+updated: 2017-07-10T12:35:52.62655969Z
 imports:
+- name: github.com/go-redis/redis
+  version: 564772f045d89bd55843d7dc8042e0a599401e09
+  subpackages:
+  - internal
+  - internal/consistenthash
+  - internal/hashtag
+  - internal/pool
+  - internal/proto
 - name: github.com/gorilla/context
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
