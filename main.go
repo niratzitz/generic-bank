@@ -59,8 +59,9 @@ func addAccount(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.Infof("Account %s has been created", id)
+	log.Infof("Account '%s' has been created", id)
 }
+
 func NewAccount(id string) Account {
 
 	return Account{Id: id, Balance: 0}
@@ -68,8 +69,12 @@ func NewAccount(id string) Account {
 
 func createRedisClient() *redis.Client {
 
+	address := os.Getenv("REDIS")
+	if address == "" {
+		address = "localhost:6379"
+	}
 	ret := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     address,
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
