@@ -31,11 +31,11 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "This is America")
 	}).Methods(http.MethodGet)
-	router.HandleFunc("/accounts/{account-id}", addAccount).Methods(http.MethodPost)
+	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
-			log.Error("Bank of America Server Interapted. ", err)
+			log.Error("Bank of America Server Interrupted. ", err)
 		}
 	}()
 
@@ -43,10 +43,10 @@ func main() {
 	log.Info("Bank of America Server has been stopped")
 }
 
-func addAccount(w http.ResponseWriter, r *http.Request) {
+func createAccount(w http.ResponseWriter, r *http.Request) {
 
 	id := mux.Vars(r)["account-id"]
-	log.Infof("Creating account %s", id)
+	log.Infof("Creating account '%s' in redis", id)
 	account, err := json.Marshal(NewAccount(id))
 	if err != nil {
 		log.Errorf("Failed to convert account id: '%s' to json with %v", id, err)
@@ -59,7 +59,7 @@ func addAccount(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.Infof("Account '%s' has been created", id)
+	log.Infof("Account '%s' has been added to redis", id)
 }
 
 func NewAccount(id string) Account {
@@ -71,7 +71,7 @@ func createRedisClient() *redis.Client {
 
 	address := os.Getenv("REDIS")
 	if address == "" {
-		address = "localhost:6379"
+		address = "redis:6379"
 	}
 	ret := redis.NewClient(&redis.Options{
 		Addr:     address,
