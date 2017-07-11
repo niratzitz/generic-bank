@@ -4,6 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
+	"github.com/tufin/bank-of-america/common"
 
 	"encoding/json"
 	"fmt"
@@ -24,7 +25,7 @@ func main() {
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	redisClient = createRedisClient()
+	redisClient = common.CreateRedisClient()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -65,23 +66,4 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 func NewAccount(id string) Account {
 
 	return Account{Id: id, Balance: 0}
-}
-
-func createRedisClient() *redis.Client {
-
-	address := os.Getenv("REDIS")
-	if address == "" {
-		address = "redis-boa:6379"
-	}
-	ret := redis.NewClient(&redis.Options{
-		Addr:     address,
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-	_, err := ret.Ping().Result()
-	if err != nil {
-		log.Fatal("Failed to ping redis. ", err)
-	}
-
-	return ret
 }
