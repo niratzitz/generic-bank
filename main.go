@@ -15,11 +15,6 @@ import (
 
 var redisClient *redis.Client
 
-type Account struct {
-	Id      string `json:"id"`
-	Balance int    `json:"balance"`
-}
-
 func main() {
 
 	stop := make(chan os.Signal)
@@ -61,7 +56,7 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 
 	id := mux.Vars(r)["account-id"]
 	log.Infof("Creating account '%s' in redis", id)
-	account, err := json.Marshal(NewAccount(id))
+	account, err := json.Marshal(common.NewAccount(id))
 	if err != nil {
 		log.Errorf("Failed to convert account id: '%s' to json with %v", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -74,9 +69,4 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Infof("Account '%s' has been added to redis", id)
-}
-
-func NewAccount(id string) Account {
-
-	return Account{Id: id, Balance: 0}
 }
