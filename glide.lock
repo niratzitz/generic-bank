@@ -1,8 +1,8 @@
 hash: 51e5d00434057502fa00e16792e77fe8143809b1008444e234f699e58ce34d9c
-updated: 2017-07-11T21:34:30.164644232Z
+updated: 2017-07-12T20:05:03.52372014Z
 imports:
 - name: github.com/go-redis/redis
-  version: 564772f045d89bd55843d7dc8042e0a599401e09
+  version: da63fe7def48e378caf9539abf64b9b1e37bc01e
   subpackages:
   - internal
   - internal/consistenthash
@@ -13,10 +13,14 @@ imports:
   version: 08b5f424b9271eedf6f9f0ce86cb9396ed337a42
 - name: github.com/gorilla/mux
   version: bcd8bc72b08df0f70df986b97f95590779502d31
+- name: github.com/lib/pq
+  version: dd1fe2071026ce53f36a39112e645b4d4f5793a4
+  subpackages:
+  - oid
 - name: github.com/Sirupsen/logrus
   version: 7f976d3a76720c4c27af2ba716b85d2e0a7e38b1
 - name: golang.org/x/sys
-  version: 94b76065f2d2081d0fef24a6e67c571f51a6408a
+  version: abf9c25f54453410d0c6668e519582a9e1115027
   subpackages:
   - unix
 testImports: []
