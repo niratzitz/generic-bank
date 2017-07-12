@@ -20,7 +20,7 @@ func CreateRedisClient() *redis.Client {
 	})
 	_, err := ret.Ping().Result()
 	if err != nil {
-		log.Fatal("Failed to ping redis. ", err)
+		//log.Fatal("Failed to ping redis. ", err)
 	}
 	log.Infof("Redis client created (%s)", address)
 
