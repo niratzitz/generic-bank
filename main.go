@@ -28,11 +28,11 @@ func main() {
 	redisClient = common.CreateRedisClient()
 
 	router := mux.NewRouter()
+	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "This is America")
 	}).Methods(http.MethodGet)
-	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
