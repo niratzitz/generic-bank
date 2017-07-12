@@ -21,7 +21,7 @@ func main() {
 	redisClient = common.CreateRedisClient()
 
 	go func() {
-		log.Info("Worker started")
+		log.Info("Indexer started")
 		for {
 			key := redisClient.RandomKey().Val()
 			log.Infof("Redis key '%s' fetched", key)
@@ -29,11 +29,11 @@ func main() {
 				log.Infof("Redis key '%s' deleted", key)
 			}
 			ms := rand.Int31n(3000)
-			log.Infof("Worker is going to sleep %dms", ms)
+			log.Infof("Indexer is going to sleep %dms", ms)
 			time.Sleep(time.Duration(ms) * time.Millisecond)
 		}
 	}()
 
 	<-stop
-	log.Info("Bank of America Worker has been stopped")
+	log.Info("Bank of America Indexer has been stopped")
 }
