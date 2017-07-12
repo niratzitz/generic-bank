@@ -12,6 +12,18 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  db:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=admin
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - boanet
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
   bank:
     build: .
     environment:
