@@ -19,6 +19,8 @@ func main() {
 	signal.Notify(stop, os.Interrupt)
 
 	redisClient = common.CreateRedisClient()
+	pgClient := common.NewPostgresClient()
+	pgClient.Initialize()
 
 	go func() {
 		log.Info("Indexer started")
@@ -35,5 +37,9 @@ func main() {
 	}()
 
 	<-stop
+
+	redisClient.Close()
+	pgClient.Close()
+
 	log.Info("Bank of America Indexer has been stopped")
 }
