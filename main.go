@@ -28,6 +28,7 @@ func main() {
 	redisClient = common.CreateRedisClient()
 
 	router := mux.NewRouter()
+	router.HandleFunc("/accounts/{account-id}", getAccount).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -42,6 +43,16 @@ func main() {
 
 	<-stop // wait for SIGINT
 	log.Info("Bank of America Server has been stopped")
+}
+
+func getAccount(w http.ResponseWriter, r *http.Request) {
+
+	account := redisClient.Get(mux.Vars(r)["account-id"])
+	if account.Val() == "" {
+		w.WriteHeader(http.StatusNotFound)
+	} else {
+		fmt.Fprintf(w, account.Val())
+	}
 }
 
 func createAccount(w http.ResponseWriter, r *http.Request) {
