@@ -47,11 +47,13 @@ func main() {
 
 func getAccount(w http.ResponseWriter, r *http.Request) {
 
-	account := redisClient.Get(mux.Vars(r)["account-id"])
+	id := mux.Vars(r)["account-id"]
+	account := redisClient.Get(id)
 	if account.Val() == "" {
+		fmt.Fprintf(w, "Account ID '%s' not found", id)
 		w.WriteHeader(http.StatusNotFound)
 	} else {
-		fmt.Fprintf(w, account.Val())
+		fmt.Fprint(w, account.Val())
 	}
 }
 
