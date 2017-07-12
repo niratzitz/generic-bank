@@ -1,0 +1,18 @@
+hash: d25276e9bc1051a6816fbf9c4de75779ebd5466d1515dbcd099e1db8bd24548a
+updated: 2017-07-12T13:07:54.156434197Z
+imports:
+- name: github.com/go-redis/redis
+  version: da63fe7def48e378caf9539abf64b9b1e37bc01e
+  subpackages:
+  - internal
+  - internal/consistenthash
+  - internal/hashtag
+  - internal/pool
+  - internal/proto
+- name: github.com/Sirupsen/logrus
+  version: 7f976d3a76720c4c27af2ba716b85d2e0a7e38b1
+- name: golang.org/x/sys
+  version: abf9c25f54453410d0c6668e519582a9e1115027
+  subpackages:
+  - unix
+testImports: []
