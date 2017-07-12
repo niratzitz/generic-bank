@@ -21,7 +21,7 @@ checkout:
 dependencies:
   override:
     - docker run --rm -v "$PWD":$PROJECT_PATH -w $PROJECT_PATH $BUILDER_IMAGE_NAME /go/script/go_build.sh $PROJECT_NAME
-    - docker run --rm -v "$PWD":$INDEXER_PROJECT_PATH -w $INDEXER_PROJECT_PATH $BUILDER_IMAGE_NAME /go/script/go_build.sh $INDEXER_PROJECT_NAME
+    - docker run --rm -v "$PWD":$PROJECT_PATH -w $INDEXER_PROJECT_PATH $BUILDER_IMAGE_NAME /go/script/go_build.sh $INDEXER_PROJECT_NAME
 test:
   override:
     - docker build -t "$IMAGE_NAME" .

@@ -3,7 +3,7 @@ package main
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-redis/redis"
-	"github.com/tufin/bank-of-america/common"
+	"github.com/tufin/bank-of-america/indexer/common"
 
 	"math/rand"
 	"os"

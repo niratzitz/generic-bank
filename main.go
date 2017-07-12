@@ -4,7 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
-	"github.com/tufin/bank-of-america/common"
+	"github.com/tufin/bank-of-america/indexer/common"
 
 	"encoding/json"
 	"fmt"
