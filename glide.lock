@@ -1,5 +1,5 @@
 hash: 51e5d00434057502fa00e16792e77fe8143809b1008444e234f699e58ce34d9c
-updated: 2017-07-12T20:05:03.52372014Z
+updated: 2017-07-13T15:45:48.568519219Z
 imports:
 - name: github.com/go-redis/redis
   version: da63fe7def48e378caf9539abf64b9b1e37bc01e
@@ -18,7 +18,7 @@ imports:
   subpackages:
   - oid
 - name: github.com/Sirupsen/logrus
-  version: 7f976d3a76720c4c27af2ba716b85d2e0a7e38b1
+  version: a3f95b5c423586578a4e099b11a46c2479628cac
 - name: golang.org/x/sys
   version: abf9c25f54453410d0c6668e519582a9e1115027
   subpackages:
