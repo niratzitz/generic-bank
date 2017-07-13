@@ -5,6 +5,7 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/tufin/bank-of-america/indexer/common"
 
+	"encoding/json"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -26,12 +27,17 @@ func main() {
 		log.Info("Indexer started")
 		for {
 			key := redisClient.RandomKey().Val()
-			log.Infof("Redis key '%s' fetched", key)
-			if ok, err := redisClient.Del(key).Result(); ok == 1 && err == nil {
+			accountJson := redisClient.Get(key).Val()
+			if ok, err := redisClient.Del(key).Result(); ok == 1 && err == nil && accountJson != "" {
 				log.Infof("Redis key '%s' deleted", key)
+				account := common.Account{}
+				if err := json.Unmarshal([]byte(accountJson), &account); err != nil {
+					log.Error("Failed to convert json account with ", err)
+				} else {
+					pgClient.InsertAccount(account)
+				}
 			}
 			ms := rand.Int31n(3000)
-			log.Infof("Indexer is going to sleep %dms", ms)
 			time.Sleep(time.Duration(ms) * time.Millisecond)
 		}
 	}()

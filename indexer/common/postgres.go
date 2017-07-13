@@ -15,7 +15,9 @@ type PostgresClient struct {
 
 // Postgres tables
 const (
-	TableAccounts = "ACCOUNTS"
+	TableAccounts              = "account"
+	tableAccountsColumnId      = "id"
+	tableAccountsColumnBalance = "balance"
 )
 
 func NewPostgresClient() PostgresClient {
@@ -31,6 +33,26 @@ func (pc PostgresClient) Initialize() {
 func (pc PostgresClient) Close() {
 
 	pc.db.Close()
+}
+
+func (pc PostgresClient) InsertAccount(account Account) {
+
+	stmt, err := pc.db.Prepare(fmt.Sprintf("INSERT INTO %s (%s, %s) VALUES($1, $2)", TableAccounts, tableAccountsColumnId, tableAccountsColumnBalance))
+	if err != nil {
+		log.Error(fmt.Sprintf("Failed to prepare insert statment into %s table. ", TableAccounts), err)
+		return
+	}
+	res, err := stmt.Exec(account.Id, account.Balance)
+	if err != nil {
+		log.Error(fmt.Sprintf("Failed to insert into %s table. ", TableAccounts), err)
+		return
+	}
+	_, err = res.RowsAffected()
+	if err != nil {
+		log.Errorf("No row affected while tried to insert new account (%v). %v", account, err)
+		return
+	}
+	log.Infof("Account added (%v)", account)
 }
 
 func openDBConnection() *sql.DB {
@@ -52,7 +74,7 @@ func openDBConnection() *sql.DB {
 
 func (pc PostgresClient) createAccountsTable() {
 
-	pc.createTable(fmt.Sprintf("CREATE TABLE %s (id text, blance integer)", TableAccounts), TableAccounts)
+	pc.createTable(fmt.Sprintf("CREATE TABLE %s (%s text, %s integer)", tableAccountsColumnId, tableAccountsColumnBalance, TableAccounts), TableAccounts)
 }
 
 func (pc PostgresClient) createTable(createQuery, table string) {
