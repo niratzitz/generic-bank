@@ -23,4 +23,4 @@ sudo docker network create --driver overlay boanetop
 sudo docker service create --replicas 1 --name postgres-boa -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123 -p 5432:5432 --network boanetop postgres
 
 # indexer
-sudo docker service create --replicas 1 --name boa-indexer--network boanetop tufinim/indexer
+sudo docker service create --replicas 1 --name boa-indexer -e REDIS=10.10.251.7:6379 --network boanetop tufinim/bank-of-america-indexer
