@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"os"
 )
 
 type PostgresClient struct {
@@ -16,7 +17,7 @@ type PostgresClient struct {
 // Postgres tables
 const (
 	TableAccounts              = "account"
-	tableAccountsColumnName    = "name"
+	tableAccountsColumnName    = "Name"
 	tableAccountsColumnBalance = "balance"
 )
 
@@ -42,7 +43,7 @@ func (pc PostgresClient) InsertAccount(account Account) {
 		log.Error(fmt.Sprintf("Failed to prepare insert statment into %s table. ", TableAccounts), err)
 		return
 	}
-	res, err := stmt.Exec(account.Id, account.Balance)
+	res, err := stmt.Exec(account.Name, account.Balance)
 	if err != nil {
 		log.Error(fmt.Sprintf("Failed to insert into %s table. ", TableAccounts), err)
 		return
@@ -55,11 +56,30 @@ func (pc PostgresClient) InsertAccount(account Account) {
 	log.Infof("Account added %v", account)
 }
 
+func (pc PostgresClient) GetAccounts() []Account {
+
+	ret := []Account{}
+	rows, err := pc.db.Query(fmt.Sprintf("SELECT * FROM %s", TableAccounts))
+	if err != nil {
+		log.Error("Failed to get accounts with ", err)
+	} else {
+		for rows.Next() {
+			var name string
+			var balance int
+			err = rows.Scan(&name, &balance)
+			log.Error("Failed to scan account row ", err)
+			ret = append(ret, Account{Name: name, Balance: balance})
+		}
+	}
+
+	return ret
+}
+
 func openDBConnection() *sql.DB {
 
 	const dbName = "postgres"
 	log.Infof("Opening connection to Postgres DB '%s'...", dbName)
-	db, err := sql.Open("postgres", fmt.Sprintf("host=localhost port=5432 user=admin password=123 dbname=%s sslmode=disable", dbName))
+	db, err := sql.Open("postgres", fmt.Sprintf("host=%s port=5432 user=admin password=123 dbname=%s sslmode=disable", getHost(), dbName))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -70,6 +90,16 @@ func openDBConnection() *sql.DB {
 	log.Infof("Successfully connected to Postgres DB '%s'", dbName)
 
 	return db
+}
+
+func getHost() string {
+
+	ret := os.Getenv("POSTGRES")
+	if ret == "" {
+		ret = "localhost"
+	}
+
+	return ret
 }
 
 func (pc PostgresClient) createAccountsTable() {
