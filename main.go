@@ -4,7 +4,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
-	"github.com/tufin/bank-of-america/indexer/common"
+	"github.com/tufin/bank-of-america/common"
 
 	"encoding/json"
 	"fmt"
@@ -14,6 +14,7 @@ import (
 )
 
 var redisClient *redis.Client
+var pgClient common.PostgresClient
 
 func main() {
 
@@ -21,9 +22,11 @@ func main() {
 	signal.Notify(stop, os.Interrupt)
 
 	redisClient = common.CreateRedisClient()
+	pgClient = createPostgresClient()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/accounts/{account-id}", getAccount).Methods(http.MethodGet)
+	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
+	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -40,15 +43,31 @@ func main() {
 	log.Info("Bank of America Server has been stopped")
 }
 
-func getAccount(w http.ResponseWriter, r *http.Request) {
+func createPostgresClient() common.PostgresClient {
 
-	id := mux.Vars(r)["account-id"]
-	account := redisClient.Get(id)
-	if account.Val() == "" {
-		fmt.Fprintf(w, "Account ID '%s' not found", id)
+	ret := common.PostgresClient{}
+	if os.Getenv("MODE") == "admin" {
+		ret = common.NewPostgresClient()
+	}
+
+	return ret
+}
+
+func getAccounts(w http.ResponseWriter, r *http.Request) {
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(pgClient.GetAccounts())
+}
+
+func getRedisKey(w http.ResponseWriter, r *http.Request) {
+
+	key := mux.Vars(r)["key"]
+	value := redisClient.Get(key)
+	if value.Val() == "" {
+		fmt.Fprintf(w, "Redis key '%s' not found", key)
 		w.WriteHeader(http.StatusNotFound)
 	} else {
-		fmt.Fprint(w, account.Val())
+		fmt.Fprint(w, value.Val())
 	}
 }
 
