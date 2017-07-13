@@ -1,13 +1,26 @@
 #!/usr/bin/env bash
 
+### AWS cluster ###
+
 # bank of america network
-sudo docker network inspect boanet
+sudo docker network create --driver overlay boanet
 
 # redis
 sudo docker service create --replicas 1 --name redis-boa -p 6379:6379 --network boanet redis:3.2-alpine
 
-# postgres
-sudo service create --replicas 1 --name postgres-boa -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123 -p 5432:5432 --network boanet postgres
-
 # bank of america
 sudo docker service create --replicas 1 --name bank-of-america -p 8085:8085 --network boanet tufinim/bank-of-america
+
+### AWS cluster ###
+
+
+### on-premise cluster ###
+
+# bank of america network
+sudo docker network create --driver overlay boanetop
+
+# postgres
+sudo docker service create --replicas 1 --name postgres-boa -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123 -p 5432:5432 --network boanetop postgres
+
+# indexer
+sudo docker service create --replicas 1 --name boa-indexer--network boanetop tufinim/indexer
