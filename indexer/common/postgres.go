@@ -16,7 +16,7 @@ type PostgresClient struct {
 // Postgres tables
 const (
 	TableAccounts              = "account"
-	tableAccountsColumnId      = "id"
+	tableAccountsColumnName    = "name"
 	tableAccountsColumnBalance = "balance"
 )
 
@@ -37,7 +37,7 @@ func (pc PostgresClient) Close() {
 
 func (pc PostgresClient) InsertAccount(account Account) {
 
-	stmt, err := pc.db.Prepare(fmt.Sprintf("INSERT INTO %s (%s, %s) VALUES($1, $2)", TableAccounts, tableAccountsColumnId, tableAccountsColumnBalance))
+	stmt, err := pc.db.Prepare(fmt.Sprintf("INSERT INTO %s (%s, %s) VALUES($1, $2)", TableAccounts, tableAccountsColumnName, tableAccountsColumnBalance))
 	if err != nil {
 		log.Error(fmt.Sprintf("Failed to prepare insert statment into %s table. ", TableAccounts), err)
 		return
@@ -52,13 +52,13 @@ func (pc PostgresClient) InsertAccount(account Account) {
 		log.Errorf("No row affected while tried to insert new account (%v). %v", account, err)
 		return
 	}
-	log.Infof("Account added (%v)", account)
+	log.Infof("Account added %v", account)
 }
 
 func openDBConnection() *sql.DB {
 
 	const dbName = "postgres"
-	log.Infof("Openning connection to Postgres DB %s...", dbName)
+	log.Infof("Opening connection to Postgres DB '%s'...", dbName)
 	db, err := sql.Open("postgres", fmt.Sprintf("host=localhost port=5432 user=admin password=123 dbname=%s sslmode=disable", dbName))
 	if err != nil {
 		log.Fatal(err)
@@ -67,14 +67,14 @@ func openDBConnection() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Infof("Successfully connected to Postgres (%s)", dbName)
+	log.Infof("Successfully connected to Postgres DB '%s'", dbName)
 
 	return db
 }
 
 func (pc PostgresClient) createAccountsTable() {
 
-	pc.createTable(fmt.Sprintf("CREATE TABLE %s (%s text, %s integer)", tableAccountsColumnId, tableAccountsColumnBalance, TableAccounts), TableAccounts)
+	pc.createTable(fmt.Sprintf("CREATE TABLE %s (%s text, %s integer)", TableAccounts, tableAccountsColumnName, tableAccountsColumnBalance), TableAccounts)
 }
 
 func (pc PostgresClient) createTable(createQuery, table string) {
@@ -93,7 +93,8 @@ func (pc PostgresClient) createTable(createQuery, table string) {
 }
 
 func (pc PostgresClient) dropTable(table string) {
-	log.Infof("Dropping table %s...", table)
+
+	log.Infof("Dropping table '%s'...", table)
 	sqlDrop := fmt.Sprintf("DROP TABLE %s", table)
 	if _, err := pc.db.Exec(sqlDrop); err != nil {
 		log.Fatal(err)
