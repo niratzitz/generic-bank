@@ -11,7 +11,7 @@ func CreateRedisClient() *redis.Client {
 
 	address := os.Getenv("REDIS")
 	if address == "" {
-		address = "localhost:6379"
+		address = "redis-boa:6379"
 	}
 	ret := redis.NewClient(&redis.Options{
 		Addr:     address,
