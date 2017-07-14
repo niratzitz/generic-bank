@@ -21,8 +21,7 @@ func main() {
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	redisClient = common.CreateRedisClient()
-	pgClient = createPostgresClient()
+	initialize()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
@@ -43,14 +42,13 @@ func main() {
 	log.Info("Bank of America Server has been stopped")
 }
 
-func createPostgresClient() common.PostgresClient {
+func initialize() {
 
-	ret := common.PostgresClient{}
 	if os.Getenv("MODE") == "admin" {
-		ret = common.NewPostgresClient()
+		pgClient = common.NewPostgresClient()
+	} else {
+		redisClient = common.CreateRedisClient()
 	}
-
-	return ret
 }
 
 func getAccounts(w http.ResponseWriter, r *http.Request) {
