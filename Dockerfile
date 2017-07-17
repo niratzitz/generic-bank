@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM ubuntu:trusty-20160424
 
 COPY .dist/bank-of-america /boa/bin/bank-of-america
 EXPOSE 8085
