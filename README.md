@@ -7,11 +7,11 @@
 #### Deploy on _Docker Swarm_
 Bank of America SaaS
 ```
-docker deploy --compose-file docker-compose-saas.yml BOA_SaaS
+docker stack deploy --compose-file docker-compose-saas.yml BOA_SaaS
 ```
 Bank of America on-premise
 ```
-docker deploy --compose-file docker-compose.yml BOA
+docker stack deploy --compose-file docker-compose.yml BOA
 ```
 Delete stack
 ```
