@@ -5,21 +5,17 @@
 [![Tufin](http://tufinim.hopto.org/tufin/bank-of-america/badges)](http://tufinim.hopto.org/cia/tufin/bank-of-america/scans/last)
 
 #### Deploy on _Docker Swarm_
-Bank of America Swarm network
+Bank of America SaaS
 ```
-sudo docker network create --driver overlay boanetop
+docker deploy --compose-file docker-compose-saas.yml BOA_SaaS
 ```
-Redis
+Bank of America on-premise
 ```
-sudo docker service create --replicas 1 --name redis-boa -p 6379:6379 --network boanetop redis:3.2-alpine
+docker deploy --compose-file docker-compose.yml BOA
 ```
-Postgres
+Delete stack
 ```
-sudo docker service create --replicas 1 --name postgres-boa -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123 -p 5432:5432 --network boanetop postgres
-```
-Bank of America
-```
-sudo docker service create --replicas 2 --name bank-of-america -p 8085:8085 --network boanetop tufinim/bank-of-america
+docker stack rm BOA
 ```
 
 #### REST API - Customer
