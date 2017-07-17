@@ -5,16 +5,24 @@
 [![Tufin](http://tufinim.hopto.org/tufin/bank-of-america/badges)](http://tufinim.hopto.org/cia/tufin/bank-of-america/scans/last)
 
 #### Deploy on _Docker Swarm_
+Bank of America Swarm network
+```
+sudo docker network create --driver overlay boanetop
+```
 Redis
 ```
-sudo docker service create --replicas 1 --name redis-boa -p 6379:6379 redis:3.2-alpine
+sudo docker service create --replicas 1 --name redis-boa -p 6379:6379 --network boanetop redis:3.2-alpine
+```
+Postgres
+```
+sudo docker service create --replicas 1 --name postgres-boa -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=123 -p 5432:5432 --network boanetop postgres
 ```
 Bank of America
 ```
-sudo docker service create --replicas 2 --name bank-of-america -p 8085:8085 tufinim/bank-of-america
+sudo docker service create --replicas 2 --name bank-of-america -p 8085:8085 --network boanetop tufinim/bank-of-america
 ```
 
-#### REST API
+#### REST API - Customer
 Health
 
 HTTP GET `/`
@@ -22,3 +30,8 @@ HTTP GET `/`
 Create Account
 
 HTTP POST `/accounts/{account-id}`
+
+#### REST API - Admin
+Get all accounts
+
+HTTP GET `/accounts`
