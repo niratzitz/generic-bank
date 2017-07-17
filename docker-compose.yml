@@ -8,39 +8,45 @@ services:
       - "6379"
     networks:
       - boanet
-    deploy:
-      placement:
-        constraints: [node.role == manager]
 
-  db:
+  postgres:
     image: postgres:9.4
     environment:
       - POSTGRES_USER=admin
-    volumes:
-      - db-data:/var/lib/postgresql/data
+      - POSTGRES_PASS=123
     networks:
       - boanet
-    deploy:
-      placement:
-        constraints: [node.role == manager]
 
-  bank:
-    build: .
+  admin:
+    image: tufinim/bank-of-america
+    environment:
+      - POSTGRES=postgres
+      - MODE=admin
+    ports:
+      - 8085:8085
+    networks:
+      - boanet
+    depends_on:
+      - postgres
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=BANK]
+
+  indexer:
+    image: tufinim/bank-of-america-indexer
     environment:
       - REDIS=redis:6379
-    ports:
-      - 80:8085
+      - POSTGRES=postgres
     networks:
       - boanet
     depends_on:
       - redis
-      - db
+      - postgres
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
       labels: [APP=BANK]
-      placement:
-        constraints: [node.role == worker]
 
 networks:
     boanet:
