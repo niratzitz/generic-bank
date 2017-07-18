@@ -43,6 +43,7 @@ func main() {
 	<-stop // wait for SIGINT
 	log.Info("Bank of America Server has been stopped")
 }
+
 func getDBUrl() string {
 
 	ret := os.Getenv("DB_URL")

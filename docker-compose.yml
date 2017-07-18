@@ -29,7 +29,7 @@ services:
     image: tufinim/bank-of-america-indexer
     environment:
       - REDIS=10.10.251.7:6379
-      - DB=http://db:8088
+      - DB=http://db:8088/db
     networks:
       - boanet
     depends_on:
