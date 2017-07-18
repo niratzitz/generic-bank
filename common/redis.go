@@ -26,7 +26,7 @@ func CreateRedisClient() *redis.Client {
 			log.Infof("Redis client created on '%s'", address)
 			break
 		}
-		log.Infof("Failed to ping redis with ", err)
+		log.Infof("Failed to ping redis (%s) with ", address, err)
 		time.Sleep(3 * time.Second)
 	}
 
