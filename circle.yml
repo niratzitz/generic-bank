@@ -32,6 +32,6 @@ deployment:
       - docker push $IMAGE_NAME
       - echo $AWS_KEY | base64 --decode --ignore-garbage > ${AWS_KEY_PEM}
       - chmod 600 aws-key.pem
-      - ssh -i aws-key.pem ubuntu@52.30.69.38 sudo docker service update --image $IMAGE_NAME:$CIRCLE_BUILD_NUM BOA_SaaS_$PROJECT_NAME
+      - ssh -i aws-key.pem ubuntu@52.30.69.38 sudo docker service update --image $IMAGE_NAME:$CIRCLE_BUILD_NUM BOA_SaaS_app-server
       # tufin docker image analysis
       - bash <(curl -s http://tufinim.hopto.org/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
