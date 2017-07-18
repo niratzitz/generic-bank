@@ -12,7 +12,7 @@ services:
   admin:
     image: tufinim/bank-of-america
     environment:
-      - DB=http://db:8088
+      - DB_URL=http://db:8088/db
       - MODE=admin
     ports:
       - 8085:8085
@@ -29,7 +29,7 @@ services:
     image: tufinim/bank-of-america-indexer
     environment:
       - REDIS=10.10.251.7:6379
-      - DB=http://db:8088/db
+      - DB_URL=http://db:8088/db
     networks:
       - boanet
     depends_on:

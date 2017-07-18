@@ -101,7 +101,7 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 
 	// ndpi issue
 	redisClient := common.CreateRedisClient()
-	redisClient.Close()
+	defer redisClient.Close()
 	// --- ---
 
 	err = redisClient.Set(id, account, 0).Err()
