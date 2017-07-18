@@ -5,6 +5,7 @@ import (
 	"github.com/go-redis/redis"
 
 	"os"
+	"time"
 )
 
 func CreateRedisClient() *redis.Client {
@@ -18,11 +19,16 @@ func CreateRedisClient() *redis.Client {
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
-	_, err := ret.Ping().Result()
-	if err != nil {
-		log.Fatal("Failed to ping redis. ", err)
+
+	for {
+		_, err := ret.Ping().Result()
+		if err == nil {
+			log.Infof("Redis client created on '%s'", address)
+			break
+		}
+		log.Infof("Failed to ping redis with ", err)
+		time.Sleep(3 * time.Second)
 	}
-	// log.Infof("Redis client created on '%s'", address)
 
 	return ret
 }
