@@ -9,35 +9,30 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 	"os"
 	"os/signal"
 )
 
 var redisClient *redis.Client
-var pgClient common.PostgresClient
 
 func main() {
 
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	if os.Getenv("MODE") == "admin" {
-		pgClient = common.NewPostgresClient()
-		pgClient.Initialize()
-		defer pgClient.Close()
-	} else {
-		redisClient = common.CreateRedisClient()
-		defer redisClient.Close()
-	}
-
 	router := mux.NewRouter()
 	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
-	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "This is America")
 	}).Methods(http.MethodGet)
+
+	dbProxy := NewReverseProxy(getDBUrl())
+	router.PathPrefix("/db").HandlerFunc(dbProxy.Handle)
+
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
@@ -48,21 +43,44 @@ func main() {
 	<-stop // wait for SIGINT
 	log.Info("Bank of America Server has been stopped")
 }
+func getDBUrl() string {
 
-func getAccounts(w http.ResponseWriter, r *http.Request) {
+	ret := os.Getenv("DB_URL")
+	if ret == "" {
+		ret = "http://localhost:8088"
+	}
 
-	// ndpi issue
-	pgClient.Close()
-	pgClient = common.NewPostgresClient()
-	// --- ---
+	return ret
+}
 
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(pgClient.GetAccounts())
+type ReverseProxy struct {
+	target *url.URL
+	proxy  *httputil.ReverseProxy
+}
+
+func NewReverseProxy(target string) ReverseProxy {
+
+	targetUrl, err := url.Parse(target)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return ReverseProxy{target: targetUrl, proxy: httputil.NewSingleHostReverseProxy(targetUrl)}
+}
+
+func (p ReverseProxy) Handle(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("X-GoProxy", "GoProxy")
+	p.proxy.ServeHTTP(w, r)
 }
 
 func getRedisKey(w http.ResponseWriter, r *http.Request) {
 
 	key := mux.Vars(r)["key"]
+	// ndpi issue
+	redisClient.Close()
+	redisClient = common.CreateRedisClient()
+	// --- ---
 	value := redisClient.Get(key)
 	if value.Val() == "" {
 		fmt.Fprintf(w, "Redis key '%s' not found", key)
