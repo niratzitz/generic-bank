@@ -6,8 +6,9 @@ import (
 
 	"database/sql"
 	"fmt"
-	"strings"
 	"os"
+	"strings"
+	"time"
 )
 
 type PostgresClient struct {
@@ -83,11 +84,16 @@ func openDBConnection() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
+
+	for {
+		err = db.Ping()
+		if err == nil {
+			log.Infof("Successfully connected to Postgres DB '%s'", dbName)
+			break
+		}
+		log.Error("Failed to ping postgres with ", err)
+		time.Sleep(3 * time.Second)
 	}
-	// log.Infof("Successfully connected to Postgres DB '%s'", dbName)
 
 	return db
 }

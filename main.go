@@ -23,6 +23,7 @@ func main() {
 
 	if os.Getenv("MODE") == "admin" {
 		pgClient = common.NewPostgresClient()
+		pgClient.Initialize()
 		defer pgClient.Close()
 	} else {
 		redisClient = common.CreateRedisClient()
