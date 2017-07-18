@@ -2,25 +2,24 @@ version: "3"
 
 services:
 
-  postgres:
-    image: postgres:9.4
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASS=123
+  db:
+    image: tufinim/bank-of-america-db
+    ports:
+      - 8088:8088
     networks:
       - boanet
 
   admin:
     image: tufinim/bank-of-america
     environment:
-      - POSTGRES=postgres
+      - DB=http://db:8088
       - MODE=admin
     ports:
       - 8085:8085
     networks:
       - boanet
     depends_on:
-      - postgres
+      - db
     deploy:
       mode: replicated
       replicas: 1
@@ -30,7 +29,7 @@ services:
     image: tufinim/bank-of-america-indexer
     environment:
       - REDIS=10.10.251.7:6379
-      - POSTGRES=postgres
+      - DB=http://db:8088
     networks:
       - boanet
     depends_on:
