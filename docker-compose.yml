@@ -12,7 +12,7 @@ services:
   admin:
     image: tufinim/bank-of-america
     environment:
-      - DB_URL=http://db:8088/db
+      - DB_URL=http://db:8088
       - MODE=admin
     ports:
       - 8085:8085
