@@ -15,8 +15,6 @@ import (
 	"os/signal"
 )
 
-var redisClient *redis.Client
-
 func main() {
 
 	stop := make(chan os.Signal)
@@ -77,11 +75,11 @@ func (p ReverseProxy) Handle(w http.ResponseWriter, r *http.Request) {
 
 func getRedisKey(w http.ResponseWriter, r *http.Request) {
 
-	key := mux.Vars(r)["key"]
 	// ndpi issue
-	redisClient.Close()
-	redisClient = common.CreateRedisClient()
+	redisClient := common.CreateRedisClient()
+	defer redisClient.Close()
 	// --- ---
+	key := mux.Vars(r)["key"]
 	value := redisClient.Get(key)
 	if value.Val() == "" {
 		fmt.Fprintf(w, "Redis key '%s' not found", key)
@@ -103,9 +101,10 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// ndpi issue
+	redisClient := common.CreateRedisClient()
 	redisClient.Close()
-	redisClient = common.CreateRedisClient()
 	// --- ---
+
 	err = redisClient.Set(id, account, 0).Err()
 	if err != nil {
 		log.Errorf("Failed to add key id: '%s' to redis with %v", id, err)
