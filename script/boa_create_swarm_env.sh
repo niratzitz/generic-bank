@@ -26,4 +26,4 @@ sudo docker service create --replicas 1 --name postgres-boa -e POSTGRES_USER=adm
 sudo docker service create --replicas 1 --name boa-indexer -e REDIS=10.10.251.7:6379 --network boanetop tufinim/bank-of-america-indexer
 
 # admin
-sudo docker service create --replicas 1 --name boa-admin -e POSTGRES=postgres-boa -e MODE=admin --network boanetop tufinim/bank-of-america
+sudo docker service create --replicas 1 --name boa-admin -p 8085:8085 -e POSTGRES=postgres-boa -e MODE=admin --network boanetop tufinim/bank-of-america
