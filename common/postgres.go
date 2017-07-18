@@ -87,7 +87,7 @@ func openDBConnection() *sql.DB {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Infof("Successfully connected to Postgres DB '%s'", dbName)
+	// log.Infof("Successfully connected to Postgres DB '%s'", dbName)
 
 	return db
 }

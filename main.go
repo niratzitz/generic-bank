@@ -50,6 +50,11 @@ func main() {
 
 func getAccounts(w http.ResponseWriter, r *http.Request) {
 
+	// ndpi issue
+	pgClient.Close()
+	pgClient = common.NewPostgresClient()
+	// --- ---
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(pgClient.GetAccounts())
 }
@@ -76,11 +81,16 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	// ndpi issue
+	redisClient.Close()
+	redisClient = common.CreateRedisClient()
+	// --- ---
 	err = redisClient.Set(id, account, 0).Err()
 	if err != nil {
 		log.Errorf("Failed to add key id: '%s' to redis with %v", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.Infof("Account '%s' has been added to redis", id)
+	log.Infof("Account '%s' added to redis", id)
 }
