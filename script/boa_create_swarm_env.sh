@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+### Swarm ###
+sudo docker swarm leave --force
+sudo docker swarm init
+### Swarm ###
+
+
 ### AWS cluster ###
 
 # bank of america network
