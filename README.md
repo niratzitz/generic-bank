@@ -35,4 +35,4 @@ HTTP POST `/accounts/{account-id}`
 #### REST API - Admin
 Get all accounts
 
-HTTP GET `/accounts`
+HTTP GET `/db/accounts`
