@@ -2,10 +2,10 @@ package main
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"github.com/tufin/bank-of-america/common"
 
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -15,25 +15,23 @@ import (
 	"os/signal"
 )
 
-var redisClient *redis.Client
+var dbUrl string
 
 func main() {
 
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	redisClient = common.CreateRedisClient()
-	defer redisClient.Close()
+	initialize()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "This is America")
 	}).Methods(http.MethodGet)
 
-	dbProxy := NewReverseProxy(getDBUrl())
+	dbProxy := NewReverseProxy(dbUrl)
 	router.PathPrefix("/db").HandlerFunc(dbProxy.Handle)
 
 	go func() {
@@ -47,15 +45,13 @@ func main() {
 	log.Info("Bank of America Server has been stopped")
 }
 
-func getDBUrl() string {
+func initialize() {
 
-	ret := os.Getenv("DB_URL")
-	if ret == "" {
-		ret = "http://localhost:8088"
+	dbUrl = os.Getenv("DB_URL")
+	if dbUrl == "" {
+		dbUrl = "http://localhost:8088"
 	}
-	log.Info("DB URL: ", ret)
-
-	return ret
+	log.Info("DB URL: ", dbUrl)
 }
 
 type ReverseProxy struct {
@@ -79,18 +75,6 @@ func (p ReverseProxy) Handle(w http.ResponseWriter, r *http.Request) {
 	p.proxy.ServeHTTP(w, r)
 }
 
-func getRedisKey(w http.ResponseWriter, r *http.Request) {
-
-	key := mux.Vars(r)["key"]
-	value := redisClient.Get(key)
-	if value.Val() == "" {
-		fmt.Fprintf(w, "Redis key '%s' not found", key)
-		w.WriteHeader(http.StatusNotFound)
-	} else {
-		fmt.Fprint(w, value.Val())
-	}
-}
-
 func createAccount(w http.ResponseWriter, r *http.Request) {
 
 	id := mux.Vars(r)["account-id"]
@@ -102,11 +86,15 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = redisClient.Set(id, account, 0).Err()
+	res, err := http.Post(fmt.Sprintf("%s/db/accounts", dbUrl), "application/json", bytes.NewReader(account))
 	if err != nil {
 		log.Errorf("Failed to add key id: '%s' to redis with %v", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.Infof("Account '%s' added to redis", id)
+	if res.StatusCode == http.StatusCreated {
+		log.Infof("Account '%s' added to redis", id)
+	} else {
+		log.Errorf("Failed to create account '%s' using redis with %s", id, res.Status)
+	}
 }
