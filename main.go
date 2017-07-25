@@ -2,6 +2,7 @@ package main
 
 import (
 	log "github.com/Sirupsen/logrus"
+	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"github.com/tufin/bank-of-america/common"
 
@@ -14,10 +15,15 @@ import (
 	"os/signal"
 )
 
+var redisClient *redis.Client
+
 func main() {
 
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
+
+	redisClient = common.CreateRedisClient()
+	defer redisClient.Close()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
@@ -47,6 +53,7 @@ func getDBUrl() string {
 	if ret == "" {
 		ret = "http://localhost:8088"
 	}
+	log.Info("DB URL: ", ret)
 
 	return ret
 }
@@ -74,10 +81,6 @@ func (p ReverseProxy) Handle(w http.ResponseWriter, r *http.Request) {
 
 func getRedisKey(w http.ResponseWriter, r *http.Request) {
 
-	// ndpi issue
-	redisClient := common.CreateRedisClient()
-	defer redisClient.Close()
-	// --- ---
 	key := mux.Vars(r)["key"]
 	value := redisClient.Get(key)
 	if value.Val() == "" {
@@ -98,11 +101,6 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	// ndpi issue
-	redisClient := common.CreateRedisClient()
-	defer redisClient.Close()
-	// --- ---
 
 	err = redisClient.Set(id, account, 0).Err()
 	if err != nil {

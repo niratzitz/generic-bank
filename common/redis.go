@@ -12,7 +12,7 @@ func CreateRedisClient() *redis.Client {
 
 	address := os.Getenv("REDIS")
 	if address == "" {
-		address = "redis-boa:6379"
+		address = "redis:6379"
 	}
 	ret := redis.NewClient(&redis.Options{
 		Addr:     address,
@@ -26,7 +26,7 @@ func CreateRedisClient() *redis.Client {
 			log.Infof("Redis client created on '%s'", address)
 			break
 		}
-		log.Infof("Failed to ping redis (%s) with ", address, err)
+		log.Infof("Failed to ping redis (%s) with %v", address, err)
 		time.Sleep(3 * time.Second)
 	}
 
