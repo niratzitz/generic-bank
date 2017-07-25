@@ -34,4 +34,5 @@ deployment:
       - chmod 600 aws-key.pem
       - ssh -i aws-key.pem ubuntu@52.30.69.38 sudo docker service update --image $IMAGE_NAME:$CIRCLE_BUILD_NUM SaaS_app-server
       # tufin docker image analysis
-      - bash <(curl -s http://tufinim.hopto.org/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
+      - chmod +x script/tufin_docker_image_analysis.sh
+      - ./script/tufin_docker_image_analysis.sh
