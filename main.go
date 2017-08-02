@@ -86,7 +86,7 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := http.Post(fmt.Sprintf("%s/db/accounts", dbUrl), "application/json", bytes.NewReader(account))
+	res, err := http.Post(fmt.Sprintf("%s/db/accounts/%s", dbUrl, id), "application/json", bytes.NewReader(account))
 	if err != nil {
 		log.Errorf("Failed to add key id: '%s' to redis with %v", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
