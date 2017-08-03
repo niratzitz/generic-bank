@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 RUN rm -rf /var/lib/apt/lists/*
 
 # Installs additional packages
-RUN apt-get update && apt-get install -y curl net-tools netcat wget strace tcpdump iproute lsof sed sudo
+RUN apt-get update && apt-get install -y apt-utils net-tools vim curl netcat wget strace tcpdump iproute lsof sed sudo
 
 COPY .dist/bank-of-america /boa/bin/bank-of-america
 EXPOSE 8085
