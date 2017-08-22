@@ -2,38 +2,43 @@ package main
 
 import (
 	log "github.com/Sirupsen/logrus"
+	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"github.com/tufin/bank-of-america/common"
 
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"os"
 	"os/signal"
 )
 
-var dbUrl string
+var redisClient *redis.Client
+var pgClient common.PostgresClient
 
 func main() {
 
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	initialize()
+	if os.Getenv("MODE") == "admin" {
+		log.Info("Admin mode")
+		pgClient = common.NewPostgresClient()
+		defer pgClient.Close()
+	} else {
+		log.Info("Customer mode")
+		redisClient = common.CreateRedisClient()
+		defer redisClient.Close()
+	}
 
 	router := mux.NewRouter()
+	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
+	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, "This is America")
 	}).Methods(http.MethodGet)
-
-	dbProxy := NewReverseProxy(dbUrl)
-	router.PathPrefix("/db").HandlerFunc(dbProxy.Handle)
-
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
@@ -45,34 +50,22 @@ func main() {
 	log.Info("Bank of America Server has been stopped")
 }
 
-func initialize() {
+func getAccounts(w http.ResponseWriter, r *http.Request) {
 
-	dbUrl = os.Getenv("DB_URL")
-	if dbUrl == "" {
-		dbUrl = "http://localhost:8088"
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(pgClient.GetAccounts())
+}
+
+func getRedisKey(w http.ResponseWriter, r *http.Request) {
+
+	key := mux.Vars(r)["key"]
+	value := redisClient.Get(key)
+	if value.Val() == "" {
+		fmt.Fprintf(w, "Redis key '%s' not found", key)
+		w.WriteHeader(http.StatusNotFound)
+	} else {
+		fmt.Fprint(w, value.Val())
 	}
-	log.Info("DB URL: ", dbUrl)
-}
-
-type ReverseProxy struct {
-	target *url.URL
-	proxy  *httputil.ReverseProxy
-}
-
-func NewReverseProxy(target string) ReverseProxy {
-
-	targetUrl, err := url.Parse(target)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return ReverseProxy{target: targetUrl, proxy: httputil.NewSingleHostReverseProxy(targetUrl)}
-}
-
-func (p ReverseProxy) Handle(w http.ResponseWriter, r *http.Request) {
-
-	w.Header().Set("X-GoProxy", "GoProxy")
-	p.proxy.ServeHTTP(w, r)
 }
 
 func createAccount(w http.ResponseWriter, r *http.Request) {
@@ -81,20 +74,15 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 	log.Infof("Creating account '%s' in redis", id)
 	account, err := json.Marshal(common.NewAccount(id))
 	if err != nil {
-		log.Errorf("Failed to convert account id: '%s' to json with %v", id, err)
+		log.Errorf("Failed to convert account id: '%s' to json with '%v'", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
-	res, err := http.Post(fmt.Sprintf("%s/db/accounts", dbUrl), "application/json", bytes.NewReader(account))
+	err = redisClient.Set(id, account, 0).Err()
 	if err != nil {
-		log.Errorf("Failed to add key id: '%s' to redis with %v", id, err)
+		log.Errorf("Failed to add key id: '%s' to redis with '%v'", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	if res.StatusCode == http.StatusCreated {
-		log.Infof("Account '%s' added to redis", id)
-	} else {
-		log.Errorf("Failed to create account '%s' using redis with %s", id, res.Status)
-	}
+	log.Infof("Account '%s' has been added to redis", id)
 }
