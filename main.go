@@ -85,4 +85,5 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Infof("Account '%s' has been added to redis", id)
+	w.WriteHeader(http.StatusCreated)
 }
