@@ -2,7 +2,6 @@ package main
 
 import (
 	log "github.com/Sirupsen/logrus"
-	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"github.com/tufin/bank-of-america/common"
 
@@ -11,9 +10,10 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"bytes"
 )
 
-var redisClient *redis.Client
+var redis string
 var pgClient common.PostgresClient
 
 func main() {
@@ -27,12 +27,11 @@ func main() {
 		defer pgClient.Close()
 	} else {
 		log.Info("Customer mode")
-		redisClient = common.CreateRedisClient()
-		defer redisClient.Close()
 	}
 
+	redis = getRedisUrl()
+
 	router := mux.NewRouter()
-	router.HandleFunc("/redis/{key}", getRedisKey).Methods(http.MethodGet)
 	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -42,12 +41,23 @@ func main() {
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
-			log.Error("Bank of America Server Interrupted. ", err)
+			log.Error("Bank of America Server interrupted. ", err)
 		}
 	}()
 
 	<-stop // wait for SIGINT
 	log.Info("Bank of America Server has been stopped")
+}
+
+func getRedisUrl() string {
+
+	ret := os.Getenv("REDIS")
+	if ret == "" {
+		ret = "http://redis"
+	}
+	log.Infof("Redis: %s", ret)
+
+	return ret
 }
 
 func getAccounts(w http.ResponseWriter, r *http.Request) {
@@ -56,34 +66,30 @@ func getAccounts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(pgClient.GetAccounts())
 }
 
-func getRedisKey(w http.ResponseWriter, r *http.Request) {
-
-	key := mux.Vars(r)["key"]
-	value := redisClient.Get(key)
-	if value.Val() == "" {
-		fmt.Fprintf(w, "Redis key '%s' not found", key)
-		w.WriteHeader(http.StatusNotFound)
-	} else {
-		fmt.Fprint(w, value.Val())
-	}
-}
-
 func createAccount(w http.ResponseWriter, r *http.Request) {
 
 	id := mux.Vars(r)["account-id"]
-	log.Infof("Creating account '%s' in redis", id)
+	url := fmt.Sprintf("%s/accounts", redis)
+	log.Infof("Creating account '%s' in redis (%s)", id, url)
 	account, err := json.Marshal(common.NewAccount(id))
 	if err != nil {
-		log.Errorf("Failed to convert account id: '%s' to json with '%v'", id, err)
+		msg := fmt.Sprintf("Failed to convert account id: '%s' to json with '%v'", id, err)
+		log.Error(msg)
 		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprint(w, msg)
 		return
 	}
-	err = redisClient.Set(id, account, 0).Err()
+	response, err := http.Post(url, "application/json", bytes.NewReader(account))
 	if err != nil {
-		log.Errorf("Failed to add key id: '%s' to redis with '%v'", id, err)
+		log.Errorf("Failed to add key '%s' to redis with '%v'", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
-		return
+	} else if response.StatusCode != http.StatusOK {
+		log.Errorf("Failed to add key '%s' to redis with status '%s' (%#v)", id, response.Status, response)
+		w.WriteHeader(response.StatusCode)
+	} else {
+		msg := fmt.Sprintf("Account '%s' has been added to redis", id)
+		log.Infof(msg)
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprint(w, msg)
 	}
-	log.Infof("Account '%s' has been added to redis", id)
-	w.WriteHeader(http.StatusCreated)
 }
