@@ -71,19 +71,11 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["account-id"]
 	url := fmt.Sprintf("%s/accounts", redis)
 	log.Infof("Creating account '%s' in redis (%s)", id, url)
-	account, err := json.Marshal(common.NewAccount(id))
-	if err != nil {
-		msg := fmt.Sprintf("Failed to convert account id: '%s' to json with '%v'", id, err)
-		log.Error(msg)
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, msg)
-		return
-	}
-	response, err := http.Post(url, "application/json", bytes.NewReader(account))
+	response, err := http.Post(url, "text/plain", bytes.NewReader([]byte(id)))
 	if err != nil {
 		log.Errorf("Failed to add key '%s' to redis with '%v'", id, err)
 		w.WriteHeader(http.StatusInternalServerError)
-	} else if response.StatusCode != http.StatusOK {
+	} else if response.StatusCode != http.StatusCreated {
 		log.Errorf("Failed to add key '%s' to redis with status '%s' (%#v)", id, response.Status, response)
 		w.WriteHeader(response.StatusCode)
 	} else {
