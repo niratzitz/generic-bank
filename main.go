@@ -3,18 +3,17 @@ package main
 import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
-	"github.com/tufin/bank-of-america/common"
 
-	"encoding/json"
+	"bytes"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
-	"bytes"
 )
 
 var redis string
-var pgClient common.PostgresClient
+//var pgClient common.PostgresClient
 
 func main() {
 
@@ -23,8 +22,8 @@ func main() {
 
 	if os.Getenv("MODE") == "admin" {
 		log.Info("Admin mode")
-		pgClient = common.NewPostgresClient()
-		defer pgClient.Close()
+		//pgClient = common.NewPostgresClient()
+		//defer pgClient.Close()
 	} else {
 		log.Info("Customer mode")
 	}
@@ -62,8 +61,41 @@ func getRedisUrl() string {
 
 func getAccounts(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(pgClient.GetAccounts())
+	postgres := getPostgresAccountsUrl()
+
+	log.Infof("getting accounts from postgres (%s)...", postgres)
+	response, err := http.Get(postgres)
+	if err != nil {
+		log.Errorf("failed to get accounts from postgres (%s) with '%v'", postgres, err)
+	} else {
+		if response.StatusCode != http.StatusOK {
+			log.Errorf("failed to get accounts from postgres with status '%s'", response.Status)
+		} else {
+			log.Infof("accounts retrieved successfully")
+			w.WriteHeader(http.StatusOK)
+
+			defer response.Body.Close()
+			body, err := ioutil.ReadAll(response.Body)
+
+			if err != nil {
+				log.Errorf("failed to read response body from postgres with '%v'", err)
+			} else {
+				w.Write(body)
+			}
+		}
+	}
+}
+
+func getPostgresAccountsUrl() string {
+
+	ret := os.Getenv("POSTGRES")
+	if ret == "" {
+		ret = "http://localhost:8088"
+	}
+	ret += "/accounts"
+	log.Infof("Postgres: %s", ret)
+
+	return ret
 }
 
 func createAccount(w http.ResponseWriter, r *http.Request) {
