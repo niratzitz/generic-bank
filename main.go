@@ -13,6 +13,7 @@ import (
 )
 
 var redis string
+
 //var pgClient common.PostgresClient
 
 func main() {
@@ -33,8 +34,8 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
-	router.PathPrefix("/test").Handler(http.StripPrefix("/test", http.FileServer(http.Dir("/boa/html/"))))
-	//router.Handle("/", http.FileServer(http.Dir("/boa/html/admin.html"))).Methods(http.MethodGet)
+	router.PathPrefix("/boa").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
+
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
