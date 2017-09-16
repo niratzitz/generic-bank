@@ -36,7 +36,7 @@ func main() {
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.PathPrefix("/boa").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/accounts", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/boa/admin.html", http.StatusMovedPermanently)
 	}).Methods(http.MethodGet)
 
 	go func() {
