@@ -35,6 +35,9 @@ func main() {
 	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.PathPrefix("/boa").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/accounts", http.StatusMovedPermanently)
+	}).Methods(http.MethodGet)
 
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
