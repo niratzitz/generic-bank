@@ -21,12 +21,13 @@ func main() {
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	var mode string
-	if os.Getenv("MODE") == "admin" {
+	mode := os.Getenv("MODE")
+	if mode == "admin" {
 		log.Info("Admin mode")
-		mode = "admin"
 		//pgClient = common.NewPostgresClient()
 		//defer pgClient.Close()
+	} else if mode == "maintenance" {
+		log.Info("Maintenance mode")
 	} else {
 		mode = "customer"
 		log.Info("Customer mode")
@@ -41,8 +42,9 @@ func main() {
 
 	if mode == "admin" {
 		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
-	}
-	if mode == "customer" {
+	} else if mode == "maintenance" {
+		router.PathPrefix("/boa/admin").Handler(http.FileServer(http.Dir("/boa/html/maintenance/index.html")))
+	} else if mode == "customer" {
 		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
 	}
 
