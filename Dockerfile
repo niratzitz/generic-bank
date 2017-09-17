@@ -6,7 +6,7 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y apt-utils net-tools vim curl netcat wget strace tcpdump iproute lsof sed sudo
 
 COPY .dist/bank-of-america /boa/bin/bank-of-america
-COPY html/admin.html /boa/html/admin.html
+COPY html/ /boa/html/
 EXPOSE 8085
 
 WORKDIR /boa/bin

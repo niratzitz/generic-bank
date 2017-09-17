@@ -21,11 +21,14 @@ func main() {
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
+	var mode string
 	if os.Getenv("MODE") == "admin" {
 		log.Info("Admin mode")
+		mode = "admin"
 		//pgClient = common.NewPostgresClient()
 		//defer pgClient.Close()
 	} else {
+		mode = "customer"
 		log.Info("Customer mode")
 	}
 
@@ -34,7 +37,15 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
-	router.PathPrefix("/boa").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
+	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
+
+	if mode == "admin" {
+		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
+	}
+	if mode == "customer" {
+		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
+	}
+
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/boa/admin.html", http.StatusMovedPermanently)
 	}).Methods(http.MethodGet)
