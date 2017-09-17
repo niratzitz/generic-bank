@@ -35,7 +35,7 @@ func main() {
 	redis = getRedisUrl()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/accounts", getAccounts).Methods(http.MethodGet)
+	router.HandleFunc("/admin/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
 
