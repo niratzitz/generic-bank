@@ -1,7 +1,56 @@
 <html>
+
+<head>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        html {
+            display: table;
+            margin: auto;
+        }
+
+        body {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function Submitform(origForm)
+        {
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "/accounts/test-"+getRandomInt(10000,99999));
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+
+</head>
+
 <body style="background-image:url(./images/boa.png);background-repeat: no-repeat;background-position: right top;">
 
-<H1 style="text-align: center">Welcome to Bank of America Customer Portal</H1>
+<H1>Welcome to Bank of America Customer Portal</H1>
+
+<br/><br/>
+
+<form name="myform" action="" method="post" style="margin: 0 auto; width:250px;">
+    First name:<br>
+    <input type="text" name="firstname"><br/><br/>
+    Last name:<br>
+    <input type="text" name="lastname"><br><br>
+    <input style="align:right" type="Button" Onclick="Submitform(this.form)" value="Create Account">
+</form>
 
 </body>
 </html>
+
