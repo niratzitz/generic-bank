@@ -21,20 +21,33 @@ func main() {
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	if os.Getenv("MODE") == "admin" {
+	mode := os.Getenv("MODE")
+	if mode == "admin" {
 		log.Info("Admin mode")
 		//pgClient = common.NewPostgresClient()
 		//defer pgClient.Close()
+	} else if mode == "maintenance" {
+		log.Info("Maintenance mode")
 	} else {
+		mode = "customer"
 		log.Info("Customer mode")
 	}
 
 	redis = getRedisUrl()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/admin/accounts", getAccounts).Methods(http.MethodGet)
+	router.HandleFunc("/boa/admin/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
-	router.PathPrefix("/boa").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
+	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
+
+	if mode == "admin" {
+		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
+	} else if mode == "maintenance" {
+		router.PathPrefix("/boa/admin").Handler(http.FileServer(http.Dir("/boa/html/maintenance/index.html")))
+	} else if mode == "customer" {
+		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
+	}
+
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/boa/admin.html", http.StatusMovedPermanently)
 	}).Methods(http.MethodGet)
