@@ -33,6 +33,7 @@ HTTP POST `/accounts/{account-id}`
 
 #### REST API - Admin
 Portal
+
 HTTP GET `/boa/admin/index.html`
 
 Get all accounts
