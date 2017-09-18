@@ -43,8 +43,8 @@ func main() {
 	if mode == "admin" {
 		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
 	} else if mode == "maintenance" {
-		// route /boa/admin to the maintenance message
-		router.HandleFunc("/boa/admin", func(w http.ResponseWriter, r *http.Request) {
+		// route /boa/admin/index.html to the maintenance message
+		router.HandleFunc("/boa/admin/index.html", func(w http.ResponseWriter, r *http.Request) {
 			http.ServeFile(w, r, "/boa/html/maintenance/index.html")
 		}).Methods(http.MethodGet)
 	} else if mode == "customer" {
