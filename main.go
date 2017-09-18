@@ -38,7 +38,6 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/boa/admin/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
-	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
 
 	if mode == "admin" {
 		log.Info("going into admin mode")
