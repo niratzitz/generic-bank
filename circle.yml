@@ -10,6 +10,10 @@ machine:
     PROJECT_PATH: /go/src/github.com/tufin/$PROJECT_NAME
     BUILDER_IMAGE_NAME: gaiadocker/base-go-build
     AWS_KEY_PEM: aws-key.pem
+    GOOGLE_APPLICATION_CREDENTIALS: gcloud-service-key.json
+    GCLOUD_CLUSTER_NAME: aut-cluster
+    GCLOUD_PROJECT_ID: tufinlight
+    GCLOUD_ZONE1: europe-west1-b
 checkout:
   post:
     - git fetch --unshallow || true
@@ -39,3 +43,7 @@ deployment:
       # tufin docker image analysis
       - chmod +x script/tufin_docker_image_analysis.sh
       - ./script/tufin_docker_image_analysis.sh
+
+      # deploy docker image to gcloud
+      - chmod +x script/deploy.sh
+      - ./script/deploy.sh
