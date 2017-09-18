@@ -5,7 +5,6 @@
 [![Tufin](http://tufinim.hopto.org/tufin/bank-of-america/badges)](http://tufinim.hopto.org/#/grid/scans/tufinim%2Fbank-of-america)
 
 
-
 [![BankOfAmerica](https://static.seekingalpha.com/uploads/2017/7/1/15103192-14988942864352787.png)](https://www.bankofamerica.com/)
 
 
