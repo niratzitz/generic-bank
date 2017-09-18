@@ -23,15 +23,18 @@ docker stack rm BOA
 ```
 
 #### REST API - Customer
-Health
+Portal
 
-HTTP GET `/`
+HTTP GET `/boa/customer/index.html`
 
 Create Account
 
 HTTP POST `/accounts/{account-id}`
 
 #### REST API - Admin
+Portal
+HTTP GET `/boa/admin/index.html`
+
 Get all accounts
 
-HTTP GET `/db/accounts`
+HTTP GET `/boa/admin/accounts`
