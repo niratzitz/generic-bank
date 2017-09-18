@@ -41,16 +41,15 @@ func main() {
 	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa", http.FileServer(http.Dir("/boa/html/"))))
 
 	if mode == "admin" {
+		log.Info("going into admin mode")
 		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
 	} else if mode == "maintenance" {
+		log.Info("going into maintenance mode")
 		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/maintenance/"))))
 	} else if mode == "customer" {
+		log.Info("going into customer mode")
 		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
 	}
-
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/boa/admin.html", http.StatusMovedPermanently)
-	}).Methods(http.MethodGet)
 
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
