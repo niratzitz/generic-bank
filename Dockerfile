@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM alpine:3.6
 
 RUN rm -rf /var/lib/apt/lists/*
 
