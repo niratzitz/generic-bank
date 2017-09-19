@@ -1,4 +1,4 @@
-FROM ubuntu:precise-20160624
+FROM ubuntu:14.04
 
 COPY .dist/bank-of-america /boa/bin/bank-of-america
 COPY html/ /boa/html/
