@@ -14,6 +14,7 @@ machine:
     GCLOUD_CLUSTER_NAME: aut-cluster
     GCLOUD_PROJECT_ID: tufinlight
     GCLOUD_ZONE1: europe-west1-b
+    TUFIN_ALLOW_ACCESS_SERVICE: admin
 checkout:
   post:
     - git fetch --unshallow || true
