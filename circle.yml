@@ -16,6 +16,8 @@ machine:
     GCLOUD_PROJECT_ID: tufinlight
     GCLOUD_ZONE1: europe-west1-b
     TUFIN_ALLOW_ACCESS_SERVICE: admin
+    TUFIN_DOMAIN: bank-of-america
+    TUFIN_PROJECT: retail
 checkout:
   post:
     - git fetch --unshallow || true
