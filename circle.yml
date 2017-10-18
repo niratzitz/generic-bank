@@ -49,5 +49,3 @@ deployment:
       # deploy docker image to gcloud
       - chmod +x script/deploy.sh
       - ./script/deploy.sh
-
-#      - bash <(curl -k -s https://tufinim.hopto.org/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
