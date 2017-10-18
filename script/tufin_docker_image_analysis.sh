@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Downloading tufinim certificate...
-openssl s_client -showcerts -connect tufinim.hopto.org:443 < /dev/null | sed -n -e '/BEGIN\ CERTIFICATE/,/END\ CERTIFICATE/ p' > tufinim.pem
+#openssl s_client -showcerts -connect tufinim.hopto.org:443 < /dev/null | sed -n -e '/BEGIN\ CERTIFICATE/,/END\ CERTIFICATE/ p' > tufinim.pem
 
 # Downloading tufinim image scanning script
 ok=`curl -k -X GET -I https://tufinim.hopto.org/bash 2>/dev/null | head -n 1 | cut -d$' ' -f2`
