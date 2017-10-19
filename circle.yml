@@ -7,7 +7,6 @@ machine:
   environment:
     PROJECT_NAME: bank-of-america
     IMAGE_NAME: tufinim/$PROJECT_NAME
-    CIRCLE_BUILD_NUM: 141
     PROJECT_PATH: /go/src/github.com/tufin/$PROJECT_NAME
     BUILDER_IMAGE_NAME: gaiadocker/base-go-build
     AWS_KEY_PEM: aws-key.pem
