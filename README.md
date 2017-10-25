@@ -39,4 +39,4 @@ HTTP GET `/boa/admin/index.html`
 
 Get all accounts
 
-HTTP GET `/boa/admin/accounts`
+HTTP GET `/boa/admin/accounts` 
