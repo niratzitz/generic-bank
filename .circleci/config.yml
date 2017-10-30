@@ -33,12 +33,12 @@ jobs:
           TUFIN_DOMAIN: bank-of-america
           TUFIN_PROJECT: retail
       - run:
-          name: Update deployment on google cloud (if tufin.io cluster is up and running)
-          command: |
-            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT $PROJECT_NAME=$IMAGE_NAME:$CIRCLE_BUILD_NUM
-          environment:
-            GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
-            GCLOUD_PROJECT_ID: tufinlight
-            GCLOUD_CLUSTER_NAME: aut-cluster
-            GCLOUD_ZONE: europe-west1-b
-            DEPLOYMENT: lighthouse
+        name: Update deployment on google cloud (if tufin.io cluster is up and running)
+        command: |
+          /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT $PROJECT_NAME=$IMAGE_NAME:$CIRCLE_BUILD_NUM
+        environment:
+          GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
+          GCLOUD_PROJECT_ID: tufinlight
+          GCLOUD_CLUSTER_NAME: aut-cluster
+          GCLOUD_ZONE: europe-west1-b
+          DEPLOYMENT: lighthouse
