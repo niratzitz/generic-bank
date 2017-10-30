@@ -1,7 +1,6 @@
 .idea
 .dockerignore
 .gitignore
-circle.yml
-.glide
-glide.*
+.circleci
+Gopkg.*
 README.md

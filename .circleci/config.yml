@@ -1,0 +1,47 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/tufin/bank-of-america
+    docker:
+      - image: tufinim/circleci-go
+    environment:
+      PROJECT_NAME: bank-of-america
+      IMAGE_NAME: tufinim/bank-of-america
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: |
+            /scripts/go_build.sh $PROJECT_NAME
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: |
+            docker build -t "$IMAGE_NAME" .
+      - run:
+        name: Upload docker image to dockerhub
+        command: |
+          docker tag $IMAGE_NAME $IMAGE_NAME:$CIRCLE_BUILD_NUM
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push $IMAGE_NAME
+      - run:
+        name: Tufin image analysis
+        command: |
+          script/tufin_docker_image_analysis.sh
+        environment:
+          TUFIN_ALLOW_ACCESS_SERVICE: admin
+          TUFIN_DOMAIN: bank-of-america
+          TUFIN_PROJECT: retail
+      - run:
+          name: Update deployment on google cloud (if tufin.io cluster is up and running)
+          command: |
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT $PROJECT_NAME=$IMAGE_NAME:$CIRCLE_BUILD_NUM
+          environment:
+            GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
+            GCLOUD_PROJECT_ID: tufinlight
+            GCLOUD_CLUSTER_NAME: aut-cluster
+            GCLOUD_ZONE: europe-west1-b
+            DEPLOYMENT: lighthouse

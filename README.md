@@ -40,3 +40,9 @@ HTTP GET `/boa/admin/index.html`
 Get all accounts
 
 HTTP GET `/boa/admin/accounts` 
+
+#### Build
+```
+$ docker run -it --rm -v "$PWD":/go/src/github.com/tufin/bank-of-america -w /go/src/github.com/tufin/bank-of-america tufinim/go-build bash
+$ dep ensure
+```
