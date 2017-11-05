@@ -7,6 +7,8 @@
 
 [![BankOfAmerica](https://static.seekingalpha.com/uploads/2017/7/1/15103192-14988942864352787.png)](https://www.bankofamerica.com/)
 
+![BofA Diagram](https://github.com/Tufin/bank-of-america/blob/master/BofA%20Diagram.png)
+
 Demo Banking App
 
 #### Deploy on _Docker Swarm_
