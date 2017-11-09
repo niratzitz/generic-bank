@@ -45,4 +45,4 @@ jobs:
             GCLOUD_PROJECT_ID: tufinlight
             GCLOUD_CLUSTER_NAME: aut-cluster
             GCLOUD_ZONE: europe-west1-b
-            DEPLOYMENT: bank-of-america
+            DEPLOYMENT: admin
