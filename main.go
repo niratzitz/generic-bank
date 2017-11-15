@@ -50,6 +50,10 @@ func main() {
 		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
 	}
 
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+		w.WriteHeader(http.StatusOK)
+	}).Methods(http.MethodGet)
+
 	go func() {
 		log.Info("Bank of America Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
@@ -72,7 +76,7 @@ func getRedisUrl() string {
 	return ret
 }
 
-func getAccounts(w http.ResponseWriter, r *http.Request) {
+func getAccounts(w http.ResponseWriter, _ *http.Request) {
 
 	postgres := getPostgresAccountsUrl()
 
