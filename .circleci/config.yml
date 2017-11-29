@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: /go/src/github.com/tufin/bank-of-america
     docker:
-      - image: tufinim/circleci-gox
+      - image: tufinim/circleci-go
     environment:
       PROJECT_NAME: bank-of-america
       IMAGE_NAME: tufinim/bank-of-america
