@@ -29,7 +29,6 @@ jobs:
           command: |
             script/tufin_docker_image_analysis.sh
           environment:
-            TUFIN_ALLOW_ACCESS_SERVICE: admin
             TUFIN_DOMAIN: bank-of-america
             TUFIN_PROJECT: retail
       - run:
