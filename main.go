@@ -16,6 +16,10 @@ var redis string
 
 //var pgClient common.PostgresClient
 
+
+
+
+
 func main() {
 
 	stop := make(chan os.Signal)
