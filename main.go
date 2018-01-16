@@ -16,10 +16,6 @@ var redis string
 
 //var pgClient common.PostgresClient
 
-
-
-
-
 func main() {
 
 	stop := make(chan os.Signal)
@@ -42,6 +38,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/boa/admin/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
+	router.HandleFunc("/time", getTime).Methods(http.MethodGet)
 
 	if mode == "admin" {
 		log.Info("going into admin mode")
@@ -54,7 +51,7 @@ func main() {
 		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
 	}
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}).Methods(http.MethodGet)
 
@@ -76,6 +73,44 @@ func getRedisUrl() string {
 		ret = "http://redis"
 	}
 	log.Infof("Redis: %s", ret)
+
+	return ret
+}
+
+func getTime(w http.ResponseWriter, _ *http.Request) {
+	timeService := getTimeServiceUrl()
+
+	log.Infof("getting time from (%s)...", timeService)
+	response, err := http.Get(timeService)
+	if err != nil {
+		log.Errorf("failed to get time with '%v'", err)
+	} else {
+		if response.StatusCode != http.StatusOK {
+			log.Errorf("failed to get time with status '%s'", response.Status)
+		} else {
+			log.Infof("time retrieved successfully")
+			w.WriteHeader(http.StatusOK)
+
+			defer response.Body.Close()
+			body, err := ioutil.ReadAll(response.Body)
+
+			if err != nil {
+				log.Errorf("failed to read time body from time service '%v'", err)
+			} else {
+				w.Write(body)
+			}
+		}
+	}
+}
+
+func getTimeServiceUrl() string {
+
+	ret := os.Getenv("TIME")
+	if ret == "" {
+		ret = "http://time"
+	}
+	ret += "/time"
+	log.Infof("time: %s", ret)
 
 	return ret
 }
