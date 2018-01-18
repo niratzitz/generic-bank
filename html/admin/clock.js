@@ -63,7 +63,7 @@ function initClock(id, time) {
     }
   
     clock.drawTime = function() {      
-        var now = new Date(clock.time);
+        var now = clock.time;
         var hour = now.getHours();
         var minute = now.getMinutes();
         var second = now.getSeconds();
@@ -91,7 +91,7 @@ function initClock(id, time) {
         clock.drawClock
     }
 
-    clock.time = time
+    clock.time = new Date(time)
     clock.ctx.translate(clock.radius, clock.radius);
     clock.radius = clock.radius * 0.90;
 
