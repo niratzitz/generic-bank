@@ -54,6 +54,10 @@
         return xhr;
     }
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     async function wait() {
         await sleep(1000);
     }
