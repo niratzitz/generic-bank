@@ -63,7 +63,7 @@ function initClock(id, time) {
     }
 
     clock.drawTime = function() {
-        var now = new Date();
+        var now = new Date(time);
         var hour = now.getHours();
         var minute = now.getMinutes();
         var second = now.getSeconds();
