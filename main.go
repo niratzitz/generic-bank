@@ -77,8 +77,8 @@ func getRedisUrl() string {
 	return ret
 }
 
-func getTime(w http.ResponseWriter, _ *http.Request) {
-	timeService := getTimeServiceUrl()
+func getTime(w http.ResponseWriter, r *http.Request) {
+	timeService := getTimeServiceUrl(r.FormValue("zone"))
 
 	log.Infof("getting time from (%s)...", timeService)
 	response, err := http.Get(timeService)
@@ -103,13 +103,13 @@ func getTime(w http.ResponseWriter, _ *http.Request) {
 	}
 }
 
-func getTimeServiceUrl() string {
+func getTimeServiceUrl(zone string) string {
 
 	ret := os.Getenv("TIME")
 	if ret == "" {
 		ret = "http://time"
 	}
-	ret += "/time"
+	ret += fmt.Sprintf("/time?zone=%s", zone)
 	log.Infof("time: %s", ret)
 
 	return ret
