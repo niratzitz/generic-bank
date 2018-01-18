@@ -61,9 +61,9 @@ function initClock(id, time) {
         ctx.stroke();
         ctx.rotate(-pos);
     }
-
-    clock.drawTime = function() {
-        var now = new Date(time);
+  
+    clock.drawTime = function() {      
+        var now = new Date(clock.time);
         var hour = now.getHours();
         var minute = now.getMinutes();
         var second = now.getSeconds();
@@ -86,10 +86,17 @@ function initClock(id, time) {
         clock.drawHand();
     };
 
+    clock.advanceTime = function() {
+        clock.time = clock.time + clock.interval
+        clock.drawClock
+    }
+
+    clock.time = time
     clock.ctx.translate(clock.radius, clock.radius);
     clock.radius = clock.radius * 0.90;
-    setInterval(clock.drawClock, 1000);
 
+    clock.interval = 1000
+    setInterval(clock.advanceTime, clock.interval);
 }
 
 
