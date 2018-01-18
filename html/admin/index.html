@@ -62,11 +62,15 @@
         await sleep(1000);
     }
  
-    getAjax('/time?zone=Europe/London', function(time) { initClock('clock-london', time) } );
+    function parseTime(jsonTime) {
+        return new Date(JSON.parse(jsonTime).formatted);
+    }
+
+    getAjax('/time?zone=Europe/London', function(time) { initClock('clock-london', parseTime(time)) } );
     wait()
-    getAjax('/time?zone=America/New_York', function(time) { initClock('clock-nyc', time) } );
+    getAjax('/time?zone=America/New_York', function(time) { initClock('clock-nyc', parseTime(time)) } );
     wait()
-    getAjax('/time?zone=Asia/Tokyo', function(time) { initClock('clock-tokyo', time) } );
+    getAjax('/time?zone=Asia/Tokyo', function(time) { initClock('clock-tokyo', parseTime(time)) } );
 
 </script>
 

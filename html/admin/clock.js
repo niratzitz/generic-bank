@@ -91,7 +91,7 @@ function initClock(id, time) {
         clock.drawClock()
     }
 
-    clock.time = new Date(time)
+    clock.time = time
     clock.ctx.translate(clock.radius, clock.radius);
     clock.radius = clock.radius * 0.90;
 
