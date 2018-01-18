@@ -88,7 +88,7 @@ function initClock(id, time) {
 
     clock.advanceTime = function() {
         clock.time.setSeconds(clock.time.getSeconds() + 1);
-        clock.drawClock
+        clock.drawClock()
     }
 
     clock.time = new Date(time)
