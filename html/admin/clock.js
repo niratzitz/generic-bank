@@ -1,4 +1,4 @@
-function initClock(id) {
+function initClock(id, time) {
 
 
     var clock = new function() {

@@ -54,13 +54,9 @@
         return xhr;
     }
 
-    function displayClock(id, time) {
-        initClock();
-    }
-
-    getAjax('/time?zone=Europe/London', displayClock('clock-london', data));
-    getAjax('/time?zone=America/New_York', displayClock('clock-nyc', data));
-    getAjax('/time?zone=Asia/Tokyo', displayClock('clock-tokyo', data));
+    getAjax('/time?zone=Europe/London', function(time) { displayClock('clock-london', time) } );
+    getAjax('/time?zone=America/New_York', function(time) { displayClock('clock-nyc', time) } );
+    getAjax('/time?zone=Asia/Tokyo', function(time) { displayClock('clock-tokyo', time) } );
 
 </script>
 
