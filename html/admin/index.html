@@ -43,11 +43,6 @@
 
 <script>
 
-
-    window.onload = initClock('clock-london');
-    window.onload = initClock('clock-nyc');
-    window.onload = initClock('clock-tokyo');
-
     function getAjax(url, success) {
         var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         xhr.open('GET', url);
@@ -59,8 +54,13 @@
         return xhr;
     }
 
-    getAjax('/time?zone=Europe/London', function(data){ console.log(data); });
-    //var date = new Date("12/15/1990");  
+    function displayClock(id, time) {
+        initClock();
+    }
+
+    getAjax('/time?zone=Europe/London', displayClock('clock-london', data));
+    getAjax('/time?zone=America/New_York', displayClock('clock-nyc', data));
+    getAjax('/time?zone=Asia/Tokyo', displayClock('clock-tokyo', data));
 
 </script>
 
