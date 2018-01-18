@@ -58,19 +58,19 @@
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async function wait() {
-        await sleep(1500);
-    }
- 
     function parseTime(jsonTime) {
         return new Date(JSON.parse(jsonTime).formatted);
     }
 
-    getAjax('/time?zone=Europe/London', function(time) { initClock('clock-london', parseTime(time)) } );
-    wait()
-    getAjax('/time?zone=America/New_York', function(time) { initClock('clock-nyc', parseTime(time)) } );
-    wait()
-    getAjax('/time?zone=Asia/Tokyo', function(time) { initClock('clock-tokyo', parseTime(time)) } );
+    async function main() {
+        getAjax('/time?zone=Europe/London', function(time) { initClock('clock-london', parseTime(time)) } );
+        await sleep(1000);
+        getAjax('/time?zone=America/New_York', function(time) { initClock('clock-nyc', parseTime(time)) } );
+        await sleep(1000);
+        getAjax('/time?zone=Asia/Tokyo', function(time) { initClock('clock-tokyo', parseTime(time)) } );
+    }
+
+    main();
 
 </script>
 
