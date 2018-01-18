@@ -54,8 +54,14 @@
         return xhr;
     }
 
+    async function wait() {
+        await sleep(1000);
+    }
+ 
     getAjax('/time?zone=Europe/London', function(time) { initClock('clock-london', time) } );
+    wait()
     getAjax('/time?zone=America/New_York', function(time) { initClock('clock-nyc', time) } );
+    wait()
     getAjax('/time?zone=Asia/Tokyo', function(time) { initClock('clock-tokyo', time) } );
 
 </script>

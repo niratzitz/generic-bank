@@ -87,7 +87,7 @@ function initClock(id, time) {
     };
 
     clock.advanceTime = function() {
-        clock.time = clock.time + clock.interval
+        clock.time.setSeconds(clock.time.getSeconds() + 1);
         clock.drawClock
     }
 
