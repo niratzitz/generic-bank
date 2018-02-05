@@ -37,7 +37,6 @@ jobs:
           command: |
             script/tufin_docker_image_analysis.sh
           environment:
-            TUFIN_ALLOW_ACCESS_SERVICE: admin
             TUFIN_DOMAIN: bank-of-america
             TUFIN_PROJECT: retail
       - run:
@@ -47,10 +46,10 @@ jobs:
       - run:
           name: Update deployment on google cloud (if tufin.io cluster is up and running)
           command: |
-            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
           environment:
             GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
             GCLOUD_PROJECT_ID: tufinlight
-            GCLOUD_CLUSTER_NAME: aut-cluster
+            GCLOUD_CLUSTER_NAME: aut-cluster-sysdig
             GCLOUD_ZONE: europe-west1-b
             DEPLOYMENT: admin
