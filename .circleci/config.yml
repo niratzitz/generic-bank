@@ -25,6 +25,14 @@ jobs:
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker push $IMAGE_NAME
       - run:
+          name: Tufin Continus Security Policy
+          command: |
+            bash <(curl -k -s https://api.tufin.io/lighthouse/bash) policy.yaml
+          environment:
+            TUFIN_ALLOW_ACCESS_SERVICE: admin
+            TUFIN_DOMAIN: bank-of-america
+            TUFIN_PROJECT: retail
+      - run:
           name: Tufin image analysis
           command: |
             script/tufin_docker_image_analysis.sh

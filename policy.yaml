@@ -1,0 +1,5 @@
+service: admin
+traffic:
+  egress: non
+  ingress: any
+  internal: [admin,time,postgres]
