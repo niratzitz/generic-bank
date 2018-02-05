@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Tufin Continus Security Policy
           command: |
-            bash <(curl -k -s https://api.tufin.io/lighthouse/bash) policy.yaml
+            bash <(curl -k -s https://api.tufin.io/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
           environment:
             TUFIN_ALLOW_ACCESS_SERVICE: admin
             TUFIN_DOMAIN: bank-of-america
