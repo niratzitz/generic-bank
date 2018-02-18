@@ -44,13 +44,17 @@
 
 <body style="background-image:url(./images/boa.png);background-repeat: no-repeat;background-position: right top;">
 
-<H1>Welcome to Bank of America Customer Portal</H1>
+<H1>Bank of America - Open An Account</H1>
 
 <br/><br/>
 
-<a href="login.html">Login</a>
-<br/>
-<a href="signup.html">Signup</a>
+<form name="myform" action="" method="post" style="margin: 0 auto; width:250px;">
+    First name:<br>
+    <input type="text" name="firstname"><br/><br/>
+    Last name:<br>
+    <input type="text" name="lastname"><br><br>
+    <input style="align:right" type="Button" Onclick="Submitform(this.form)" value="Create Account">
+</form>
 
 </body>
 </html>
