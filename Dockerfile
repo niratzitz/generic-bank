@@ -1,4 +1,4 @@
-FROM ubuntu:alpine:3.7
+FROM alpine:3.7
 
 COPY .dist/bank-of-america /boa/bin/bank-of-america
 COPY html/ /boa/html/
