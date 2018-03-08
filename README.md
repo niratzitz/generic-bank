@@ -1,7 +1,7 @@
 # bank-of-america
 [![CircleCI](https://circleci.com/gh/Tufin/bank-of-america.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/bank-of-america)
 [![Docker](https://img.shields.io/docker/pulls/tufinim/bank-of-america.svg)](https://hub.docker.com/r/tufinim/bank-of-america/)
-[![Tufin](https://tufin.io/ciabank-of-america/retail/badges?image=tufinim/bank-of-america)](https://tufin.io/ui/#/grid/scans/tufinim%2Fbank-of-america)
+[![Tufin](https://tufin.io/cia/bank-of-america/retail/badges?image=tufinim/bank-of-america)](https://tufin.io/ui/#/grid/scans/tufinim%2Fbank-of-america)
 
 Demo Banking App
 
