@@ -1,4 +1,4 @@
-FROM ubuntu:trusty-20161101
+FROM apline:3.7
 
 COPY .dist/bank-of-america /boa/bin/bank-of-america
 COPY html/ /boa/html/
