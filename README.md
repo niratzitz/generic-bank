@@ -9,7 +9,7 @@ Demo Banking App
 
 ![BofA Diagram](https://github.com/Tufin/bank-of-america/blob/master/BofA%20Diagram.png)
 
-#### Deploy on _Docker Swarm_
+#### Deploy on _Kubernetes_
 Bank of America SaaS
 ```
 docker stack deploy --compose-file docker-compose-saas.yml BOA_SaaS
