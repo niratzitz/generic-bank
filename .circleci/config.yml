@@ -49,7 +49,7 @@ jobs:
             /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
           environment:
             GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
-            GCLOUD_PROJECT_ID: dream-198012
+            GCLOUD_PROJECT_ID: tufinlight
             GCLOUD_CLUSTER_NAME: aut-cluster
-            GCLOUD_ZONE: us-east1-b
+            GCLOUD_ZONE: europe-west1-b
             DEPLOYMENT: admin
