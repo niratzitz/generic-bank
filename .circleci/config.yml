@@ -50,6 +50,6 @@ jobs:
           environment:
             GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
             GCLOUD_PROJECT_ID: tufinlight
-            GCLOUD_CLUSTER_NAME: aut-cluster
+            GCLOUD_CLUSTER_NAME: aut2-cluster
             GCLOUD_ZONE: europe-west1-b
             DEPLOYMENT: admin
