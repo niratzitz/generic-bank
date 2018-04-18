@@ -4,10 +4,10 @@
 #openssl s_client -showcerts -connect tufinim.hopto.org:443 < /dev/null | sed -n -e '/BEGIN\ CERTIFICATE/,/END\ CERTIFICATE/ p' > tufinim.pem
 
 # Downloading tufinim image scanning script
-ok=`curl -X GET -I https://orca.tufin.io/cia/bash 2>/dev/null | head -n 1 | cut -d$' ' -f2`
+ok=`curl -X GET -I https://lightorca.tufin.io/cia/bash 2>/dev/null | head -n 1 | cut -d$' ' -f2`
 if [ "$ok" -ne 200 ]
 then
     echo "Failed to get tufin docker analysis script with $ok"
     exit 0  # do not cause build failure
 fi
-bash <(curl -s https://orca.tufin.io/cia/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
+bash <(curl -s https://lightorca.tufin.io/cia/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
