@@ -1,11 +1,11 @@
 version: 2
 jobs:
   build:
-    working_directory: /go/src/github.com/tufin/bank-of-america
+    working_directory: /go/src/github.com/tufin/generic-bank
     docker:
       - image: tufinim/circleci-go
     environment:
-      PROJECT_NAME: bank-of-america
+      PROJECT_NAME: generic-bank
       IMAGE_NAME: tufinim/bank-of-america
     steps:
       - checkout
