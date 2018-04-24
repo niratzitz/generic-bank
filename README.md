@@ -1,5 +1,5 @@
 # generic bank
-[![CircleCI](https://circleci.com/gh/Tufin/bank-of-america.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/bank-of-america)
+[![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
 [![Docker](https://img.shields.io/docker/pulls/tufinim/bank-of-america.svg)](https://hub.docker.com/r/tufinim/bank-of-america/)
 [![Tufin](https://lightorca.tufin.io/cia/bank-of-america/retail/badges?image=tufinim/bank-of-america)](https://lightorca.tufin.io/ui/#/grid/scans;image=tufinim%2Fbank-of-america)
 
