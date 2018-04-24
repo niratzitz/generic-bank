@@ -1,7 +1,7 @@
 # generic bank
 [![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
-[![Docker](https://img.shields.io/docker/pulls/tufinim/bank-of-america.svg)](https://hub.docker.com/r/tufinim/bank-of-america/)
-[![Tufin](https://lightorca.tufin.io/cia/bank-of-america/retail/badges?image=tufinim/bank-of-america)](https://lightorca.tufin.io/ui/#/grid/scans;image=tufinim%2Fbank-of-america)
+[![Docker](https://img.shields.io/docker/pulls/tufinim/generic-bank.svg)](https://hub.docker.com/r/tufinim/generic-bank/)
+[![Tufin](https://lightorca.tufin.io/cia/generic-bank/retail/badges?image=tufinim/generic-bank)](https://lightorca.tufin.io/ui/#/grid/scans;image=tufinim%2Fgeneric-bank)
 
 Demo Banking App
 
@@ -28,6 +28,6 @@ HTTP GET `/boa/admin/accounts`
 
 #### Build
 ```
-$ docker run -it --rm -v "$PWD":/go/src/github.com/tufin/bank-of-america -w /go/src/github.com/tufin/bank-of-america tufinim/go-build bash
+$ docker run -it --rm -v "$PWD":/go/src/github.com/tufin/generic-bank -w /go/src/github.com/tufin/generic-bank tufinim/go-build bash
 $ dep ensure
 ```

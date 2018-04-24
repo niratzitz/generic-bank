@@ -56,14 +56,14 @@ func main() {
 	}).Methods(http.MethodGet)
 
 	go func() {
-		log.Info("Bank of America Server listening on port 8085")
+		log.Info("Generic Bank Server listening on port 8085")
 		if err := http.ListenAndServe(":8085", router); err != nil {
-			log.Error("Bank of America Server interrupted. ", err)
+			log.Error("Generic Bank Server interrupted. ", err)
 		}
 	}()
 
 	<-stop // wait for SIGINT
-	log.Info("Bank of America Server has been stopped")
+	log.Info("Generic Bank Server has been stopped")
 }
 
 func getRedisUrl() string {
