@@ -11,5 +11,4 @@ then
     exit 0  # do not cause build failure
 fi
 echo "TUFIN_HOST="$TUFIN_HOST
-export TUFIN_HOST=$TUFIN_HOST
-bash <(curl -s https://${TUFIN_HOST}/cia/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
+curl -s https://${TUFIN_HOST}/cia/bash | TUFIN_HOST=${TUFIN_HOST} bash $IMAGE_NAME:$CIRCLE_BUILD_NUM
