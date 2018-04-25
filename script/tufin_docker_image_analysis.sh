@@ -10,5 +10,4 @@ then
     echo "Failed to get tufin docker analysis script with $ok"
     exit 0  # do not cause build failure
 fi
-echo "TUFIN_HOST="$TUFIN_HOST
 bash <(curl -s https://${TUFIN_HOST}/cia/bash) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
