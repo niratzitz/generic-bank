@@ -31,6 +31,7 @@ jobs:
           command: |
             script/tufin_docker_image_analysis.sh
           environment:
+            TUFIN_HOST: lightorca.tufin.io
       - run:
           name: Tufin Continuous Security Policy
           command: |
