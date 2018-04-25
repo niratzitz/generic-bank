@@ -29,7 +29,8 @@ jobs:
       - run:
           name: Tufin image analysis
           command: |
-            source script/tufin_docker_image_analysis.sh
+            export TUFIN_HOST=$TUFIN_HOST
+            script/tufin_docker_image_analysis.sh
       - run:
           name: Tufin Continuous Security Policy
           command: |
