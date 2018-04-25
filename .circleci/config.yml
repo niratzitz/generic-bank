@@ -5,14 +5,16 @@ jobs:
     docker:
       - image: tufinim/circleci-go
     environment:
-      PROJECT_NAME: generic-bank
       IMAGE_NAME: tufinim/generic-bank
+      TUFIN_DOMAIN: generic-bank
+      TUFIN_PROJECT: retail
+      TUFIN_HOST: lightorca.tufin.io
     steps:
       - checkout
       - run:
           name: Build
           command: |
-            /scripts/go_build.sh $PROJECT_NAME
+            /scripts/go_build.sh generic-bank
       - setup_remote_docker
       - run:
           name: Build Docker image
@@ -29,16 +31,12 @@ jobs:
           command: |
             script/tufin_docker_image_analysis.sh
           environment:
-            TUFIN_DOMAIN: generic-bank
-            TUFIN_PROJECT: retail
       - run:
           name: Tufin Continuous Security Policy
           command: |
-            bash <(curl -s https://lightorca.tufin.io/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
+            bash <(curl -s https://$TUFIN_HOST/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
           environment:
             TUFIN_ALLOW_ACCESS_SERVICE: admin
-            TUFIN_DOMAIN: generic-bank
-            TUFIN_PROJECT: retail
       - run:
           name: Authenticate with gcloud
           command:
