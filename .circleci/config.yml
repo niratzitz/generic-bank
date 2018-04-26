@@ -5,10 +5,10 @@ jobs:
     docker:
       - image: tufinim/circleci-go
     environment:
-      IMAGE_NAME: "$IMAGE_NAME"
-      TUFIN_DOMAIN: "$TUFIN_DOMAIN"
-      TUFIN_PROJECT: "$TUFIN_PROJECT"
-      TUFIN_HOST: "$TUFIN_HOST"
+      IMAGE_NAME: tufinim/generic-bank
+      TUFIN_DOMAIN: generic-bank
+      TUFIN_PROJECT: retail
+      TUFIN_HOST: lightorca.tufin.io
     steps:
       - checkout
       - run:
