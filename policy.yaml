@@ -1,4 +1,4 @@
 service: admin
 traffic:
   ingress: any
-  internal: [postgres,time]
+  internal: [postgres]
