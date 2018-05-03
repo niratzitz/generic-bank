@@ -1,4 +1,4 @@
-FROM ubuntu:alpine:3.7
+FROM alpine:3.7
 
 COPY .dist/generic-bank /boa/bin/generic-bank
 COPY html/ /boa/html/
