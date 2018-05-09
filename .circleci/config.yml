@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Tufin Continuous Security Policy
           command: |
-            bash <(curl -H "Authorization: Bearer $TUFIN_API_KEY" -s https://$TUFIN_HOST/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
+            bash <(curl -H "Authorization: Bearer $WD_TUFIN_API_KEY" -s https://$TUFIN_HOST/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
           environment:
             TUFIN_ALLOW_ACCESS_SERVICE: admin
       - run:
