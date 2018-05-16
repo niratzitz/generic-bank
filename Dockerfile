@@ -1,5 +1,4 @@
-FROM alpine:3.7
-# FROM ubuntu:trusty-20161101
+FROM ubuntu:trusty-20161101
 # FROM alpine:3.7
 
 
