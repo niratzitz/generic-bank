@@ -5,7 +5,7 @@
 
 Demo Banking App
 
-![BofA Diagram](https://github.com/Tufin/bank-of-america/blob/master/BofA%20Diagram.png)
+![Generic Bank Diagram](https://github.com/Tufin/generic-bank/blob/master/Generic%20Bank%20Diagram.png)
 
 
 #### REST API - Customer
