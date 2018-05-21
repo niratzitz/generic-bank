@@ -1,3 +1,7 @@
+general:
+  branches:
+    ignore:
+      - world-trading-updates
 version: 2
 jobs:
   build:
