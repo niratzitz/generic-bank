@@ -19,7 +19,7 @@ jobs:
       - run:
         name: Export vars
         command: |
-          export TUFIN_API_KEY="$TUFIN_API_KEY"
+          export TUFIN_API_KEY="$WD_TUFIN_API_KEY"
       - run:
           name: Build Docker image
           command: |
