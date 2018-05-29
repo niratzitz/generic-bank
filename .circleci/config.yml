@@ -17,10 +17,6 @@ jobs:
             /scripts/go_build.sh generic-bank
       - setup_remote_docker
       - run:
-        name: Export vars
-        command: |
-          export TUFIN_API_KEY="$WD_TUFIN_API_KEY"
-      - run:
           name: Build Docker image
           command: |
             docker build -t "$IMAGE_NAME" .
@@ -37,9 +33,11 @@ jobs:
       - run:
           name: Tufin Continuous Security Policy
           command: |
+            echo "$TUFIN_API_KEY"
             bash <(curl -H "Authorization: Bearer $TUFIN_API_KEY" -s https://$TUFIN_HOST/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
           environment:
             TUFIN_ALLOW_ACCESS_SERVICE: admin
+            TUFIN_API_KEY: "$WD_TUFIN_API_KEY"
       - run:
           name: Authenticate with gcloud
           command:
