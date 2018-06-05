@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Tufin image analysis
           command: |
-            script/tufin_docker_image_analysis.sh
+            bash <(curl -H "Authorization: Bearer $TUFIN_API_KEY" -s $TUFIN_URL/api/scripts/image-scan) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
       - run:
           name: Tufin Continuous Security Policy
           command: |
