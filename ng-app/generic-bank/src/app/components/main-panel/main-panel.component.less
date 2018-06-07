@@ -5,8 +5,20 @@
   padding-bottom: 1em;
   padding-top: 4em !important;
 
-  .row {
-    margin-bottom: 2em;
+  //.row {
+  //  margin-bottom: 2em;
+  //}
+
+  img.logo {
+    max-width: 400px;
+    min-width: 300px;
+    width: 100%;
+  }
+
+  @media(max-width: 1190px) {
+    img.logo {
+      min-width: 250px;
+    }
   }
 
   .back-btn {
@@ -26,9 +38,4 @@
       font-size: 1.5em;
     }
   }
-
-  //img.logo {
-  //  min-width: 350px;
-  //  max-width: 350px;
-  //}
 }

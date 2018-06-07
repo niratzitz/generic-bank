@@ -16,8 +16,7 @@ const appRoutes: Routes = [
     component: HomeComponent,
     data: {
       title: 'Welcome to Generic Bank’s Customer Portal',
-      showBack: false,
-      height: '50px'
+      showBack: false
     }
   },
   {
@@ -25,8 +24,7 @@ const appRoutes: Routes = [
     component: SignupComponent,
     data: {
       title: 'Open an account',
-      showBack: true,
-      height: '200px'
+      showBack: true
     }
   },
   {
