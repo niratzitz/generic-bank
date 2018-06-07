@@ -1,6 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ActivatedRoute, ChildActivationEnd, NavigationEnd, Router} from "@angular/router";
 import {trigger, animate, style, group, animateChild, query, stagger, transition} from '@angular/animations';
+import {DomSanitizer} from "@angular/platform-browser";
+import {SubjectSubscriber} from "rxjs/internal/Subject";
+import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 
 const ANIMATION_DURATION = '0.3s';
 const ANIMATION_TYPE = 'ease-in-out';
@@ -26,7 +29,7 @@ const opacityTransition = trigger('opacityTransition', [
 const routerTransition = trigger('routerTransition', [
   transition('* <=> *', [
     /* order */
-    /* 1 */ query(':enter, :leave', style({ })
+    /* 1 */ query(':enter, :leave', style({ position: 'absolute'})
       , { optional: true }),
     /* 2 */ group([  // block executes in parallel
       query(':enter', [
@@ -49,22 +52,40 @@ const routerTransition = trigger('routerTransition', [
   animations: [ routerTransition, opacityTransition ]
 })
 export class AppComponent implements OnInit{
+  private height$ = new BehaviorSubject(0);
+  public heightObs = this.height$.asObservable();
+  public height = 0;
+
+  @ViewChild('main') innerView: ElementRef;
+
   title = 'app';
   showBack = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, public safe: DomSanitizer, private renderer: Renderer2) {
   }
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
-      console.log(event);
+      // console.log(event);
       if(event instanceof ChildActivationEnd) {
         // if(event.snapshot.firstChild['data']['title']) {
         const data = event.snapshot.firstChild['data'];
           this.title = data['title'];
           this.showBack = data['showBack'];
+          // this.height = data['height'];
         // }
       }
     });
+
+    this.heightObs.subscribe((height) => {
+      this.height = height;
+      this.innerView.nativeElement.height = height;
+      this.renderer.setStyle(this.innerView.nativeElement, 'height', height + 'px');
+      console.log(height);
+    });
+  }
+
+  applyHeight(height) {
+    this.height$.next(height);
   }
 }

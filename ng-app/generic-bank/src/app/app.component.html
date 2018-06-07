@@ -4,7 +4,8 @@
     <div class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6">
       <app-main-panel [title]="title" [showBack]="showBack">
         <main [@routerTransition]="o.isActivated ? o.activatedRoute : ''"
-              [@opacityTransition]="o.isActivated ? o.activatedRoute : ''">
+              [@opacityTransition]="o.isActivated ? o.activatedRoute : ''"
+              (exposeHeight)="applyHeight($event)" #main>
           <router-outlet #o="outlet"></router-outlet>
         </main>
       </app-main-panel>

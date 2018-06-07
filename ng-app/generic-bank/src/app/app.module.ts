@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { ExposeHeightDirective } from './directives/expose-height.directive';
 
 const appRoutes: Routes = [
   {
@@ -15,7 +16,8 @@ const appRoutes: Routes = [
     component: HomeComponent,
     data: {
       title: 'Welcome to Generic Bank’s Customer Portal',
-      showBack: false
+      showBack: false,
+      height: '50px'
     }
   },
   {
@@ -23,6 +25,15 @@ const appRoutes: Routes = [
     component: SignupComponent,
     data: {
       title: 'Open an account',
+      showBack: true,
+      height: '200px'
+    }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: {
+      title: 'Login to your account',
       showBack: true
     }
   },
@@ -47,7 +58,8 @@ const appRoutes: Routes = [
     MainPanelComponent,
     LoginComponent,
     SignupComponent,
-    HomeComponent
+    HomeComponent,
+    ExposeHeightDirective
   ],
   imports: [
     BrowserModule,
