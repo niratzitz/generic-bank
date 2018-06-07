@@ -1,13 +1,33 @@
 .jumbotron {
   margin-top: 5em;
   overflow: hidden;
+  position: relative;
+  padding-bottom: 1em;
 
   .row {
     margin-bottom: 2em;
   }
 
-  img.logo {
-    min-width: 350px;
-    max-width: 350px;
+  .back-btn {
+    top: 1em;
+    left: 2em;
+    position: absolute;
+
+    i {
+      content: url("../../../assets/arrow_left.svg");
+      width: 2em !important;
+      height: 2em !important;
+      padding: 0 !important;
+    }
+
+    span {
+      padding: 0;
+      font-size: 1.5em;
+    }
   }
+
+  //img.logo {
+  //  min-width: 350px;
+  //  max-width: 350px;
+  //}
 }

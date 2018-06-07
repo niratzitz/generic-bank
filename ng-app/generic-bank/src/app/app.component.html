@@ -1,9 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container-fluid">
   <div class="row align-items-center justify-content-center">
-    <div class="col-sm-6">
-      <app-main-panel [title]="title">
-        <router-outlet></router-outlet>
+    <div class="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6">
+      <app-main-panel [title]="title" [showBack]="showBack">
+        <main [@routerTransition]="o.isActivated ? o.activatedRoute : ''"
+              [@opacityTransition]="o.isActivated ? o.activatedRoute : ''">
+          <router-outlet #o="outlet"></router-outlet>
+        </main>
       </app-main-panel>
     </div>
   </div>

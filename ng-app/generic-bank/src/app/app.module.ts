@@ -5,14 +5,25 @@ import { AppComponent } from './app.component';
 import {RouterModule, Routes} from "@angular/router";
 import { MainPanelComponent } from './components/main-panel/main-panel.component';
 import { LoginComponent } from './components/login/login.component';
-
+import { SignupComponent } from './components/signup/signup.component';
+import { HomeComponent } from './components/home/home.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const appRoutes: Routes = [
   {
-    path: 'login',
-    component: LoginComponent,
+    path: 'home',
+    component: HomeComponent,
     data: {
-      title: 'Welcome to Generic Bank’s Customer Portal'
+      title: 'Welcome to Generic Bank’s Customer Portal',
+      showBack: false
+    }
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    data: {
+      title: 'Open an account',
+      showBack: true
     }
   },
   // { path: 'hero/:id',      component: HeroDetailComponent },
@@ -22,11 +33,11 @@ const appRoutes: Routes = [
   //   data: { title: 'Heroes List' }
   // },
   { path: '',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   { path: '**',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full' }
 ];
 
@@ -34,10 +45,13 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     MainPanelComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],
