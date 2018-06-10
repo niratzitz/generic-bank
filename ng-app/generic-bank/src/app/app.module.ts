@@ -9,6 +9,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ExposeHeightDirective } from './directives/expose-height.directive';
+import { AdminComponent } from './components/admin/admin.component';
 
 const appRoutes: Routes = [
   {
@@ -30,6 +31,14 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    data: {
+      title: 'Login to your account',
+      showBack: true
+    }
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
     data: {
       title: 'Login to your account',
       showBack: true
@@ -57,7 +66,8 @@ const appRoutes: Routes = [
     LoginComponent,
     SignupComponent,
     HomeComponent,
-    ExposeHeightDirective
+    ExposeHeightDirective,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

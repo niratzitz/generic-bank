@@ -10,21 +10,22 @@
   //}
 
   img.logo {
-    max-width: 400px;
-    min-width: 300px;
+    max-width: 300px;
+    //min-width: 300px;
     width: 100%;
   }
 
-  @media(max-width: 1190px) {
-    img.logo {
-      min-width: 250px;
-    }
-  }
+  //@media(max-width: 1190px) {
+  //  img.logo {
+  //    min-width: 250px;
+  //  }
+  //}
 
   .back-btn {
     top: 1em;
     left: 2em;
     position: absolute;
+    cursor: pointer;
 
     i {
       content: url("../../../assets/arrow_left.svg");
@@ -37,5 +38,24 @@
       padding: 0;
       font-size: 1.5em;
     }
+  }
+}
+
+.time {
+  h1 {
+    font-weight: 600 !important;
+    margin: 0;
+    padding-top: 0.5em;
+    small {
+      font-size: 40%;
+      vertical-align: text-top;
+      padding-top: -5px;
+      line-height: 2em;
+      font-weight: 100;
+    }
+  }
+
+  p {
+    font-weight: 400 !important;
   }
 }

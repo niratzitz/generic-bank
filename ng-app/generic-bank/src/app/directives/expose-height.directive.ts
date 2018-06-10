@@ -1,9 +1,19 @@
-import {AfterViewChecked, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Output} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewChecked,
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Output
+} from '@angular/core';
 
 @Directive({
   selector: '[exposeHeight]'
 })
-export class ExposeHeightDirective implements AfterViewChecked {
+export class ExposeHeightDirective implements AfterContentChecked {
   @HostListener('window:resize', ['$event'])
   private onResize() {
     if(this.elem.nativeElement.children[1] && this.elem.nativeElement.children[1].children[0]) {
@@ -18,7 +28,7 @@ export class ExposeHeightDirective implements AfterViewChecked {
 
   }
 
-  ngAfterViewChecked() {
+  ngAfterContentChecked() {
     this.onResize();
   }
 }

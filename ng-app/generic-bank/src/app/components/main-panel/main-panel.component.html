@@ -3,18 +3,58 @@
         (click)="goBack()"
         *ngIf="showBack"><i class="col-auto"></i><span class="col-auto">Back</span></div>
   <div class="row justify-content-center">
-    <div class="col-10 col-sm-8 col-md-8 col-lg-12 text-center">
-      <img src="assets/logo.svg" class="logo" />
+    <div class="col-12 col-sm-10 col-md-9 col-lg-8">
+      <div class="row">
+        <div class="col-12 text-center">
+          <img src="assets/logo.svg" class="logo" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h3 class="text-center">{{title}}</h3>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <ng-content></ng-content>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="row justify-content-center">
-    <div class="col-12 col-sm-10 col-md-12 col-lg-8">
-      <h3 class="text-center">{{title}}</h3>
+</div>
+
+<div class="time">
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center">10:53<small>AM</small></h1>
+          <hr />
+          <p class="text-center">New York</p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col-12 col-sm-10 col-md-12 col-lg-10">
-      <ng-content></ng-content>
+
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center">07:13<small>PM</small></h1>
+          <hr />
+          <p class="text-center">London</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="text-center">01:53<small>AM</small></h1>
+          <hr />
+          <p class="text-center">Tokyo</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

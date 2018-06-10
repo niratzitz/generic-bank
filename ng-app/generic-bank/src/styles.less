@@ -33,11 +33,19 @@ router-outlet ~ * {
 }
 
 main {
-  height: 0;
+  //height: 0;
   //min-height: 60px;
   //padding-bottom: 2em;
   position: relative;
   overflow: hidden;
-  transition: height 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+  height: 1px;
 }
 
+.jumbotron,.card {
+  background: rgba(255,255,255,0.9);
+}
+
+.bold {
+  font-weight: 700 !important;
+}

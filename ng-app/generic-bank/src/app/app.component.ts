@@ -80,7 +80,7 @@ export class AppComponent implements OnInit{
     this.heightObs.subscribe((height) => {
       this.height = height;
       this.innerView.nativeElement.height = height;
-      this.renderer.setStyle(this.innerView.nativeElement, 'height', height + 'px');
+      this.renderer.setStyle(this.innerView.nativeElement, 'height', `${height}px`);
       console.log(height);
     });
   }
