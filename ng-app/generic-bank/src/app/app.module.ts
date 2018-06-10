@@ -40,7 +40,7 @@ const appRoutes: Routes = [
     path: 'admin',
     component: AdminComponent,
     data: {
-      title: 'Login to your account',
+      title: '',
       showBack: true
     }
   },

@@ -81,7 +81,7 @@ export class AppComponent implements OnInit{
       this.height = height;
       this.innerView.nativeElement.height = height;
       this.renderer.setStyle(this.innerView.nativeElement, 'height', `${height}px`);
-      console.log(height);
+      // console.log(height);
     });
   }
 
