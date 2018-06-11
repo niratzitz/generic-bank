@@ -1,7 +1,7 @@
 # generic bank
 [![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
 [![Docker](https://img.shields.io/docker/pulls/tufinim/generic-bank.svg)](https://hub.docker.com/r/tufinim/generic-bank/)
-[![Tufin](https://orca.tufin.io/api/generic-bank/world-trading/badges/security-score?image=tufinim/generic-bank&token=dd64b50a-2ac2-478b-a7e8-0fa0a8f14d31)](https://orca.tufin.io/ui/#/grid/scans;image=tufinim%2Fgeneric-bank)
+[![Tufin](https://orca.tufin.io/api/generic-bank/world-trading/badges/security-score?image=tufinim/generic-bank&token=dd64b50a-2ac2-478b-a7e8-0fa0a8f14d31)](https://orca.tufin.io/ui/#/generic-bank/world-trading/grid/scans;image=tufinim%2Fgeneric-bank)
 
 Demo Banking App
 
