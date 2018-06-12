@@ -13,6 +13,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import {ApiService} from "./services/api/api.service";
 import {HttpClientModule} from "@angular/common/http";
 import { AsyncProgressDirective } from './directives/async-progress.directive';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const appRoutes: Routes = [
   {
@@ -79,6 +80,8 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [ApiService],

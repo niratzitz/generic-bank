@@ -1,7 +1,10 @@
 {
-  "/time": {
-    "target": "http://localhost:8010",
+  "/api/*": {
+    "target": "https://192.168.99.100",
     "secure": false,
-    "changeOrigin": true
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
   }
 }

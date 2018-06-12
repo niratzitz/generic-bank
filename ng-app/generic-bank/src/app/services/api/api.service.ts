@@ -8,7 +8,8 @@ import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 @Injectable()
 export class ApiService {
   // private baseURL: string;
-  private readonly TIME_URL = '/time';
+  private readonly TIME_URL = '/api/time';
+  private readonly CREATE_ACCOUNT_URL = '/api/accounts/';
 
   constructor(private http: HttpClient) {
   }
@@ -21,6 +22,12 @@ export class ApiService {
         return item;
       })
     );
+  }
+
+  createAccount(first: string, last: string): Observable<any> {
+    const accountId = `${first}:${last}:${this.getRandomInt(10000,99999)}`;
+
+    return this.httpRequest<string>(`${this.CREATE_ACCOUNT_URL}${accountId}`, 'POST', {responseType: 'text'});
   }
 
   getTime(...zones): Observable<any> {
@@ -58,6 +65,12 @@ export class ApiService {
         throw new Error(err)
       })
     );
+  }
+
+  private getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 }
 

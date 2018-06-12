@@ -1,14 +1,26 @@
-<form novalidate>
+<form (ngSubmit)="createAccount(firstName.value, lastName.value, $event)" #form="ngForm" novalidate *ngIf="!complete">
   <div class="form-group row justify-content-center">
-    <label for="username" class="col-form-label"></label>
     <div class="col-12 col-sm-10 col-lg-8">
-      <input type="text" class="form-control" id="username" placeholder="Username" required>
+      <input type="text"
+             class="form-control"
+             name="firstName"
+             placeholder="First Name"
+             [(ngModel)]="model.first"
+             #firstName="ngModel"
+             [ngClass]="{'is-invalid': firstName.dirty && firstName.invalid}"
+      required>
     </div>
   </div>
   <div class="form-group row justify-content-center">
-    <label for="password" class="col-form-label"></label>
     <div class="col-12 col-sm-10 col-lg-8">
-      <input type="password" class="form-control" id="password" placeholder="Password" required>
+      <input type="text"
+             class="form-control"
+             name="lastName"
+             placeholder="Last Name"
+             [(ngModel)]="model.last"
+             #lastName="ngModel"
+             [ngClass]="{'is-invalid': lastName.dirty && lastName.invalid}"
+      required>
     </div>
   </div>
 
@@ -16,9 +28,23 @@
     <div class="col-12 col-sm-10 col-lg-8">
       <div class="row justify-content-xs-center justify-content-sm-end">
         <div class="col-xs-8 col-sm-auto">
-          <button type="submit" class="form-input btn btn-success btn-block">Create Account</button>
+          <button type="submit" class="form-input btn btn-success btn-block" [disabled]="!form.valid">Create Account</button>
         </div>
       </div>
     </div>
   </div>
 </form>
+
+<div class="row" *ngIf="error">
+  <div class="col-12">
+    <div class="card bg-danger">
+      <div class="card-body text-light text-center">
+        <h2>
+          <i class="fa fa-exclamation"></i>
+          <span>There was an error creating a new account!</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+<span [asyncProgress]="respond$" (data)="data = $event" (error)="error = $event" (complete)="complete = $event"></span>
