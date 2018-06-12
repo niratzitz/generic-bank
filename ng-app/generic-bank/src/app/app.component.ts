@@ -60,20 +60,22 @@ export class AppComponent implements OnInit{
 
   title = 'app';
   showBack = false;
+  showTime = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, public safe: DomSanitizer, private renderer: Renderer2) {
+  constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
+              public safe: DomSanitizer,
+              private renderer: Renderer2) {
   }
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
       // console.log(event);
       if(event instanceof ChildActivationEnd) {
-        // if(event.snapshot.firstChild['data']['title']) {
         const data = event.snapshot.firstChild['data'];
-          this.title = data['title'];
-          this.showBack = data['showBack'];
-          // this.height = data['height'];
-        // }
+        this.title = data['title'];
+        this.showBack = data['showBack'];
+        this.showTime = data['showTime'] || false;
       }
     });
 

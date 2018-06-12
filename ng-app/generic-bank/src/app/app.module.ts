@@ -10,6 +10,9 @@ import { HomeComponent } from './components/home/home.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ExposeHeightDirective } from './directives/expose-height.directive';
 import { AdminComponent } from './components/admin/admin.component';
+import {ApiService} from "./services/api/api.service";
+import {HttpClientModule} from "@angular/common/http";
+import { AsyncProgressDirective } from './directives/async-progress.directive';
 
 const appRoutes: Routes = [
   {
@@ -17,7 +20,8 @@ const appRoutes: Routes = [
     component: HomeComponent,
     data: {
       title: 'Welcome to Generic Bank’s Customer Portal',
-      showBack: false
+      showBack: false,
+      showTime: true
     }
   },
   {
@@ -41,7 +45,8 @@ const appRoutes: Routes = [
     component: AdminComponent,
     data: {
       title: '',
-      showBack: true
+      showBack: true,
+      showTime: true
     }
   },
   // { path: 'hero/:id',      component: HeroDetailComponent },
@@ -67,14 +72,16 @@ const appRoutes: Routes = [
     SignupComponent,
     HomeComponent,
     ExposeHeightDirective,
-    AdminComponent
+    AdminComponent,
+    AsyncProgressDirective
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
