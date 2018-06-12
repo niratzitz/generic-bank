@@ -34,9 +34,11 @@ jobs:
           name: Tufin image analysis
           command: |
             bash <(curl -H "Authorization: Bearer $TUFIN_API_KEY" -s $TUFIN_URL/api/scripts/image-scan) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
+            echo "$TUFIN_SECURITY_SCORE" >> env_file
       - run:
           name: Tufin Continuous Security Policy
           command: |
+            source env_file
             bash <(curl -H "Authorization: Bearer $TUFIN_API_KEY" -s $TUFIN_URL/lighthouse/$TUFIN_DOMAIN/$TUFIN_PROJECT/bash) policy.yaml
           environment:
             TUFIN_ALLOW_ACCESS_SERVICE: admin
