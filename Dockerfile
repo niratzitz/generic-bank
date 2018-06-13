@@ -3,7 +3,7 @@ FROM alpine:3.7
 
 
 COPY .dist/generic-bank /boa/bin/generic-bank
-COPY ng-app/generic-bank/dist/ /boa/html/
+COPY ng-app/generic-bank/dist/generic-bank/ /boa/html/
 
 EXPOSE 8085
 
