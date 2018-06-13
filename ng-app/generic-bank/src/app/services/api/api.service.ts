@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import {HttpClient,} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {map, take, catchError} from 'rxjs/operators';
-import { interval, of} from 'rxjs';
+import { interval } from 'rxjs';
 import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class ApiService {
   // private baseURL: string;
-  private readonly TIME_URL = '/api/time';
-  private readonly CREATE_ACCOUNT_URL = '/api/accounts/';
-  private readonly ACCOUNTS_LIST_URL = '/api/boa/admin/accounts';
+  private readonly PREFIX = environment.production ? '' : '/api';
+  private readonly TIME_URL = '/time';
+  private readonly CREATE_ACCOUNT_URL = '/accounts/';
+  private readonly ACCOUNTS_LIST_URL = '/boa/admin/accounts';
 
   constructor(private http: HttpClient) {
   }
@@ -65,8 +67,8 @@ export class ApiService {
   }
 
   private httpRequest<T>(url: string, method: string, options: any = {}): Observable<any> {
-    return this.http.request<T>(method, url, options).pipe(
-      catchError((err) => {
+    return this.http.request<T>(method, this.PREFIX + url, options).pipe(
+      catchError(err => {
         // console.log('ERROR HANDLER');
         throw new Error(err)
       })

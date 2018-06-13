@@ -51,7 +51,7 @@ export class MainPanelComponent {
     if(isNullOrUndefined(data)) {
       return;
     }
-    
+
     this.times = data;
     this.timesLoading = false;
     this.timesError = false;

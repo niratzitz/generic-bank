@@ -7,7 +7,12 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public elem: ElementRef) { }
+  public model = {
+    first: '',
+    last: ''
+  };
+
+  constructor() { }
 
   ngOnInit() {
   }
