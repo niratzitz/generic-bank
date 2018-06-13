@@ -40,16 +40,19 @@ func main() {
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/time", getTime).Methods(http.MethodGet)
 
-	if mode == "admin" {
-		log.Info("going into admin mode")
-		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
-	} else if mode == "maintenance" {
-		log.Info("going into maintenance mode")
-		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/maintenance/"))))
-	} else if mode == "customer" {
-		log.Info("going into customer mode")
-		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
-	}
+	//if mode == "admin" {
+	//	log.Info("going into admin mode")
+	//	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
+	//} else if mode == "maintenance" {
+	//	log.Info("going into maintenance mode")
+	//	router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/maintenance/"))))
+	//} else if mode == "customer" {
+	//	log.Info("going into customer mode")
+	//	router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
+	//}
+
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("/boa/html/")))
+
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
