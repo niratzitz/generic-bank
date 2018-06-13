@@ -35,16 +35,19 @@
   </div>
 </form>
 
-<div class="row" *ngIf="error">
-  <div class="col-12">
-    <div class="card bg-danger">
-      <div class="card-body text-light text-center">
-        <h2>
-          <i class="fa fa-exclamation"></i>
-          <span>There was an error creating a new account!</span>
-        </h2>
-      </div>
-    </div>
-  </div>
-</div>
+<progress-card text="There was an error creating a new account!"
+               icon="exclamation"
+               bgColor="danger" *ngIf="!!error"></progress-card>
+<!--<div class="row" >-->
+  <!--<div class="col-12">-->
+    <!--<div class="card bg-danger">-->
+      <!--<div class="card-body text-light text-center">-->
+        <!--<h2>-->
+          <!--<i class="fa fa-exclamation"></i>-->
+          <!--<span></span>-->
+        <!--</h2>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 <span [asyncProgress]="respond$" (data)="data = $event" (error)="error = $event" (complete)="complete = $event"></span>

@@ -28,9 +28,9 @@
 <div class="time" *ngIf="showTime">
   <span [asyncProgress]="times$" (complete)="timesLoading = !$event" (error)="timesError = $event" (data)="times = $event"></span>
 
-  <div class="row" *ngIf="times && !timesError; else notReady;">
+  <div class="row" *ngIf="times && !timesError; else notReady;" @expandTransition>
     <div class="col-12 col-md-4" *ngFor="let time of times;">
-      <div class="card">
+      <div class="card" *ngIf="!!time">
         <div class="card-body">
           <h1 class="text-center">{{time.date.split(' ')[0]}}<small>{{time.date.split(' ')[1]}}</small></h1>
           <hr />
@@ -41,17 +41,8 @@
   </div>
 
   <ng-template #notReady>
-    <div class="row">
-      <div class="col-12">
-        <div class="card" [ngClass]="{'bg-danger': timesError, 'bg-success': timesLoading}">
-          <div class="card-body text-light text-center">
-            <h2>
-              <i class="fa" [ngClass]="{'fa-exclamation': timesError, 'fa-refresh fa-spin': timesLoading}"></i>
-              <span>{{ timesError ? 'Error while f' : 'F' }}etching time information...</span>
-            </h2>
-          </div>
-        </div>
-      </div>
-    </div>
+    <progress-card text="{{ timesError ? 'Error while f' : 'F' }}etching time information..."
+                   [icon]="timesError ? 'exclamation' : 'refresh fa-spin'"
+                   [bgColor]="timesError ? 'danger' : 'success'"></progress-card>
   </ng-template>
 </div>

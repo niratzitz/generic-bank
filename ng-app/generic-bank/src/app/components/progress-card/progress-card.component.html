@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card bg-{{bgColor}}">
+      <div class="card-body text-center text-{{textColor}}">
+        <h2>
+          <i class="fa fa-{{icon}}"
+             *ngIf="showIcon && !!icon"></i>
+          <span>{{ text }}</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>

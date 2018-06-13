@@ -2,11 +2,13 @@ import {AfterContentChecked, AfterContentInit, Component, Input, OnInit} from '@
 import { Location } from '@angular/common';
 import {ApiService, timeResponse} from "../../services/api/api.service";
 import {Observable} from "rxjs/internal/Observable";
+import animations from "../../animations/animations";
 
 @Component({
   selector: 'app-main-panel',
   templateUrl: './main-panel.component.html',
-  styleUrls: ['./main-panel.component.less']
+  styleUrls: ['./main-panel.component.less'],
+  animations: [animations.opacityTransition, animations.expandTransition]
 })
 export class MainPanelComponent {
   private _showTime: boolean = false;

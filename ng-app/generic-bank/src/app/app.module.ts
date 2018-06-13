@@ -14,6 +14,7 @@ import {ApiService} from "./services/api/api.service";
 import {HttpClientModule} from "@angular/common/http";
 import { AsyncProgressDirective } from './directives/async-progress.directive';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { ProgressCardComponent } from './components/progress-card/progress-card.component';
 
 const appRoutes: Routes = [
   {
@@ -74,7 +75,8 @@ const appRoutes: Routes = [
     HomeComponent,
     ExposeHeightDirective,
     AdminComponent,
-    AsyncProgressDirective
+    AsyncProgressDirective,
+    ProgressCardComponent
   ],
   imports: [
     BrowserModule,
