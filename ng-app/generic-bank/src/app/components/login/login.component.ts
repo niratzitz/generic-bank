@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -21,7 +21,9 @@ export class LoginComponent implements OnInit {
   loginAccount(first, last, $event) {
     $event.preventDefault();
 
-    if(first === 'admin' && last === 'admin') {
+    console.log(this.model, first, last);
+
+    if(this.model.first === 'admin' && this.model.last === 'admin') {
       this.router.navigate(['/admin']);
     }
   }
