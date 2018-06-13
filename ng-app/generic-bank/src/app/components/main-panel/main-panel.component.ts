@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import {ApiService, timeResponse} from "../../services/api/api.service";
 import {Observable} from "rxjs/internal/Observable";
 import animations from "../../animations/animations";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-main-panel',
@@ -14,7 +15,7 @@ export class MainPanelComponent {
   private _showTime: boolean = false;
 
   public times$: Observable<any>;
-  public times: Array<timeResponse>;
+  public times: Array<timeResponse> = null;
   public timesError: boolean = false;
   public timesLoading: boolean = false;
 
@@ -24,6 +25,8 @@ export class MainPanelComponent {
     this._showTime = value;
 
     if(value) {
+      this.timesError = false;
+      this.timesLoading = false;
       this.times$ = this.api.getTime('Asia/Jerusalem', 'Asia/Tokyo', 'Europe/London');
     }
   };
@@ -36,5 +39,21 @@ export class MainPanelComponent {
 
   goBack() {
     this.location.back();
+  }
+
+  onError(err) {
+    this.timesError = err;
+    this.timesLoading = false;
+    this.times = null;
+  }
+
+  onSuccess(data) {
+    if(isNullOrUndefined(data)) {
+      return;
+    }
+    
+    this.times = data;
+    this.timesLoading = false;
+    this.timesError = false;
   }
 }

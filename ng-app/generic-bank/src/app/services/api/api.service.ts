@@ -10,6 +10,7 @@ export class ApiService {
   // private baseURL: string;
   private readonly TIME_URL = '/api/time';
   private readonly CREATE_ACCOUNT_URL = '/api/accounts/';
+  private readonly ACCOUNTS_LIST_URL = '/api/boa/admin/accounts';
 
   constructor(private http: HttpClient) {
   }
@@ -24,6 +25,10 @@ export class ApiService {
     );
   }
 
+  getAccountsList() {
+    return this.httpRequest<accountListResponse>(this.ACCOUNTS_LIST_URL, 'GET');
+  }
+
   createAccount(first: string, last: string): Observable<any> {
     const accountId = `${first}:${last}:${this.getRandomInt(10000,99999)}`;
 
@@ -34,7 +39,7 @@ export class ApiService {
     let ret = new BehaviorSubject(null);
     let requests = [];
 
-    interval(1000).pipe(
+    let sub$ = interval(1000).pipe(
       take(zones.length),
       map((n) => {
         console.log(zones[n]);
@@ -50,6 +55,7 @@ export class ApiService {
         }
       }, err => {
         ret.error(err);
+        sub$.unsubscribe();
         return ret.complete();
       });
     });
@@ -78,4 +84,8 @@ export interface timeResponse {
   countryName: string,
   formatted: string,
   status: string
+}
+
+export interface accountListResponse {
+  accounts: Array<string>
 }

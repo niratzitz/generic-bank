@@ -23,10 +23,10 @@ export class ExposeHeightDirective implements AfterViewChecked {
 
     if($parent = this.elem.nativeElement.children[1]) {
       for(let child of $parent.children) {
-        console.log(child.clientHeight, child);
+        // console.log(child.clientHeight, child);
         totalHeight += child.clientHeight;
       }
-      console.log('TOTAL: ', totalHeight);
+      // console.log('TOTAL: ', totalHeight);
 
       if(this.lastHeight !== totalHeight) {
         this.lastHeight = totalHeight;

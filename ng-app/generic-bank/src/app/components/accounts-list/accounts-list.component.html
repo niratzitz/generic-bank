@@ -1,0 +1,21 @@
+<span [asyncProgress]="list$" (data)="onSuccess($event)" (error)="error = $event" (complete)="complete = $event"></span>
+<div class="row">
+  <div class="col-12">
+    <table class="table table-hover text-left">
+      <thead>
+      <tr>
+        <th scope="col">Account number</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of list">
+          <th scope="row">{{item.id}}</th>
+          <td>{{item.first}}</td>
+          <td>{{item.last}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import {AfterViewChecked, AfterViewInit, Component, ComponentRef, ElementRef, OnInit, ViewRef} from '@angular/core';
 import {ApiService} from "../../services/api/api.service";
 import {Observable} from "rxjs/internal/Observable";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +20,7 @@ export class SignupComponent {
   public error = null;
   public data = null;
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private router: Router) { }
 
   createAccount(first: string, last: string, $event) {
     $event.preventDefault();
@@ -27,4 +28,11 @@ export class SignupComponent {
     this.respond$ = this.api.createAccount(first, last);
   }
 
+  public onSuccess(data) {
+    const accountRegex = /'(\S+)'/g;
+
+    const id = accountRegex.exec(data)[1];
+
+    this.router.navigate(['/thanks', id]);
+  }
 }

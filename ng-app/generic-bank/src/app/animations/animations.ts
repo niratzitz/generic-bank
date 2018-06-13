@@ -4,10 +4,10 @@ const ANIMATION_DURATION = '0.3s';
 const ANIMATION_SHORT_DURATION = '0.2s';
 const ANIMATION_TYPE = 'ease-in-out';
 
-const opacityTransition = trigger('opacityTransition', [
+const navigationOpacity = trigger('navigationOpacity', [
   transition('* <=> *', [
     /* order */
-    /* 1 */ query(':enter, :leave', style({ opacity: '0'})
+    /* 1 */ query(':enter', style({ opacity: '0'})
       , { optional: true }),
     /* 2 */ group([  // block executes in parallel
       query(':enter', [
@@ -19,6 +19,17 @@ const opacityTransition = trigger('opacityTransition', [
         animate(`${ANIMATION_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '0' }))
       ], { optional: true }),
     ])
+  ])
+]);
+
+const opacityTransition = trigger('opacityTransition', [
+  transition(':enter', [
+    style({ opacity: '0' }),
+    animate(`${ANIMATION_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '1'}))
+  ]),
+  transition(':leave', [
+    style({ opacity: '1', position: 'absolute', width: 'calc(100% - 30px)' }),
+    animate(`${ANIMATION_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '0' }))
   ])
 ]);
 
@@ -52,10 +63,10 @@ const expandTransition = trigger('expandTransition', [
       ]), { optional: true }),
       query(':leave .card', stagger(150, [
         style({ transform: 'translateY(0%)' , opacity: 1}),
-        animate(`${ANIMATION_SHORT_DURATION} ${ANIMATION_TYPE}`, style({ transform: 'translateY(-50%)', opacity: 0 }))
+        animate(`${ANIMATION_SHORT_DURATION} ${ANIMATION_TYPE}`, style({ transform: 'translateY(50%)', opacity: 0 }))
       ]), { optional: true }),
     ])
   ])
 ]);
 
-export default {opacityTransition, routerTransition, expandTransition};
+export default {opacityTransition, routerTransition, expandTransition, navigationOpacity};

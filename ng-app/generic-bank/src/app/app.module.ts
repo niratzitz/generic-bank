@@ -15,6 +15,8 @@ import {HttpClientModule} from "@angular/common/http";
 import { AsyncProgressDirective } from './directives/async-progress.directive';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ProgressCardComponent } from './components/progress-card/progress-card.component';
+import { AccountCreatedComponent } from './components/account-created/account-created.component';
+import { AccountsListComponent } from './components/accounts-list/accounts-list.component';
 
 const appRoutes: Routes = [
   {
@@ -23,7 +25,7 @@ const appRoutes: Routes = [
     data: {
       title: 'Welcome to Generic Bank’s Customer Portal',
       showBack: false,
-      showTime: true
+      // showTime: true
     }
   },
   {
@@ -32,6 +34,14 @@ const appRoutes: Routes = [
     data: {
       title: 'Open an account',
       showBack: true
+    }
+  },
+  {
+    path: 'thanks/:id',
+    component: AccountCreatedComponent,
+    data: {
+      title: 'Thank you for choosing us as your bank',
+      showBack: false
     }
   },
   {
@@ -51,12 +61,15 @@ const appRoutes: Routes = [
       showTime: true
     }
   },
-  // { path: 'hero/:id',      component: HeroDetailComponent },
-  // {
-  //   path: 'heroes',
-  //   component: HeroListComponent,
-  //   data: { title: 'Heroes List' }
-  // },
+  {
+    path: 'admin/accounts',
+    component: AccountsListComponent,
+    data: {
+      title: 'New customer accounts',
+      showBack: true,
+      // showTime: true
+    }
+  },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -76,7 +89,9 @@ const appRoutes: Routes = [
     ExposeHeightDirective,
     AdminComponent,
     AsyncProgressDirective,
-    ProgressCardComponent
+    ProgressCardComponent,
+    AccountCreatedComponent,
+    AccountsListComponent
   ],
   imports: [
     BrowserModule,
