@@ -15,6 +15,7 @@ jobs:
           name: Build generic-app angular app
           command: |
             cd ng-app/generic-bank
+            npm install
             ng build --aot --prod
 
       - persist_to_workspace:
