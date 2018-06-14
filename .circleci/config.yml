@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: /go/src/github.com/tufin/generic-bank
     docker:
-      - image: tufinim/circleci-go:master
+      - image: tufinim/circleci-go:87
     environment:
       IMAGE_NAME: tufinim/generic-bank
       TUFIN_DOMAIN: generic-bank
