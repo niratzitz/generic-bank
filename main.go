@@ -5,50 +5,52 @@ import (
 	"github.com/gorilla/mux"
 
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
+	"time"
 )
 
-var redis string
+var (
+	redis      string
+	balanceURL string
+)
 
-//var pgClient common.PostgresClient
+type Balance struct {
+	Label  string `json:"label" form:"label" binding:"required"`
+	Amount int    `json:"amount" form:"amount" binding:"required"`
+}
 
 func main() {
 
 	stop := make(chan os.Signal)
 	signal.Notify(stop, os.Interrupt)
 
-	mode := os.Getenv("MODE")
-	if mode == "admin" {
-		log.Info("Admin mode")
-		//pgClient = common.NewPostgresClient()
-		//defer pgClient.Close()
-	} else if mode == "maintenance" {
-		log.Info("Maintenance mode")
-	} else {
-		mode = "customer"
-		log.Info("Customer mode")
-	}
-
 	redis = getRedisUrl()
+	balanceURL = getBalanceURL()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/boa/admin/accounts", getAccounts).Methods(http.MethodGet)
 	router.HandleFunc("/accounts/{account-id}", createAccount).Methods(http.MethodPost)
 	router.HandleFunc("/time", getTime).Methods(http.MethodGet)
 
+	mode := os.Getenv("MODE")
 	if mode == "admin" {
-		log.Info("going into admin mode")
-		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/admin/"))))
-	} else if mode == "maintenance" {
-		log.Info("going into maintenance mode")
-		router.PathPrefix("/boa/admin").Handler(http.StripPrefix("/boa/admin", http.FileServer(http.Dir("/boa/html/maintenance/"))))
-	} else if mode == "customer" {
-		log.Info("going into customer mode")
-		router.PathPrefix("/boa/customer").Handler(http.StripPrefix("/boa/customer", http.FileServer(http.Dir("/boa/html/customer/"))))
+		log.Info("Admin mode")
+		router.PathPrefix("/admin").Handler(angularRouteHandler("/admin", getAngularAssets("/boa/html/")))
+		router.Handle("/admin/", angularRouteHandler("/admin", http.HandlerFunc(getAngularApp)))
+	} else if mode == "balance" {
+		log.Info("Balance Mode")
+		router.HandleFunc("/balance", getRandomBalance).Methods(http.MethodGet)
+	} else {
+		log.Info("Customer Mode")
+		router.HandleFunc("/balance", getBalanceAsCustomer).Methods(http.MethodGet)
+		router.PathPrefix("/customer").Handler(angularRouteHandler("/customer", getAngularAssets("/boa/html/")))
+		router.Handle("/customer/", angularRouteHandler("/customer", http.HandlerFunc(getAngularApp)))
 	}
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -56,14 +58,30 @@ func main() {
 	}).Methods(http.MethodGet)
 
 	go func() {
-		log.Info("Generic Bank Server listening on port 8085")
-		if err := http.ListenAndServe(":8085", router); err != nil {
+		const port = ":8085"
+		log.Infof("Generic Bank Server listening on port %s", port)
+		if err := http.ListenAndServe(port, router); err != nil {
 			log.Error("Generic Bank Server interrupted. ", err)
 		}
 	}()
 
 	<-stop // wait for SIGINT
 	log.Info("Generic Bank Server has been stopped")
+}
+
+func getAngularAssets(path string) http.Handler {
+
+	return http.FileServer(http.Dir(path))
+}
+
+func getAngularApp(w http.ResponseWriter, r *http.Request) {
+
+	http.ServeFile(w, r, "/boa/html/index.html")
+}
+
+func angularRouteHandler(path string, h http.Handler) http.Handler {
+
+	return http.StripPrefix(path, h)
 }
 
 func getRedisUrl() string {
@@ -78,6 +96,7 @@ func getRedisUrl() string {
 }
 
 func getTime(w http.ResponseWriter, r *http.Request) {
+
 	timeService := getTimeServiceUrl(r.FormValue("zone"))
 
 	log.Infof("getting time from (%s)...", timeService)
@@ -172,4 +191,61 @@ func createAccount(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, msg)
 	}
+}
+
+func getBalanceAsCustomer(w http.ResponseWriter, _ *http.Request) {
+
+	if response, err := http.Get(balanceURL); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Errorf("failed to to get balance from service with '%v'", err)
+	} else {
+		defer response.Body.Close()
+		if body, err := ioutil.ReadAll(response.Body); err != nil {
+			log.Errorf("failed to read balance body from balance service with '%v'", err)
+			w.WriteHeader(http.StatusInternalServerError)
+		} else {
+			log.Infof("Customer balance: '%s'", string(body))
+			w.Write(body)
+		}
+	}
+}
+
+func getBalanceURL() string {
+
+	ret := os.Getenv("BALANCE_URL")
+	if ret == "" {
+		ret = "http://localhost:8085"
+	}
+	ret += "/balance"
+	log.Infof("Balance: '%s'", ret)
+
+	return ret
+}
+
+func getRandomBalance(w http.ResponseWriter, _ *http.Request) {
+
+	ret := []Balance{
+		{
+			Label:  "Savings",
+			Amount: random(0, 150000),
+		},
+		{
+			Label:  "Investments",
+			Amount: random(0, 100000),
+		},
+		{
+			Label:  "Balance",
+			Amount: random(-15000, 150000),
+		},
+	}
+	log.Infof("Random balance: '%+v'", ret)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(ret)
+}
+
+func random(min, max int) int {
+
+	rand.Seed(time.Now().Unix())
+
+	return rand.Intn(max-min) + min
 }
