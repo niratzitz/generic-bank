@@ -8,7 +8,7 @@ import animations from "./animations/animations";
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
-  animations: [ animations.routerTransition, animations.opacityTransition, animations.navigationOpacity]
+  animations: [ animations.routerTransition, animations.navigationOpacity]
 })
 export class AppComponent implements OnInit{
   private height$ = new BehaviorSubject(0);
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit{
   title = 'app';
   showBack = false;
   showTime = false;
+  backString = 'Back';
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -29,12 +30,12 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
-      // console.log(event);
       if(event instanceof ChildActivationEnd) {
         const data = event.snapshot.firstChild['data'];
         this.title = data['title'];
         this.showBack = data['showBack'];
         this.showTime = data['showTime'] || false;
+        this.backString = data['backString'] || 'Back';
       }
     });
 
@@ -42,7 +43,6 @@ export class AppComponent implements OnInit{
       this.height = height;
       this.innerView.nativeElement.height = height;
       this.renderer.setStyle(this.innerView.nativeElement, 'height', `${height}px`);
-      // console.log(height);
     });
   }
 

@@ -13,6 +13,7 @@ export class ApiService {
   private readonly TIME_URL = '/time';
   private readonly CREATE_ACCOUNT_URL = '/accounts/';
   private readonly ACCOUNTS_LIST_URL = '/boa/admin/accounts';
+  private readonly BALANCE_URL = '/balance';
 
   constructor(private http: HttpClient) {
   }
@@ -21,6 +22,7 @@ export class ApiService {
   getUTCTime(zone: string) {
     return this.httpRequest<timeResponse>(`${this.TIME_URL}?zone=${zone}`, 'GET').pipe(
       map(item => {
+        item.formatted = item.formatted.replace(/-/g, '/');
         item.date = new Date(item.formatted).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         return item;
       })
@@ -35,6 +37,10 @@ export class ApiService {
     const accountId = `${first}:${last}:${this.getRandomInt(10000,99999)}`;
 
     return this.httpRequest<string>(`${this.CREATE_ACCOUNT_URL}${accountId}`, 'POST', {responseType: 'text'});
+  }
+
+  getAccountBalance() {
+    return this.httpRequest<Array<balanceResponse>>(this.BALANCE_URL, "GET");
   }
 
   getTime(...zones): Observable<any> {
@@ -90,4 +96,9 @@ export interface timeResponse {
 
 export interface accountListResponse {
   accounts: Array<string>
+}
+
+export interface balanceResponse {
+  label: string,
+  amount: number
 }

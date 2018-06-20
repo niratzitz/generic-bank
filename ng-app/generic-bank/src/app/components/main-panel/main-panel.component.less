@@ -5,21 +5,11 @@
   padding-bottom: 1em;
   padding-top: 4em !important;
 
-  //.row {
-  //  margin-bottom: 2em;
-  //}
-
   img.logo {
     max-width: 300px;
     //min-width: 300px;
     width: 100%;
   }
-
-  //@media(max-width: 1190px) {
-  //  img.logo {
-  //    min-width: 250px;
-  //  }
-  //}
 
   .back-btn {
     top: 1em;
@@ -29,9 +19,9 @@
 
     i {
       content: url("../../../assets/arrow_left.svg");
-      width: 2em !important;
-      height: 2em !important;
-      padding: 0 !important;
+      width: 1.5em !important;
+      height: 1.5em !important;
+      padding: 0 10px 0 0 !important;
     }
 
     span {
@@ -42,6 +32,22 @@
 }
 
 .time {
+  padding-bottom: 1.5em;
+
+  .row {
+    align-content: stretch;
+    align-items: stretch;
+
+    [class*="col-"] {
+      display: flex;
+    }
+  }
+
+  .card {
+    margin-bottom: 0.5em;
+    width: 100%;
+  }
+
   h1 {
     font-weight: 600 !important;
     margin: 0;
