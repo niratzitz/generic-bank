@@ -4,11 +4,7 @@
         (error)="onError(!!$event)"
         (data)="onSuccess($event)"></span>
 
-  <progress-card [text]="(error ? 'Error while f' : 'F') + 'etching balance information...'"
-                 [icon]="error ? 'exclamation' : 'refresh fa-spin'"
-                 [bgColor]="error ? 'danger' : 'success'" *ngIf="!balance"></progress-card>
-
-  <div class="row">
+  <div class="row" *ngIf="balance && complete">
     <div class="col-12 col-md-4" *ngFor="let info of balance">
       <div class="card">
         <div class="card-body">
@@ -22,4 +18,8 @@
       </div>
     </div>
   </div>
+
+  <progress-card [text]="(error ? 'Error while f' : 'F') + 'etching balance information...'"
+                 [icon]="error ? 'exclamation' : 'refresh fa-spin'"
+                 [bgColor]="error ? 'danger' : 'success'" *ngIf="!balance"></progress-card>
 </div>

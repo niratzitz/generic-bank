@@ -1,6 +1,6 @@
 <span [asyncProgress]="list$" (data)="onSuccess($event)" (error)="error = $event" (complete)="complete = $event"></span>
-<div class="row" *ngIf="!error">
-  <div class="col-12">
+<div class="row justify-content-center" *ngIf="!error && complete">
+  <div class="col-12 col-sm-8 col-md-6">
     <table class="table table-hover text-left">
       <thead>
       <tr>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../services/api/api.service";
 import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 import {Observable} from "rxjs/internal/Observable";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-balance',
@@ -12,7 +13,7 @@ export class BalanceComponent implements OnInit {
   public balance$: Observable<any>;
   public error: boolean = false;
   public complete: boolean = false;
-  public balance: Array<Balance> = null;
+  public balance: Array<Balance> = [];
 
   constructor(private api: ApiService) { }
 
@@ -21,19 +22,24 @@ export class BalanceComponent implements OnInit {
   }
 
   onSuccess(data) {
+    this.error = false;
+    this.complete = true;
+
+    if(isNullOrUndefined(data)) {
+      this.balance = [];
+      return;
+    }
+
     this.balance = data.map(item => {
       item['color'] = this.amountColor(item.amount);
       return item;
     });
-
-    this.error = false;
-    this.complete = true;
   }
 
   onError(err) {
     this.error = true;
     this.complete = true;
-    this.balance = null;
+    this.balance = [];
   }
 
   public amountColor(amount: number): string {
