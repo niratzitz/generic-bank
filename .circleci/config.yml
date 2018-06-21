@@ -2,6 +2,8 @@ general:
   branches:
     ignore:
       - world-trading-updates
+      - world-trading
+      - master
 version: 2
 jobs:
   build-app:
@@ -32,7 +34,11 @@ jobs:
       IMAGE_NAME: tufinim/generic-bank
       TUFIN_DOMAIN: generic-bank
       TUFIN_PROJECT: retail
-      TUFIN_URL: https://orca.tufin.io
+      TUFIN_URL: https://lightorca.tufin.io
+      GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
+      GCLOUD_PROJECT_ID: tufinlight
+      GCLOUD_CLUSTER_NAME: aut-cluster
+      GCLOUD_ZONE: europe-west1-b
     steps:
       - checkout
       - attach_workspace:
@@ -65,17 +71,26 @@ jobs:
       - run:
           name: Authenticate with gcloud
           command:
-            echo $GCLOUD_SERVICE_KEY | /scripts/gcloud_auth.sh
+            echo $GCLOUD_SERVICE_KEY_LIGHT | /scripts/gcloud_auth.sh
       - run:
-          name: Update deployment on google cloud (if tufin.io cluster is up and running)
+          name: Update deployment 'admin' on google cloud (if cluster is up and running)
           command: |
             /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
           environment:
-            GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
-            GCLOUD_PROJECT_ID: dream-198012
-            GCLOUD_CLUSTER_NAME: aut-cluster
-            GCLOUD_ZONE: europe-west1-b
             DEPLOYMENT: admin
+      - run:
+          name: Update deployment 'customer' on google cloud (if cluster is up and running)
+          command: |
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
+          environment:
+            DEPLOYMENT: customer
+      - run:
+          name: Update deployment 'balance' on google cloud (if cluster is up and running)
+          command: |
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
+          environment:
+            DEPLOYMENT: balance
+
 
 workflows:
   version: 2
