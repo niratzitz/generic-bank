@@ -75,19 +75,19 @@ jobs:
       - run:
           name: Update deployment 'admin' on google cloud (if cluster is up and running)
           command: |
-            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT $DEPLOYMENT=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
           environment:
             DEPLOYMENT: admin
       - run:
           name: Update deployment 'customer' on google cloud (if cluster is up and running)
           command: |
-            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT $DEPLOYMENT=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
           environment:
             DEPLOYMENT: customer
       - run:
           name: Update deployment 'balance' on google cloud (if cluster is up and running)
           command: |
-            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT admin=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
+            /scripts/update_deployment.sh $GCLOUD_PROJECT_ID $GCLOUD_CLUSTER_NAME $GCLOUD_ZONE deployment/$DEPLOYMENT $DEPLOYMENT=$IMAGE_NAME:$CIRCLE_BUILD_NUM default
           environment:
             DEPLOYMENT: balance
 
