@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {Location} from '@angular/common';
 
 import { AppComponent } from './app.component';
 import {Router, RouterModule, Routes} from "@angular/router";
@@ -201,7 +202,7 @@ const commonRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([], {useHash: true})
+    RouterModule.forRoot(devRoutes, {useHash: true})
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
@@ -224,11 +225,14 @@ export class AppModule {
     }
 
     router.resetConfig(routes);
+
+    console.log(routes);
   }
 
-  determineMode() {
-    let ret: Mode;
-    const currentPath = this.location.pathname.replace(/\//g, '');
+  determineMode(): Mode {
+    let ret: Mode = Mode.dev;
+    const currentPath = window.location.pathname.replace(/\//g, '');
+    // const currentPath = '';
 
     switch (currentPath) {
       case 'admin':

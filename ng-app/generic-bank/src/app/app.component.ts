@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ActivatedRoute, ChildActivationEnd, Router} from "@angular/router";
-import {DomSanitizer} from "@angular/platform-browser";
 import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 import {routerTransition, navigationOpacity} from "./animations/animations";
 
@@ -24,7 +23,6 @@ export class AppComponent implements OnInit{
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
-              public safe: DomSanitizer,
               private renderer: Renderer2) {
   }
 
