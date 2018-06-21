@@ -41,7 +41,7 @@ func main() {
 	mode := os.Getenv("MODE")
 	if mode == "admin" {
 		log.Info("Admin mode")
-		router.PathPrefix("/admin").Handler(angularRouteHandler("/admin", getAngularAssets("/boa/html/")))
+		router.PathPrefix("/admin/").Handler(angularRouteHandler("/admin", getAngularAssets("/boa/html/")))
 		//router.Handle("/admin/", angularRouteHandler("/admin", http.HandlerFunc(getAngularApp)))
 	} else if mode == "balance" {
 		log.Info("Balance Mode")
@@ -49,7 +49,7 @@ func main() {
 	} else {
 		log.Info("Customer Mode")
 		router.HandleFunc("/balance", getBalanceAsCustomer).Methods(http.MethodGet)
-		router.PathPrefix("/customer").Handler(angularRouteHandler("/customer", getAngularAssets("/boa/html/")))
+		router.PathPrefix("/customer/").Handler(angularRouteHandler("/customer", getAngularAssets("/boa/html/")))
 		//router.Handle("/customer/", angularRouteHandler("/customer", http.HandlerFunc(getAngularApp)))
 	}
 
