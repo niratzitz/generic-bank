@@ -1,10 +1,10 @@
-import {animate, group, query, stagger, state, style, transition, trigger} from "@angular/animations";
+import {animate, group, query, stagger, style, transition, trigger} from "@angular/animations";
 
 const ANIMATION_DURATION = '0.3s';
 const ANIMATION_SHORT_DURATION = '0.2s';
 const ANIMATION_TYPE = 'ease-in-out';
 
-const navigationOpacity = trigger('navigationOpacity', [
+const navigationOpacity = [trigger('navigationOpacity', [
   transition('* <=> *', [
     /* order */
     /* 1 */ query(':enter', style({ opacity: '0'})
@@ -20,7 +20,7 @@ const navigationOpacity = trigger('navigationOpacity', [
       ], { optional: true }),
     ])
   ])
-]);
+])];
 //
 // const opacityTransition = trigger('opacityTransition', [
 //   transition('* <=> *', [
@@ -37,7 +37,7 @@ const navigationOpacity = trigger('navigationOpacity', [
 //   // ])
 // ]);
 
-const routerTransition = trigger('routerTransition', [
+const routerTransition = [trigger('routerTransition', [
   transition('* <=> *', [
     /* order */
     /* 1 */ query(':enter, :leave', style({ position: 'absolute'})
@@ -53,9 +53,9 @@ const routerTransition = trigger('routerTransition', [
       ], { optional: true }),
     ])
   ])
-]);
+])];
 
-const expandTransition = trigger('expandTransition', [
+const expandTransition = [trigger('expandTransition', [
   transition('* <=> *', [
     /* order */
     /* 1 */ query(':enter .card', style({ opacity: 0 })
@@ -71,6 +71,6 @@ const expandTransition = trigger('expandTransition', [
       ]), { optional: true }),
     ])
   ])
-]);
+])];
 
 export default {routerTransition, expandTransition, navigationOpacity};
