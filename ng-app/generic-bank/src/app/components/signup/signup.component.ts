@@ -19,20 +19,20 @@ export class SignupComponent {
   public respond$: Observable<any> = null;
 
   public complete = true;
-  public error = false;
+  public error = null;
   public data = null;
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
     this.thanksLink = route.data['value'].link;
   }
 
-  createAccount(first: string, last: string, $event) {
-    $event.preventDefault();
-
-    first = first.trim().replace(/\s+/g, '-');
-    last = last.trim().replace(/\s+/g, '-');
-
+  public createAccount(first: string, last: string, $event) {
     this.complete = false;
+
+    $event.preventDefault();
+    first = first.trim().replace(/\s+/g, '-');
+
+    last = last.trim().replace(/\s+/g, '-');
     this.respond$ = this.api.createAccount(first, last);
   }
 

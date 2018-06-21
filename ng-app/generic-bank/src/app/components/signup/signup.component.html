@@ -1,5 +1,5 @@
-<span [asyncProgress]="respond$" (data)="onSuccess($event)" (error)="error = !!$event" (complete)="complete = $event"></span>
-<form (ngSubmit)="createAccount(firstName.value, lastName.value, $event)" #form="ngForm" novalidate *ngIf="!respond$">
+<span [asyncProgress]="respond$" (data)="onSuccess($event)" (error)="error = !!$event"></span>
+<form #form="ngForm" novalidate *ngIf="!respond$">
   <div class="form-group row justify-content-center">
     <div class="col-12 col-sm-10 col-lg-6">
       <input type="text"
@@ -29,7 +29,10 @@
     <div class="col-12 col-sm-10 col-lg-6">
       <div class="row justify-content-xs-center justify-content-sm-end">
         <div class="col-xs-8 col-sm-auto">
-          <button type="submit" class="form-input btn btn-success btn-block" [disabled]="!form.valid || !complete">Create Account</button>
+          <button type="submit"
+                  class="form-input btn btn-success btn-block"
+                  (click)="createAccount(firstName.value, lastName.value, $event)"
+                  [disabled]="!form.valid">Create Account</button>
         </div>
       </div>
     </div>
@@ -38,4 +41,4 @@
 
 <progress-card [text]="(error ? 'Error while c' : 'C') + 'reating a new account...'"
                [icon]="error ? 'exclamation' : 'refresh fa-spin'"
-               [bgColor]="error ? 'danger' : 'success'" [visible]="error || !complete"></progress-card>
+               [bgColor]="error ? 'danger' : 'success'" *ngIf="respond$"></progress-card>

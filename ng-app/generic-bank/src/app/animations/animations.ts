@@ -24,11 +24,11 @@ export const navigationOpacity = [trigger('navigationOpacity', [
 
 export const opacityTransition = [trigger('opacityTransition', [
   transition(':enter', [
-    style({ opacity: '0',position: 'absolute', width: 'calc(100% - 30px)' }),
+    style({ opacity: '0' }),
     animate(`${ANIMATION_SHORT_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '1'}))
   ]),
   transition(':leave', [
-    style({ opacity: '1',position: 'absolute', width: 'calc(100% - 30px)' }),
+    style({ opacity: '1',position: 'absolute', width: 'calc(100%)' }),
     animate(`${ANIMATION_SHORT_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '0'}))
   ])
   // ])
