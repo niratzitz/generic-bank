@@ -169,18 +169,6 @@ const commonRoutes: Routes = [
   }
 ];
 
-// let appRoutes: Routes = [];
-
-// if(currentPath === 'admin') { //admin mode
-//   appRoutes = adminRoutes;
-// } else if(currentPath === 'customer') { //customer mode
-//   appRoutes = customerRoutes;
-// } else { //dev
-//   appRoutes = devRoutes;
-// }
-
-// console.log(currentPath);
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -225,14 +213,11 @@ export class AppModule {
     }
 
     router.resetConfig(routes);
-
-    console.log(routes);
   }
 
   determineMode(): Mode {
     let ret: Mode = Mode.dev;
     const currentPath = window.location.pathname.replace(/\//g, '');
-    // const currentPath = '';
 
     switch (currentPath) {
       case 'admin':
@@ -246,8 +231,6 @@ export class AppModule {
       default:
         ret = Mode.dev;
     }
-
-    console.log(currentPath);
 
     return ret;
   }
