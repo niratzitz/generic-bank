@@ -4,7 +4,7 @@ const ANIMATION_DURATION = '0.3s';
 const ANIMATION_SHORT_DURATION = '0.2s';
 const ANIMATION_TYPE = 'ease-in-out';
 
-const navigationOpacity = [trigger('navigationOpacity', [
+export const navigationOpacity = [trigger('navigationOpacity', [
   transition('* <=> *', [
     /* order */
     /* 1 */ query(':enter', style({ opacity: '0'})
@@ -37,7 +37,7 @@ const navigationOpacity = [trigger('navigationOpacity', [
 //   // ])
 // ]);
 
-const routerTransition = [trigger('routerTransition', [
+export const routerTransition = [trigger('routerTransition', [
   transition('* <=> *', [
     /* order */
     /* 1 */ query(':enter, :leave', style({ position: 'absolute'})
@@ -55,7 +55,7 @@ const routerTransition = [trigger('routerTransition', [
   ])
 ])];
 
-const expandTransition = [trigger('expandTransition', [
+export const expandTransition = [trigger('expandTransition', [
   transition('* <=> *', [
     /* order */
     /* 1 */ query(':enter .card', style({ opacity: 0 })
@@ -72,5 +72,3 @@ const expandTransition = [trigger('expandTransition', [
     ])
   ])
 ])];
-
-export default {routerTransition, expandTransition, navigationOpacity};

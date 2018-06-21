@@ -2,13 +2,13 @@ import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core
 import {ActivatedRoute, ChildActivationEnd, Router} from "@angular/router";
 import {DomSanitizer} from "@angular/platform-browser";
 import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
-import animations from "./animations/animations";
+import {routerTransition, navigationOpacity} from "./animations/animations";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
-  animations: [ animations.routerTransition, animations.navigationOpacity]
+  animations: [ routerTransition, navigationOpacity]
 })
 export class AppComponent implements OnInit{
   private height$ = new BehaviorSubject(0);

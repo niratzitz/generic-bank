@@ -1,8 +1,8 @@
-import {AfterContentChecked, AfterContentInit, Component, Input, OnInit} from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Location } from '@angular/common';
 import {ApiService, timeResponse} from "../../services/api/api.service";
 import {Observable} from "rxjs/internal/Observable";
-import animations from "../../animations/animations";
+import {expandTransition} from "../../animations/animations";
 import {isNullOrUndefined} from "util";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   selector: 'app-main-panel',
   templateUrl: './main-panel.component.html',
   styleUrls: ['./main-panel.component.less'],
-  animations: [ animations.expandTransition]
+  animations: [ expandTransition]
 })
 export class MainPanelComponent {
   private _showTime: boolean = false;
