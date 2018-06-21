@@ -21,21 +21,18 @@ export const navigationOpacity = [trigger('navigationOpacity', [
     ])
   ])
 ])];
-//
-// const opacityTransition = trigger('opacityTransition', [
-//   transition('* <=> *', [
-//     // query(':self, :enter', [
-//       query(':self:enter', [
-//         style({ opacity: '0' }),
-//         animate(`${ANIMATION_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '1'}))
-//       ], { optional: true }),
-//       query(':self:leave', [
-//         style({ opacity: '1', position: 'absolute', width: 'calc(100% - 30px)' }),
-//         animate(`${ANIMATION_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '0' }))
-//       ], { optional: true })
-//     ])
-//   // ])
-// ]);
+
+export const opacityTransition = [trigger('opacityTransition', [
+  transition(':enter', [
+    style({ opacity: '0',position: 'absolute', width: 'calc(100% - 30px)' }),
+    animate(`${ANIMATION_SHORT_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '1'}))
+  ]),
+  transition(':leave', [
+    style({ opacity: '1',position: 'absolute', width: 'calc(100% - 30px)' }),
+    animate(`${ANIMATION_SHORT_DURATION} ${ANIMATION_TYPE}`, style({ opacity: '0'}))
+  ])
+  // ])
+])];
 
 export const routerTransition = [trigger('routerTransition', [
   transition('* <=> *', [

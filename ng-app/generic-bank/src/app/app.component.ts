@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostBinding, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ActivatedRoute, ChildActivationEnd, Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 import {routerTransition, navigationOpacity} from "./animations/animations";
@@ -12,7 +12,6 @@ import {routerTransition, navigationOpacity} from "./animations/animations";
 export class AppComponent implements OnInit{
   private height$ = new BehaviorSubject(0);
   public heightObs = this.height$.asObservable();
-  public height = 0;
 
   @ViewChild('main') innerView: ElementRef;
 
@@ -38,7 +37,6 @@ export class AppComponent implements OnInit{
     });
 
     this.heightObs.subscribe((height) => {
-      this.height = height;
       this.innerView.nativeElement.height = height;
       this.renderer.setStyle(this.innerView.nativeElement, 'height', `${height}px`);
     });

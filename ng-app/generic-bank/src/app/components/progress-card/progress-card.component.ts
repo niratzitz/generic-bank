@@ -1,9 +1,11 @@
 import {Component, Input} from '@angular/core';
+import {opacityTransition} from "../../animations/animations";
 
 @Component({
   selector: 'progress-card',
   templateUrl: './progress-card.component.html',
-  styleUrls: ['./progress-card.component.less']
+  styleUrls: ['./progress-card.component.less'],
+  animations: [opacityTransition]
 })
 export class ProgressCardComponent {
   @Input()
@@ -20,6 +22,8 @@ export class ProgressCardComponent {
 
   @Input()
   public icon: string = '';
+
+  @Input() visible: boolean = true;
 
   // public colors = Color;
 

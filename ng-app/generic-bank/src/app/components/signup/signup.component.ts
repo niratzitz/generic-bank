@@ -16,10 +16,10 @@ export class SignupComponent {
     last: ''
   };
 
-  public respond$: Observable<any>;
+  public respond$: Observable<any> = null;
 
-  public complete = null;
-  public error = null;
+  public complete = true;
+  public error = false;
   public data = null;
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
@@ -32,6 +32,7 @@ export class SignupComponent {
     first = first.trim().replace(/\s+/g, '-');
     last = last.trim().replace(/\s+/g, '-');
 
+    this.complete = false;
     this.respond$ = this.api.createAccount(first, last);
   }
 
