@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Build generic-app angular app
           command: |
-            chmod u+x ./script/check-if-ui-changed.sh
+            chmod -R u+x ./script/
             ./script/check-if-ui-changed.sh
 
       - persist_to_workspace:
