@@ -77,7 +77,7 @@ const customerRoutes: Routes = [
     data: {
       title: 'Thank you for choosing us as your bank',
       showBack: false,
-      link: '/balance'
+      link: '/home'
     }
   },
   {
@@ -117,7 +117,7 @@ const devRoutes: Routes = [
     data: {
       title: 'Thank you for choosing us as your bank',
       showBack: false,
-      link: '/balance'
+      link: '/home'
     }
   },
   {
