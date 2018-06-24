@@ -1,8 +1,6 @@
 UI_COMMIT=$(git log -1 --format=format:%H --full-diff ng-app)
 LAST_COMMIT=$(git rev-parse HEAD)
 
-DIR=$(pwd)
-
 if [ $UI_COMMIT = $LAST_COMMIT ]; then
     echo "Changes to UI were made"
     $DIR/build-app.sh
