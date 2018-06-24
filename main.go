@@ -234,7 +234,7 @@ func getRandomBalance(w http.ResponseWriter, _ *http.Request) {
 			Amount: random(0, 100000),
 		},
 		{
-			Label:  "Balance",
+			Label:  "Checking",
 			Amount: random(-15000, 150000),
 		},
 	}
