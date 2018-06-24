@@ -19,6 +19,7 @@ import { ProgressCardComponent } from './components/progress-card/progress-card.
 import { AccountCreatedComponent } from './components/account-created/account-created.component';
 import { AccountsListComponent } from './components/accounts-list/accounts-list.component';
 import { BalanceComponent } from './components/balance/balance.component';
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 const adminRoutes: Routes = [
   {
@@ -182,7 +183,8 @@ const commonRoutes: Routes = [
     ProgressCardComponent,
     AccountCreatedComponent,
     AccountsListComponent,
-    BalanceComponent
+    BalanceComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,

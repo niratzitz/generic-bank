@@ -4,9 +4,10 @@ import {ActivatedRoute} from "@angular/router";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  public hover: boolean = false;
   public loginLink = '';
   public signupLink = '';
 

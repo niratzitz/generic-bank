@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-main-panel',
   templateUrl: './main-panel.component.html',
-  styleUrls: ['./main-panel.component.less'],
+  styleUrls: ['./main-panel.component.scss'],
   animations: [ expandTransition]
 })
 export class MainPanelComponent {

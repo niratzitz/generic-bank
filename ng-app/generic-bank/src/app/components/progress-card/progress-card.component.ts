@@ -4,7 +4,7 @@ import {opacityTransition} from "../../animations/animations";
 @Component({
   selector: 'progress-card',
   templateUrl: './progress-card.component.html',
-  styleUrls: ['./progress-card.component.less'],
+  styleUrls: ['./progress-card.component.scss'],
   animations: [opacityTransition]
 })
 export class ProgressCardComponent {

@@ -1,6 +1,8 @@
 main {
+  padding: 0.5em 1em;
   max-height: 500px;
   overflow-y: auto;
+  box-sizing: content-box;
 }
 
 
