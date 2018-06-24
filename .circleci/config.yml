@@ -26,7 +26,7 @@ jobs:
           paths:
             - dist
 
-  build:
+  build-server:
     working_directory: /go/src/github.com/tufin/generic-bank
     docker:
       - image: tufinim/circleci-go:master
@@ -97,6 +97,6 @@ workflows:
   build_and_deploy:
     jobs:
       - build-angular
-      - build:
+      - build-server:
           requires:
             - build-angular
