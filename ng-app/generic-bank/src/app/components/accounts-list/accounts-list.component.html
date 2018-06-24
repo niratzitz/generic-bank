@@ -1,4 +1,4 @@
-<span [asyncProgress]="list$" (data)="onSuccess($event)" (error)="error = $event" (complete)="complete = $event"></span>
+<span [asyncProgress]="list$" (data)="onSuccess($event)" (error)="error = !!$event" (complete)="complete = $event"></span>
 <div class="row justify-content-center" *ngIf="!error && complete">
   <div class="col-12 col-sm-8 col-md-6">
     <table class="table table-hover text-left">
@@ -22,6 +22,6 @@
   </div>
 </div>
 
-<progress-card text="There was an error fetching the accounts list!"
-               icon="exclamation"
-               bgColor="danger" *ngIf="!!error"></progress-card>
+<progress-card [text]="(error ? 'Error while f' : 'F') + 'etching the accounts list...'"
+               [icon]="error ? 'exclamation' : 'refresh fa-spin'"
+               [bgColor]="error ? 'danger' : 'success'" [visible]="error || !complete"></progress-card>

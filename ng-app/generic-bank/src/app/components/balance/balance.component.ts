@@ -7,7 +7,7 @@ import {isNullOrUndefined} from "util";
 @Component({
   selector: 'app-balance',
   templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.less']
+  styleUrls: ['./balance.component.scss']
 })
 export class BalanceComponent implements OnInit {
   public balance$: Observable<any>;

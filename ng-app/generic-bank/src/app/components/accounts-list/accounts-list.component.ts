@@ -6,7 +6,7 @@ import {isNullOrUndefined} from "util";
 @Component({
   selector: 'app-accounts-list',
   templateUrl: './accounts-list.component.html',
-  styleUrls: ['./accounts-list.component.less']
+  styleUrls: ['./accounts-list.component.scss']
 })
 export class AccountsListComponent implements OnInit {
   private accountRegex = /(\S+):(\S+):(\d+)/;

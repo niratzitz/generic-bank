@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {Location} from '@angular/common';
 
 import { AppComponent } from './app.component';
-import {RouterModule, Routes} from "@angular/router";
+import {Router, RouterModule, Routes} from "@angular/router";
 import { MainPanelComponent } from './components/main-panel/main-panel.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -18,8 +19,7 @@ import { ProgressCardComponent } from './components/progress-card/progress-card.
 import { AccountCreatedComponent } from './components/account-created/account-created.component';
 import { AccountsListComponent } from './components/accounts-list/accounts-list.component';
 import { BalanceComponent } from './components/balance/balance.component';
-
-const currentPath = location.pathname.replace(/\//g, '');
+import { AutofocusDirective } from './directives/autofocus.directive';
 
 const adminRoutes: Routes = [
   {
@@ -39,14 +39,6 @@ const adminRoutes: Routes = [
       title: 'New customer accounts',
       showBack: true
     }
-  },
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  { path: '**',
-    redirectTo: '/home',
-    pathMatch: 'full'
   }
 ];
 
@@ -85,7 +77,7 @@ const customerRoutes: Routes = [
     data: {
       title: 'Thank you for choosing us as your bank',
       showBack: false,
-      link: '/balance'
+      link: '/home'
     }
   },
   {
@@ -96,14 +88,6 @@ const customerRoutes: Routes = [
       showBack: true,
       link: '/balance'
     }
-  },
-  { path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
-  },
-  { path: '**',
-    redirectTo: '/home',
-    pathMatch: 'full'
   }
 ];
 
@@ -133,7 +117,7 @@ const devRoutes: Routes = [
     data: {
       title: 'Thank you for choosing us as your bank',
       showBack: false,
-      link: '/balance'
+      link: '/home'
     }
   },
   {
@@ -172,7 +156,10 @@ const devRoutes: Routes = [
       showBack: true,
       // showTime: true
     }
-  },
+  }
+];
+
+const commonRoutes: Routes = [
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -182,18 +169,6 @@ const devRoutes: Routes = [
     pathMatch: 'full'
   }
 ];
-
-let appRoutes: Routes = [];
-
-if(currentPath === 'admin') { //admin mode
-  appRoutes = adminRoutes;
-} else if(currentPath === 'customer') { //customer mode
-  appRoutes = customerRoutes;
-} else { //dev
-  appRoutes = devRoutes;
-}
-
-console.log(currentPath);
 
 @NgModule({
   declarations: [
@@ -208,7 +183,8 @@ console.log(currentPath);
     ProgressCardComponent,
     AccountCreatedComponent,
     AccountsListComponent,
-    BalanceComponent
+    BalanceComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,
@@ -216,9 +192,54 @@ console.log(currentPath);
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes, {useHash: true})
+    RouterModule.forRoot(devRoutes, {useHash: true})
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private location: Location, private router: Router) {
+    let routes: Routes = [];
+
+    switch (this.determineMode()) {
+      case Mode.admin:
+        routes = [...adminRoutes, ...commonRoutes];
+        break;
+
+      case Mode.customer:
+        routes = [...customerRoutes, ...commonRoutes];
+        break;
+
+      default:
+        routes = [...devRoutes, ...commonRoutes];
+    }
+
+    router.resetConfig(routes);
+  }
+
+  determineMode(): Mode {
+    let ret: Mode = Mode.dev;
+    const currentPath = window.location.pathname.replace(/\//g, '');
+
+    switch (currentPath) {
+      case 'admin':
+        ret = Mode.admin;
+        break;
+
+      case 'customer':
+        ret = Mode.customer;
+        break;
+
+      default:
+        ret = Mode.dev;
+    }
+
+    return ret;
+  }
+}
+
+enum Mode {
+  dev,
+  admin,
+  customer
+}

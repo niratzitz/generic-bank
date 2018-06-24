@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.less']
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent {
   public thanksLink = '';
@@ -16,9 +16,9 @@ export class SignupComponent {
     last: ''
   };
 
-  public respond$: Observable<any>;
+  public respond$: Observable<any> = null;
 
-  public complete = null;
+  public complete = true;
   public error = null;
   public data = null;
 
@@ -26,12 +26,13 @@ export class SignupComponent {
     this.thanksLink = route.data['value'].link;
   }
 
-  createAccount(first: string, last: string, $event) {
+  public createAccount(first: string, last: string, $event) {
+    this.complete = false;
+
     $event.preventDefault();
-
     first = first.trim().replace(/\s+/g, '-');
-    last = last.trim().replace(/\s+/g, '-');
 
+    last = last.trim().replace(/\s+/g, '-');
     this.respond$ = this.api.createAccount(first, last);
   }
 

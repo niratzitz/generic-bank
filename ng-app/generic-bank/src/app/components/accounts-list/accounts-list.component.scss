@@ -1,0 +1,10 @@
+@import '~src/variables';
+
+.table {
+  thead {
+    th {
+      border-top: 0;
+      border-bottom-color: $green;
+    }
+  }
+}

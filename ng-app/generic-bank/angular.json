@@ -23,7 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -121,7 +121,7 @@
   "defaultProject": "generic-bank",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "less"
+      "styleext": "scss"
     }
   }
 }

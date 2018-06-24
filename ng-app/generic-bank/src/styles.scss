@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+//$green: #006837;
+@import "~src/variables";
+@import '~bootstrap/scss/bootstrap';
 
 html, body {
   height: 100%;
@@ -41,9 +44,12 @@ main {
 }
 
 .jumbotron,.card {
+  border-radius: 0;
+}
+
+:not(progress-card) .card, .jumbotron {
   background: rgba(255,255,255,0.9);
   box-shadow: rgba(0, 0, 0, 0.3) 0 0 55px 0;
-  border-radius: 0;
 }
 
 .bold {

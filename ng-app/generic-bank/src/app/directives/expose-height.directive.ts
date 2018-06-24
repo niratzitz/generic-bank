@@ -15,6 +15,8 @@ import {
 })
 export class ExposeHeightDirective implements AfterViewChecked {
   private lastHeight = 0;
+  private mutationDetector: MutationObserver;
+
 
   @HostListener('window:resize', ['$event'])
   private onResize() {
@@ -39,7 +41,11 @@ export class ExposeHeightDirective implements AfterViewChecked {
   public elemHeight = new EventEmitter();
 
   constructor(private elem: ElementRef) {
+    this.mutationDetector = new MutationObserver(m => {
+      this.onResize();
+    });
 
+    this.mutationDetector.observe(this.elem.nativeElement, {childList: true, subtree: true});
   }
 
   ngAfterViewChecked() {

@@ -8,7 +8,7 @@
              [(ngModel)]="model.first"
              #firstName="ngModel"
              [ngClass]="{'is-invalid': firstName?.dirty && firstName?.invalid}"
-             required>
+             required autofocus>
     </div>
   </div>
   <div class="form-group row justify-content-center">
