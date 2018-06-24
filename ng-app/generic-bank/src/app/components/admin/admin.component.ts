@@ -4,7 +4,7 @@ import {ActivatedRoute, ChildActivationEnd, Router, RouterState} from "@angular/
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.less']
+  styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
   public accountListLink = '';

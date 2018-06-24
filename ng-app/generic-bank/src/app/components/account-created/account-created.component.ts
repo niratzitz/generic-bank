@@ -4,7 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 @Component({
   selector: 'app-account-created',
   templateUrl: './account-created.component.html',
-  styleUrls: ['./account-created.component.less']
+  styleUrls: ['./account-created.component.scss']
 })
 export class AccountCreatedComponent {
   public id: string;

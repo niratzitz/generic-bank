@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="visible" @opacityTransition>
   <div class="col-12">
     <div [attr.class]="'card bg-' + bgColor">
       <div [attr.class]="'card-body text-center text-' + textColor">
