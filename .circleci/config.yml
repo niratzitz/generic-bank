@@ -67,12 +67,3 @@ jobs:
             GCLOUD_CLUSTER_NAME: aut2-cluster
             GCLOUD_ZONE: europe-west1-b
             DEPLOYMENT: admin
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build-angular
-      - build-server:
-          requires:
-            - build-angular
