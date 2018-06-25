@@ -41,16 +41,14 @@ func main() {
 	mode := os.Getenv("MODE")
 	if mode == "admin" {
 		log.Info("Admin mode")
-		router.PathPrefix("/admin").Handler(angularRouteHandler("/admin", getAngularAssets("/boa/html/")))
-		router.Handle("/admin/", angularRouteHandler("/admin", http.HandlerFunc(getAngularApp)))
+		router.PathPrefix("/admin/").Handler(angularRouteHandler("/admin", getAngularAssets("/boa/html/")))
 	} else if mode == "balance" {
 		log.Info("Balance Mode")
 		router.HandleFunc("/balance", getRandomBalance).Methods(http.MethodGet)
 	} else {
 		log.Info("Customer Mode")
 		router.HandleFunc("/balance", getBalanceAsCustomer).Methods(http.MethodGet)
-		router.PathPrefix("/customer").Handler(angularRouteHandler("/customer", getAngularAssets("/boa/html/")))
-		router.Handle("/customer/", angularRouteHandler("/customer", http.HandlerFunc(getAngularApp)))
+		router.PathPrefix("/customer/").Handler(angularRouteHandler("/customer", getAngularAssets("/boa/html/")))
 	}
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -142,19 +140,22 @@ func getAccounts(w http.ResponseWriter, _ *http.Request) {
 	response, err := http.Get(postgres)
 	if err != nil {
 		log.Errorf("failed to get accounts from postgres (%s) with '%v'", postgres, err)
+		w.WriteHeader(http.StatusInternalServerError)
 	} else {
 		if response.StatusCode != http.StatusOK {
 			log.Errorf("failed to get accounts from postgres with status '%s'", response.Status)
+			w.WriteHeader(http.StatusInternalServerError)
 		} else {
 			log.Infof("accounts retrieved successfully")
-			w.WriteHeader(http.StatusOK)
 
 			defer response.Body.Close()
 			body, err := ioutil.ReadAll(response.Body)
 
 			if err != nil {
 				log.Errorf("failed to read response body from postgres with '%v'", err)
+				w.WriteHeader(http.StatusInternalServerError)
 			} else {
+				w.WriteHeader(http.StatusOK)
 				w.Write(body)
 			}
 		}
