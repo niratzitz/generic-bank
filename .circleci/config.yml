@@ -4,7 +4,7 @@ general:
       - world-trading-updates
 version: 2
 jobs:
-  build-app:
+  build-angular:
     working_directory: /go/src/github.com/tufin/generic-bank
     docker:
       - image: bnohad/docker-angular-cli
@@ -14,9 +14,9 @@ jobs:
       - run:
           name: Build generic-app angular app
           command: |
-            cd ng-app/generic-bank
-            npm install
-            ng build --prod --buildOptimizer --aot
+            export DIR=$(pwd)/script
+            chmod -R u+x ./script/
+            ./script/check-if-ui-changed.sh
 
       - persist_to_workspace:
           root: ng-app/generic-bank
@@ -24,7 +24,7 @@ jobs:
           paths:
             - dist
 
-  build:
+  build-server:
     working_directory: /go/src/github.com/tufin/generic-bank
     docker:
       - image: tufinim/circleci-go:master
@@ -81,7 +81,7 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build-app
-      - build:
+      - build-angular
+      - build-server:
           requires:
-            - build-app
+            - build-angular
