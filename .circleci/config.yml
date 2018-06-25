@@ -4,27 +4,7 @@ general:
       - world-trading-updates
 version: 2
 jobs:
-  build-angular:
-    working_directory: /go/src/github.com/tufin/generic-bank
-    docker:
-      - image: bnohad/docker-angular-cli
-    steps:
-      - checkout
-
-      - run:
-          name: Build generic-app angular app
-          command: |
-            export DIR=$(pwd)/script
-            chmod -R u+x ./script/
-            ./script/check-if-ui-changed.sh
-
-      - persist_to_workspace:
-          root: ng-app/generic-bank
-          # Must be relative path from root
-          paths:
-            - dist
-
-  build-server:
+  build:
     working_directory: /go/src/github.com/tufin/generic-bank
     docker:
       - image: tufinim/circleci-go:master
@@ -35,8 +15,12 @@ jobs:
       TUFIN_URL: https://orca.tufin.io
     steps:
       - checkout
-      - attach_workspace:
-          at: ng-app/generic-bank
+      - run:
+          name: Fetch latest UI from Tufin/generic-bank-ui releases
+          command: |
+            mkdir ui
+            curl -o ui.zip `curl -i -H "Accept: application/octet-stream" -H "Authorization: token $GITHUB_TOKEN" $(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/Tufin/generic-bank-ui/releases/latest | grep url | grep releases\/assets | egrep -o "https://[^\"]+") | grep location: | cut -d " " -f2 | tr -d '\r\n'` && echo 'ignore cache'
+            unzip ui.zip -d ./ui
       - run:
           name: Build
           command: |
@@ -76,12 +60,3 @@ jobs:
             GCLOUD_CLUSTER_NAME: aut-cluster
             GCLOUD_ZONE: europe-west1-b
             DEPLOYMENT: admin
-
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - build-angular
-      - build-server:
-          requires:
-            - build-angular
