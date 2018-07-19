@@ -1,4 +1,4 @@
-service: admin
+service: admin.default
 traffic:
   ingress: any
-  internal: [postgres,time]
+  internal: [postgres.default,time.default]
