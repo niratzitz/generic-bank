@@ -1,4 +1,5 @@
 FROM alpine:3.7
+
 #FROM ubuntu:trusty-20161101
 
 COPY .dist/generic-bank /boa/bin/generic-bank
