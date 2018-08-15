@@ -30,3 +30,4 @@ HTTP GET `/boa/admin/accounts`
 $ docker run -it --rm -v "$PWD":/go/src/github.com/tufin/generic-bank -w /go/src/github.com/tufin/generic-bank tufinim/go-build bash
 $ dep ensure
 ```
+
