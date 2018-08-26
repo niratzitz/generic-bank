@@ -17,7 +17,7 @@ jobs:
       TUFIN_URL: https://lightorca.tufin.io
       GCLOUD_SERVICE_KEY_FILE: gcloud-service-key.json
       GCLOUD_PROJECT_ID: tufinlight
-      GCLOUD_CLUSTER_NAME: aut-cluster
+      GCLOUD_CLUSTER_NAME: aut-generic-bank-retail
       GCLOUD_ZONE: europe-west1-b
     steps:
       - checkout
