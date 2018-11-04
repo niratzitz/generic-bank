@@ -98,7 +98,15 @@ func getTime(w http.ResponseWriter, r *http.Request) {
 	timeService := getTimeServiceUrl(r.FormValue("zone"))
 
 	log.Infof("getting time from (%s)...", timeService)
-	response, err := http.Get(timeService)
+	tr := &http.Transport{}
+	client := &http.Client{Transport: tr}
+	getTimeRequest, err := http.NewRequest(http.MethodGet, timeService, nil)
+	if err != nil {
+		log.Error("failed to create get time request failed with '%v'", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	response, err := client.Do(getTimeRequest)
 	if err != nil {
 		log.Errorf("failed to get time with '%v'", err)
 	} else {
@@ -106,8 +114,6 @@ func getTime(w http.ResponseWriter, r *http.Request) {
 			log.Errorf("failed to get time with status '%s'", response.Status)
 		} else {
 			log.Infof("time retrieved successfully")
-			w.WriteHeader(http.StatusOK)
-
 			defer response.Body.Close()
 			body, err := ioutil.ReadAll(response.Body)
 
