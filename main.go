@@ -72,11 +72,6 @@ func getAngularAssets(path string) http.Handler {
 	return http.FileServer(http.Dir(path))
 }
 
-func getAngularApp(w http.ResponseWriter, r *http.Request) {
-
-	http.ServeFile(w, r, "/boa/html/index.html")
-}
-
 func angularRouteHandler(path string, h http.Handler) http.Handler {
 
 	return http.StripPrefix(path, h)
