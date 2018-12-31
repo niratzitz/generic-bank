@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: maintenance-service-account
+  namespace: default
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: maintenance
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: maintenance
+    spec:
+      serviceAccountName: maintenance-service-account
+      containers:
+      - name: maintenance
+        image: tufinim/generic-bank
+        ports:
+        - containerPort: 8085
+        env:
+        - name: MODE
+          value: "maintenance"

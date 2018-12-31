@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: gateway
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /boa/admin/accounts
+        backend:
+          serviceName: admin
+          servicePort: 80
+      - path: /admin/*
+        backend:
+          serviceName: admin
+          servicePort: 80
+      - path: /admin/
+        backend:
+          serviceName: admin
+          servicePort: 80
+      - path: /time
+        backend:
+          serviceName: admin
+          servicePort: 80
+      - path: /customer/*
+        backend:
+          serviceName: customer
+          servicePort: 80
+      - path: /customer/
+        backend:
+          serviceName: customer
+          servicePort: 80
+      - path: /accounts/*
+        backend:
+          serviceName: customer
+          servicePort: 80
+      - path: /balance
+        backend:
+          serviceName: customer
+          servicePort: 80

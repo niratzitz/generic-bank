@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: balance
+  namespace: default
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: balance
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: balance
+    spec:
+      serviceAccountName: balance
+      containers:
+      - name: balance
+        image: tufinim/generic-bank
+        env:
+        - name: MODE
+          value: balance
+        ports:
+        - containerPort: 8085

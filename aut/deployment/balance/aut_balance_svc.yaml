@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: balance
+  namespace: default
+  labels:
+    app: balance
+spec:
+  selector:
+    app: balance
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8085
+    protocol: TCP

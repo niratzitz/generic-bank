@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin
+  namespace: default
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: admin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      serviceAccountName: admin
+      containers:
+      - name: admin
+        image: tufinim/generic-bank
+        ports:
+        - containerPort: 8085
+        env:
+        - name: POSTGRES
+          value: "http://postgres"
+        - name: MODE
+          value: "admin"
