@@ -5,10 +5,6 @@ main() {
 
     [[ -z "$TIMEZONEDB_API_KEY" ]] && echo "'TIMEZONEDB_API_KEY' is missing!" && exit 1
 
-    sed -e 's/#TIMEZONEDB_API_KEY#/'"$TIMEZONEDB_API_KEY"'/g' \
-    aut/deployment/secrets/gbank-defaults.yaml > aut/deployment/secrets/gbank.yaml
-    kubectl create -f aut/deployment/secrets/gbank.yaml
-
     local svc_type='NodePort'
 
     # Redis
@@ -31,6 +27,10 @@ main() {
     kubectl create -f aut/deployment/indexer/aut_indexer_svc.yaml
 
     # Time
+    timezonedb_api_key=`echo $TIMEZONEDB_API_KEY | base64`
+    sed -e 's/#TIMEZONEDB_API_KEY#/'"$timezonedb_api_key"'/g' \
+    aut/deployment/time/aut_time_template.yaml > aut/deployment/time/aut_time.yaml
+
     echo "Deploying Time Service..."
     kubectl create -f aut/deployment/time/aut_time.yaml
     kubectl create -f aut/deployment/time/aut_time_svc.yaml

@@ -23,7 +23,4 @@ spec:
         - containerPort: 8010
         env:
         - name: TIMEZONEDB_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: gbank-default
-              key: timezonedb-api-key
+          value: #TIMEZONEDB_API_KEY#
