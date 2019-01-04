@@ -27,7 +27,7 @@ main() {
     kubectl create -f aut/deployment/indexer/aut_indexer_svc.yaml
 
     # Time
-    timezonedb_api_key=`echo $TIMEZONEDB_API_KEY | base64`
+    timezonedb_api_key=`echo -n $TIMEZONEDB_API_KEY | base64`
     sed -e 's/#TIMEZONEDB_API_KEY#/'"$timezonedb_api_key"'/g' \
     aut/deployment/time/aut_time_template.yaml > aut/deployment/time/aut_time.yaml
 
