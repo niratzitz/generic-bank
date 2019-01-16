@@ -40,12 +40,7 @@ jobs:
           name: Tufin image analysis
           command: |
             bash <(curl -s $TUFIN_URL/api/scripts/image-scan) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
-      - run:
-          name: Tufin Continuous Security Policy
-          command: |
-            bash <(curl -s $TUFIN_URL/api/scripts/policy) policy.yaml
-          environment:
-            TUFIN_ALLOW_ACCESS_SERVICE: admin
+
       - run:
           name: Authenticate with gcloud
           command:
