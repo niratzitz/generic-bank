@@ -23,6 +23,5 @@ do
    gcloud container clusters create $name --zone=europe-west1-b --num-nodes=1 --machine-type=n1-standard-2 --cluster-version=latest --preemptible --async --cluster-ipv4-cidr=10.$c.0.0/16
 done
 
-# for i in {1..20}; do gcloud container clusters get-credentials cluster$i; ./deploy.sh <key> ; done
-# for i in {1..20}; do gcloud container clusters get-credentials cluster$i; kubectl describe ingress|grep Address ; done
-
+# for f in `gcloud container clusters list|cut -f1 -d" "`; do gcloud container clusters get-credentials $f; ./deploy.sh <key> ;  done
+# for i in `gcloud container clusters list|cut -f1 -d" "`; kubectl describe ingress|grep Address ; done
