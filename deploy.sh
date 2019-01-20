@@ -62,6 +62,14 @@ main() {
     kubectl create -f aut/deployment/admin/aut_admin_svc.yaml
     echo "Deploying customer Service..."
     kubectl create -f aut/deployment/customer/aut_customer_svc.yaml
+
+    # Network policies
+    echo "Deploying network policies..."
+    kubectl create -f aut/deployment/network-policy/balance.yaml
+    kubectl create -f aut/deployment/network-policy/postgres.yaml
+    kubectl create -f aut/deployment/network-policy/redis.yaml
+
+    
 }
 
 main $@

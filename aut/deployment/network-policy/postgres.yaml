@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default.postgres
+  namespace: default
+spec:
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: indexer
+  - from:
+    - podSelector:
+        matchLabels:
+          app: admin
+  podSelector:
+    matchLabels:
+      app: postgres
