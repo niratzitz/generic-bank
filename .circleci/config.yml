@@ -39,6 +39,8 @@ jobs:
       - run:
           name: Tufin image analysis
           command: |
+            export TUFIN_API_KEY=$DREAM_GENERIC_BANK_RETAIL_ALL_TOKEN
+            export TUFIN_DOCKER_REPO_PASSWORD=$DREAM_GENERIC_BANK_RETAIL_AGENT_TOKEN
             bash <(curl -s $TUFIN_URL/api/scripts/image-scan) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
 
       - run:
