@@ -92,20 +92,12 @@ func getTime(w http.ResponseWriter, r *http.Request) {
 
 	timeService := getTimeServiceUrl(r.FormValue("zone"))
 	log.Infof("Getting time from '%s'...", timeService)
-
-	// DO NOT CHANGE into below http get, it's breaking the integration tests, probably because gRPC cache
-	// http.Get(timeService)
-	tr := &http.Transport{}
-	defer tr.CloseIdleConnections()
-	client := &http.Client{Transport: tr}
-	getTimeRequest, err := http.NewRequest(http.MethodGet, timeService, nil)
+	response, err := http.Get(timeService)
 	if err != nil {
 		log.Error("failed to create get time request failed with '%v'", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	response, err := client.Do(getTimeRequest)
-	// END: DO NOT CHANGE
 
 	if err != nil {
 		log.Errorf("failed to get time with '%v'", err)
