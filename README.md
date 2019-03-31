@@ -1,6 +1,7 @@
 # generic bank
 [![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
-[![Tufin](https://orca.tufin.io/api/generic-bank/retail/badges/security-score?image=tufinim/generic-bank:cia-latest&token=8440d55d-97a9-47c8-928a-20963cf14b14)](https://orca.tufin.io/ui/#/generic-bank/retail/grid/scans;image=tufinim%2Fgeneric-bank:cia-latest)
+[![Tufin](https://orca.tufin.io/api/generic-bank/retail/badges/security-score?image=tufinim/generic-bank:cia-latest&token=8440d55d-97a9-47c8-928a-20963cf14b14)](https://orca.tufin.io/ui/#/generic-bank/retail/grid/scans?image=tufinim%2Fgeneric-bank)
+
 [![Jenkins](http://104.155.103.55/buildStatus/icon?job=admin)](http://104.155.103.55/job/admin/)
 
 Demo Banking App
