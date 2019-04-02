@@ -23,6 +23,6 @@ spec:
         - containerPort: 8085
         env:
         - name: POSTGRES
-          value: "http://postgres"
+          value: "http://postgres.data.svc.cluster.local"
         - name: MODE
           value: "admin"

@@ -5,7 +5,7 @@ main() {
 
     [[ -z "$TIMEZONEDB_API_KEY" ]] && echo "'TIMEZONEDB_API_KEY' is missing!" && exit 1
 
-    local svc_type='NodePort'
+    local svc_type='ClusterIP'
 
     # Redis
     echo "Deploying Redis..."
@@ -49,9 +49,6 @@ main() {
     kubectl create -f aut/deployment/maintenance/aut_maintenance.yaml
     kubectl create -f aut/deployment/maintenance/aut_maintenance_svc.yaml
 
-    # Ingress
-    kubectl create -f aut/deployment/ingress/ingress_gce.yaml
-
     echo "Configuring service type for the exposed services..."
     sed -e 's/#SVC_TYPE#/'"$svc_type"'/g' \
     aut/deployment/admin/aut_admin_svc_template.yaml > aut/deployment/admin/aut_admin_svc.yaml
@@ -62,12 +59,6 @@ main() {
     kubectl create -f aut/deployment/admin/aut_admin_svc.yaml
     echo "Deploying customer Service..."
     kubectl create -f aut/deployment/customer/aut_customer_svc.yaml
-
-    # Network policies
-    echo "Deploying network policies..."
-    kubectl create -f aut/deployment/network-policy/balance.yaml
-    kubectl create -f aut/deployment/network-policy/postgres.yaml
-    kubectl create -f aut/deployment/network-policy/redis.yaml
 
     
 }
