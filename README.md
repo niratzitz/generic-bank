@@ -8,6 +8,12 @@ Demo Banking App
 ![Generic Bank Diagram](https://github.com/Tufin/generic-bank/blob/master/Generic%20Bank%20Diagram.png)
 
 
+#### Deploy into Kubernetes
+```
+./deploy <timezonedb token>
+```
+To get a timezonedb token, go to https://timezonedb.com/register
+
 #### REST API - Customer
 Portal
 
@@ -25,9 +31,3 @@ HTTP GET `/boa/admin/index.html`
 Get all accounts
 
 HTTP GET `/boa/admin/accounts` 
-
-#### Build
-```
-$ docker run -it --rm -v "$PWD":/go/src/github.com/tufin/generic-bank -w /go/src/github.com/tufin/generic-bank tufinim/go-build bash
-$ dep ensure
-```
