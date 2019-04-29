@@ -9,4 +9,3 @@ EXPOSE 8085
 WORKDIR /boa/bin
 
 CMD ["/boa/bin/generic-bank"]
-
