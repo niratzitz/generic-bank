@@ -2,6 +2,9 @@
 [![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
 [![Tufin](https://orca.tufin.io/api/generic-bank/retail/badges/security-score?image=tufinim/generic-bank:cia-latest&token=7795db57-9633-4dc6-acb4-8acf118104c9)](https://orca.tufin.io/ui/#/generic-bank/retail/grid/scans?image=tufinim%2Fgeneric-bank)
 
+
+[![Tufin](https://orca.tufin.io/api/generic-bank/pks/badges/security-score?image=tufin/scope:production:cia-latest&token=2c59af73-204c-4418-ba14-90b9e1d8491b)](https://orca.tufin.io/ui/#/generic-bank/pks/grid/scans?image=tufin/scope:production)
+
 Demo Banking App
 
 ![Generic Bank Diagram](https://github.com/Tufin/generic-bank/blob/master/Generic%20Bank%20Diagram.png)
