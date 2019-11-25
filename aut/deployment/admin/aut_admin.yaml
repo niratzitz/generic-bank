@@ -4,12 +4,15 @@ metadata:
   name: admin
   namespace: default
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: admin
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: admin  
   template:
     metadata:
       labels:

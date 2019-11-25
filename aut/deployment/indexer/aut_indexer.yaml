@@ -4,12 +4,15 @@ metadata:
   name: indexer
   namespace: default
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: indexer
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: indexer  
   template:
     metadata:
       labels:

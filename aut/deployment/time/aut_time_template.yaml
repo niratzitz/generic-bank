@@ -4,12 +4,15 @@ metadata:
   name: time-service-account
   namespace: default
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: time
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: time
   template:
     metadata:
       labels:

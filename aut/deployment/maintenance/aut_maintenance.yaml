@@ -4,12 +4,15 @@ metadata:
   name: maintenance-service-account
   namespace: default
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: maintenance
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: maintenance  
   template:
     metadata:
       labels:
