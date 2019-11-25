@@ -16,7 +16,7 @@ fi
 
 number=${1}
 
-for (( c = 0; c <= $number; c++ ))
+for (( c = 0; c < $number; c++ ))
 do
    get_cluster_name
    echo "Creating cluster: "$name
