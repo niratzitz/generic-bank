@@ -2,8 +2,15 @@
 [![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
 [![Tufin](https://orca.tufin.io/api/generic-bank/retail/badges/security-score?image=tufinim/generic-bank:cia-latest&token=7795db57-9633-4dc6-acb4-8acf118104c9)](https://orca.tufin.io/ui/#/generic-bank/retail/grid/scans?image=tufinim%2Fgeneric-bank)
 
-This is a Kubernetes demo app.  
-We use it to demonstrate Tufin Orca security integration in the CI/CD pipeline (DevSecOps):
+This is a demo app for Kubernetes.  
+
+To deploy into Kubernetes run:
+```
+./deploy <timezonedb token>
+```
+To get a timezonedb token, go to https://timezonedb.com/register
+
+We use this app to demonstrate Tufin Orca security integration in the CI/CD pipeline (DevSecOps):
 - The security score badge in Github reflects the scan result of the latest image scan by Orca
 - Click the build status badge to see how the scan is integrated into CircleCI (or any other CI for that matter)
 - Click the security score badge to see the CVEs in Tufin Orca (requires an account)
@@ -12,12 +19,6 @@ You can [create your own Orca account](https://www.tufin.com/tryorca) and scan y
 
 ![Generic Bank Diagram](https://github.com/Tufin/generic-bank/blob/master/Generic%20Bank%20Diagram.png)
 
-
-#### Deploy into Kubernetes
-```
-./deploy <timezonedb token>
-```
-To get a timezonedb token, go to https://timezonedb.com/register
 
 #### REST API - Customer
 Portal
