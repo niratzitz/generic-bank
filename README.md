@@ -10,7 +10,7 @@ To deploy into your Kubernetes cluster run:
 ```
 To get a timezonedb token, go to https://timezonedb.com/register
 
-We use this app to demonstrate Tufin Orca security integration in the CI/CD pipeline (DevSecOps):
+We use this app to demonstrate [Tufin Orca](https://www.tufin.com/tryorca) security integration in the CI/CD pipeline (DevSecOps):
 - The security score badge in Github reflects the scan result of the latest image scan by Orca
 - Click the build status badge to see how the scan is integrated into CircleCI (or any other CI for that matter)
 - Click the security score badge to see the CVEs in Tufin Orca (requires an account)
