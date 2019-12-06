@@ -4,7 +4,7 @@
 
 This is a demo app for Kubernetes.  
 
-To deploy into Kubernetes run:
+To deploy into your Kubernetes cluster run:
 ```
 ./deploy <timezonedb token>
 ```
