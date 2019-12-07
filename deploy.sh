@@ -9,13 +9,13 @@ main() {
 
     # Redis
     echo "Deploying Redis..."
-    kubectl create -f aut/deployment/aut_redis.yaml
-    kubectl create -f aut/deployment/aut_redis_svc.yaml
+    kubectl create -f aut/deployment/redis/aut_redis.yaml
+    kubectl create -f aut/deployment/redis/aut_redis_svc.yaml
 
     # PostgreSQL
-    echo "Deploying PostgreSQL..."
-    kubectl create -f aut/deployment/db/aut_postgres.yaml
-    kubectl create -f aut/deployment/db/aut_postgres_svc.yaml
+    echo "Deploying PostgreSQL in namespace data..."
+    kubectl create -f aut/deployment/postgres/aut_postgres.yaml
+    kubectl create -f aut/deployment/postgres/aut_postgres_svc.yaml
 
     # Customer
     echo "Deploying Customers Service..."
@@ -60,6 +60,8 @@ main() {
     echo "Deploying customer Service..."
     kubectl create -f aut/deployment/customer/aut_customer_svc.yaml
 
+    echo "Deploying network policy..."
+    kubectl create -f aut/deployment/network_policy
     
 }
 

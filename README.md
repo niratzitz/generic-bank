@@ -1,14 +1,20 @@
-# generic bank
+# Generic-Bank - a demo app for Kubernetes
 [![CircleCI](https://circleci.com/gh/Tufin/generic-bank.svg?style=shield&circle-token=dadfdb30201b7acdcfe4c91a2670536bd937c188)](https://circleci.com/gh/Tufin/generic-bank)
 [![Tufin](https://orca.tufin.io/api/generic-bank/retail/badges/security-score?image=tufinim/generic-bank:cia-latest&token=7795db57-9633-4dc6-acb4-8acf118104c9)](https://orca.tufin.io/ui/#/generic-bank/retail/grid/scans?image=tufinim%2Fgeneric-bank)
 
-## This is a demo app for Kubernetes.  
+## Deploy
 
 To deploy into your Kubernetes cluster run:
 ```
 ./deploy <timezonedb token>
 ```
 To get a timezonedb token, go to https://timezonedb.com/register
+
+## Remove
+To remove from your Kubernetes cluster run:
+```
+./remove
+```
 
 ## DevSecOps with Tufin Orca
 This app demonstrates [Tufin Orca](https://www.tufin.com/tryorca) security integration into the CI/CD pipeline (DevSecOps):
