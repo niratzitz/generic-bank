@@ -34,18 +34,26 @@ You can [create your own Orca account](https://www.tufin.com/tryorca) and scan y
 #### REST API - Customer
 Portal
 
-HTTP GET `/boa/customer/index.html`
+HTTP GET `/customer/`
 
 Create Account
 
 HTTP POST `/accounts/{account-id}`
 
+Get Balance
+
+HTTP GET `/balance`
+
 #### REST API - Admin
 Portal
 
-HTTP GET `/boa/admin/index.html`
+HTTP GET `/admin/`
 
 Get all accounts
 
 HTTP GET `/boa/admin/accounts` 
+
+Get Time
+
+HTTP GET `/time?zone=Asia/Jerusalem`
 
