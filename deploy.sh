@@ -9,8 +9,8 @@ main() {
 
     # Redis
     echo "Deploying Redis..."
-    kubectl create -f aut/deployment/db/aut_redis.yaml
-    kubectl create -f aut/deployment/db/aut_redis_svc.yaml
+    kubectl create -f aut/deployment/aut_redis.yaml
+    kubectl create -f aut/deployment/aut_redis_svc.yaml
 
     # PostgreSQL
     echo "Deploying PostgreSQL..."
