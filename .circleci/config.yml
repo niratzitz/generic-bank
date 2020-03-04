@@ -41,7 +41,9 @@ jobs:
           command: |
             export TUFIN_API_KEY=$GENERIC_BANK_RETAIL_ALL_TOKEN
             export TUFIN_DOCKER_REPO_PASSWORD=$GENERIC_BANK_RETAIL_AGENT_TOKEN
-            bash <(curl -s $TUFIN_URL/api/scripts/image-scan) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
+            url="$TUFIN_URL/api/scripts/image-scan"
+            echo $url
+            bash <(curl -s $url) "$IMAGE_NAME:$CIRCLE_BUILD_NUM"
       - run:
           name: Authenticate with gcloud
           command:
