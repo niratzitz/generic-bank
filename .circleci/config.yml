@@ -12,7 +12,7 @@ jobs:
       IMAGE_NAME: tufinim/generic-bank
       TUFIN_DOMAIN: generic-bank
       TUFIN_PROJECT: retail
-      TUFIN_URL: https://orca.tufin.io
+      TUFIN_URL: https://securecloud.tufin.io
     steps:
       - checkout
       - run:
