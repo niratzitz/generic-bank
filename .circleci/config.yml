@@ -13,6 +13,7 @@ jobs:
       TUFIN_DOMAIN: generic-bank
       TUFIN_PROJECT: retail
       TUFIN_URL: https://securecloud.tufin.io
+      TUFIN_HOST: securecloud.tufin.io
     steps:
       - checkout
       - run:
